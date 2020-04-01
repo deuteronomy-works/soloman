@@ -1,7 +1,7 @@
 # Controls
 
 ## Naming
-All Swift controls should begin with an S e.g.: Button becomes SButton
+All soloman controls should begin with an S e.g.: Button becomes SButton
 
 ## Colors and Styling
 Use a seperate qml file to store all colors.
