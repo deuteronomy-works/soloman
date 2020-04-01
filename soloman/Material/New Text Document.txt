@@ -1,0 +1,7 @@
+2 = radius = 6, opacity = 0.35, vo = 1
+
+4 = radius = 10, opacity = 0.35, vo = 2
+
+6 = radius = 14, opacity = 0.35, vo = 3 ---
+
+8 = radius = 18, opacity = 0.35, vo = 4
