@@ -24,6 +24,7 @@ class Audio:
         self.file = ''
         self.file_size = 0
         self.frame_rate = 0
+        self._play_bits = 0
         self.overwrite = False
         self.app_running = True
         self._not_paused = True
@@ -108,38 +109,38 @@ class Audio:
                 output=True)
 
         self.frame_rate = wf.getframerate()
+        self._play_bits = int(self.frame_rate / 10)
 
         self._not_stopped = True
-        self._not_paused = True
+        #self._not_paused = True
 
         a = wf.readframes(1)
         while self.app_running and len(a) != 0:
 
+            if self._not_stopped and self._not_paused:
 
-            if self._not_stopped:
-                if self._not_paused:
+                stream.write(a)
+                #a = wf.readframes(self._play_bits)
 
-                    stream.write(a)
-                    #a = wf.readframes(512)
+                # Set seek position if set
+                if self._seek_int:
+                    wf.setpos(self._seek_int)
 
-                    # Set seek position if set
-                    if self._seek_int:
-                        wf.setpos(self._seek_int)
+                a = (np.fromstring(wf.readframes(self._play_bits), np.int16) )
+                self.t_played()
+                a = [int(float(x) / self.volume_val) for x in a ]
+                """for x in a:
+                    var = int(float(x) / self.volume_val)
+                    b.append(var)"""
+                a = struct.pack('h'*len(a), *a)
 
-                    a = (np.fromstring(wf.readframes(512), np.int16) )
-                    self.t_played()
-                    b = []
-                    for x in a:
-                        var = int(float(x) / self.volume_val)
-                        b.append(var)
-                    a = b
-                    a = struct.pack('h'*len(a), *a)
-                else:
-
-                    #pause
-                    sleep(.1)
-            else:
+            elif not self._not_stopped:
+                # stop
                 break
+                
+            else:
+                #pause
+                sleep(.1)
 
         wf.close()
         stream.stop_stream()
@@ -261,7 +262,7 @@ class Audio:
         """
 
 
-        self.tt_played += 512
+        self.tt_played += self._play_bits
         per = self.tt_played / self.file_size * 100
         return per
 
