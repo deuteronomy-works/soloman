@@ -20,7 +20,7 @@ class Audio:
     """
 
 
-    def __init__(self):
+    def __init__(self, saveFolder=None):
         self.file = ''
         self.file_size = 0
         self.frame_rate = 0
@@ -34,7 +34,13 @@ class Audio:
         self.tt_played = 0
         self.volume_val = 1.4
         self._seek_int = 0
-        self.save_folder = 'H:/GitHub/soloman/soloman/audio/data/music/saves'
+        parent_folder = os.path.dirname(__file__)
+        if saveFolder:
+            self.save_folder = saveFolder
+        else:
+            self.save_folder = os.path.join(parent_folder,
+                                            'data', 'music', 'saves')
+        print('save: ', self.save_folder)
         self.ff = FFmpeg(self.save_folder)
         self.ff.overwrite = False
 
@@ -129,9 +135,6 @@ class Audio:
                 a = (np.fromstring(wf.readframes(self._play_bits), np.int16) )
                 self.t_played()
                 a = [int(float(x) / self.volume_val) for x in a ]
-                """for x in a:
-                    var = int(float(x) / self.volume_val)
-                    b.append(var)"""
                 a = struct.pack('h'*len(a), *a)
 
             elif not self._not_stopped:
