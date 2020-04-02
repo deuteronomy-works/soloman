@@ -24,15 +24,18 @@ class Audio:
         self.file = ''
         self.file_size = 0
         self.frame_rate = 0
+        self.overwrite = False
         self.app_running = True
         self._not_paused = True
+        self.playing = self._not_paused
         self._not_stopped = False
         self.t_size = 0
         self.tt_played = 0
         self.volume_val = 1.4
         self._seek_int = 0
-        self.save_folder = 'H:/GitHub/Swift/swift/audio/data/music/saves'
+        self.save_folder = 'H:/GitHub/soloman/soloman/audio/data/music/saves'
         self.ff = FFmpeg(self.save_folder)
+        self.ff.overwrite = False
 
     def converter(self, file_path):
 
@@ -105,12 +108,11 @@ class Audio:
                 output=True)
 
         self.frame_rate = wf.getframerate()
-        # self.playing()
+
         self._not_stopped = True
         self._not_paused = True
 
         a = wf.readframes(1)
-
         while self.app_running and len(a) != 0:
 
 
