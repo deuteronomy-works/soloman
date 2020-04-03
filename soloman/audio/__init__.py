@@ -40,7 +40,8 @@ class Audio:
         else:
             self.save_folder = os.path.join(parent_folder,
                                             'data', 'music', 'saves')
-        print('save: ', self.save_folder)
+        if not os.path.exists(self.save_folder):
+            os.makedirs(self.save_folder)
         self.ff = FFmpeg(self.save_folder)
         self.ff.overwrite = False
 
@@ -56,7 +57,6 @@ class Audio:
         ext = split[1]
         save_file = os.path.join(self.save_folder, pos_wav_file)
 
-        # If it's corresponding .wav file already exists
         if not os.path.exists(save_file):
             ff = self.ff.convert(file_path, pos_wav_file)
             return ff
@@ -78,7 +78,7 @@ class Audio:
         else:
             r = 0.001
         delay = delay - r
-        self._not_stopped = False
+        self._not_stopped = True
         sleep(delay)
         play_thread = threading.Thread(target=self._play)
         play_thread.start()
@@ -92,7 +92,7 @@ class Audio:
         """
         """
 
-        self._not_stopped = False
+        self._not_stopped = True
         #sleep(2)
         self.file = self.converter(file)
         if self.file:
@@ -117,7 +117,7 @@ class Audio:
         self.frame_rate = wf.getframerate()
         self._play_bits = int(self.frame_rate / 10)
 
-        self._not_stopped = True
+        #self._not_stopped = True
         #self._not_paused = True
 
         a = wf.readframes(1)
