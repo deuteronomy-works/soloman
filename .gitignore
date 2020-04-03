@@ -12,6 +12,9 @@
 
 # python
 __pycache__
+dist
+build
+*.egg
 
 # Qt-es
 object_script.*.Release
