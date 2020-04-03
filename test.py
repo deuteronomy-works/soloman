@@ -30,3 +30,5 @@ else:
     # Print all errors that occurred.
     for error in component.errors():
         print(error.toString())
+
+sys.exit(app.exec_())

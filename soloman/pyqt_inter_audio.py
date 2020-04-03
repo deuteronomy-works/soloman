@@ -4,7 +4,8 @@ Created on Fri Apr  3 21:33:24 2020
 
 @author: Ampofo
 """
-from PyQt5.QtCore import pyqtProperty, QObject
+import threading
+from PyQt5.QtCore import pyqtProperty, QObject, pyqtSlot
 from .audio import Audio
 
 class QAudio(QObject):
@@ -19,6 +20,15 @@ class QAudio(QObject):
         print(self.aud)
 
         self._save_folder = ''
+
+    def _play(self, filename):
+        self.aud.play(filename)
+
+    @pyqtSlot(str)
+    def play(self, filename):
+        play_thread = threading.Thread(target=self._play, args=[filename])
+        play_thread.daemon = True
+        play_thread.start()
 
     @pyqtProperty('QString')
     def saveFolder(self):
