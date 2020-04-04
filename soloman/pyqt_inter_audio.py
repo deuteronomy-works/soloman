@@ -20,9 +20,7 @@ class QAudio(QObject):
         print(self.aud)
 
         self._save_folder = ''
-
-    def _controlVolume(self):
-        pass
+        self._volume_level = 1.4
 
     def _delay_play(self, u_delay):
         pass
@@ -46,10 +44,6 @@ class QAudio(QObject):
         pass
 
     def _t_played(self):
-        pass
-
-    @pyqtSlot(int)
-    def controlVolume(self):
         pass
 
     @pyqtSlot(int)
@@ -94,3 +88,12 @@ class QAudio(QObject):
     @pyqtSlot()
     def t_played(self):
         pass
+
+    @pyqtProperty(int)
+    def volume(self):
+        return self._volume_level
+
+    @volume.setter
+    def volume(self, level):
+        self._volume_level = level
+        self.aud.controlVolume(self._volume_level)
