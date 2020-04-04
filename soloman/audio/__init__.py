@@ -68,6 +68,9 @@ class Audio:
         """
         """
 
+        # play should stop all playing songs before
+        # playing this one
+        self._not_stopped = False
         t1 = time()
         delay = float(u_delay)
         # Use a tenth (x/10) or use this 0.0156042575836182
@@ -78,7 +81,6 @@ class Audio:
         else:
             r = 0.001
         delay = delay - r
-        self._not_stopped = True
         sleep(delay)
         play_thread = threading.Thread(target=self._play)
         play_thread.start()
@@ -92,8 +94,10 @@ class Audio:
         """
         """
 
-        self._not_stopped = True
-        #sleep(2)
+        # play should stop all playing songs before
+        # playing this one
+        self._not_stopped = False
+        sleep(0.1)
         self.file = self.converter(file)
         if self.file:
             self.file_size = os.stat(self.file).st_size
@@ -117,8 +121,8 @@ class Audio:
         self.frame_rate = wf.getframerate()
         self._play_bits = int(self.frame_rate / 10)
 
-        #self._not_stopped = True
-        #self._not_paused = True
+        self._not_stopped = True
+        self._not_paused = True
 
         a = wf.readframes(1)
         while self.app_running and len(a) != 0:
