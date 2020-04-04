@@ -243,6 +243,7 @@ class Audio:
         """
         This takes in a decimal
         Decimal should range from 1.01 to 100
+        It can't be more than 100
         """
 
         vol = float(deci)
