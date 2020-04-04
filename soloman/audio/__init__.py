@@ -85,7 +85,7 @@ class Audio:
         play_thread = threading.Thread(target=self._play)
         play_thread.start()
         t2 = time()
-        
+
         f_delay = t2-t1
         return(f_delay)
 
