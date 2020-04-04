@@ -241,6 +241,8 @@ class Audio:
     def _controlVolume(self, deci):
 
         """
+        This takes in a decimal
+        Decimal should range from 1.01 to 100
         """
 
         vol = float(deci)
