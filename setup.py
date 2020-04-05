@@ -6,7 +6,7 @@ with open('README.md', 'r') as rm:
 
 setup(
     name='soloman',
-    version='1.0',
+    version='2.0',
     description='For the love of python and qml',
     long_description=long_desc,
     long_description_content_type='text/markdown',
@@ -26,7 +26,7 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Environment :: Other Environment",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
+        "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
