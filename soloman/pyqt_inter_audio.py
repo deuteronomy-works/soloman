@@ -24,8 +24,7 @@ class QVideo(QQuickPaintedItem):
     def paint(self, painter):
         img = QImage()
         img.load('./img.jpg')
-        target = QRectF(0, 0, 400, 400)
-        source = QRectF(0, 0, 940, 940)
+        target = QRectF(0, 0, self.width(), self.height())
         painter.drawImage(target, img, source)
 
 class QAudio(QObject):

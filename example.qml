@@ -4,14 +4,14 @@ import QtQuick.Layouts 1.3
 import soloman 1.0
 
 ApplicationWindow {
-    width: 500
-    height: 400
+    width: 800
+    height: 500
     visible: true
     title: "Hello Audio"
 
         Video {
             anchors.centerIn: parent
-            width: 400
+            width: 600
             height: 400
         }
 }
