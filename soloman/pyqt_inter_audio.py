@@ -19,6 +19,16 @@ class QVideo(QQuickPaintedItem):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self._width = 40
+        self._height = 40
+
+    @pyqtProperty(int)
+    def height(self):
+        return self._height
+
+    @height.setter
+    def height(self, dim):
+        self._height = dim
 
     @pyqtSlot()
     def paint(self, painter):
@@ -28,6 +38,13 @@ class QVideo(QQuickPaintedItem):
         source = QRectF(0, 0, 940, 940)
         painter.drawImage(target, img, source)
 
+    @pyqtProperty(int)
+    def width(self):
+        return self._width
+
+    @width.setter
+    def width(self, dim):
+        self._width = dim
 
 class QAudio(QObject):
 
