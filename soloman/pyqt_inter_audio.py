@@ -5,8 +5,29 @@ Created on Fri Apr  3 21:33:24 2020
 @author: Ampofo
 """
 import threading
-from PyQt5.QtCore import pyqtProperty, QObject, pyqtSlot
+from PyQt5.QtCore import pyqtProperty, QObject, pyqtSlot, Qt, QRect, QRectF
+from PyQt5.QtQuick import QQuickPaintedItem, QQuickItem
+from PyQt5.QtGui import QPainter, QFont, QImage, QColor, QPixmap, QPicture
 from .audio import Audio
+
+
+class QVideo(QQuickPaintedItem):
+
+    """
+    """
+
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+    @pyqtSlot()
+    def paint(self, painter):
+        img = QImage()
+        img.load('./img.jpg')
+        target = QRectF(0, 0, 400, 400)
+        source = QRectF(0, 0, 940, 940)
+        painter.drawImage(target, img, source)
+
 
 class QAudio(QObject):
 
