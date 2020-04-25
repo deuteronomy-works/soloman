@@ -13,7 +13,7 @@ from PyQt5.QtGui import QPainter, QFont, QImage, QColor, QPixmap, QPicture
 from .audio import Audio
 
 
-class QVideo(QQuickPaintedItem):
+class QVideo(QQuickItem):
 
     """
     """
@@ -21,51 +21,7 @@ class QVideo(QQuickPaintedItem):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.painter = None
-        self.img_obj = []
-        self.img_cid = 0
-        self.frame_list = os.listdir('C:\\Users\\Ampofo\\Desktop\\ex')[3:]
-        self.frame_len = len(self.frame_list)
-        self.target_rect = ()
-        self.source_rect = ()
-        self.f_count = 0
-        self.ended = False
-        self.create_threads()
 
-    def _create(self):
-        for x in self.frame_list:
-            fold = os.path.join('C:\\Users\\Ampofo\\Desktop\\ex', x)
-            im = QPixmap(fold)
-            self.img_obj.append(im)
-            self.f_count += 1
-
-    def create(self):
-        self._create()
-        self.frame_list = []
-
-    def create_threads(self):
-        create_thread = threading.Thread(target=self.create)
-        create_thread.daemon = True
-        create_thread.start()
-
-    @pyqtSlot()
-    def paint(self, painter):
-        self.draw(painter)
-
-    def draw(self, painter):
-        if self.img_cid == self.frame_len - 1:
-            return
-        self.target_rect = QRectF(0, 0, self.width(), self.height())
-        size = self.img_obj[self.img_cid].size()
-        self.source_rect = QRectF(0, 0, size.width(), size.height())
-        painter.drawPixmap(self.target_rect, self.img_obj[self.img_cid],
-                               self.source_rect)
-        self.img_obj[self.img_cid] = None
-        self.img_cid += 1
-        rect = QRect(0, 0, self.width(), self.height())
-        sleep(1/30)
-        self.update(rect)
-        #self.start()
 
 class QAudio(QObject):
 
