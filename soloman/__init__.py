@@ -6,9 +6,13 @@ Created on Tue Mar 31 12:50:44 2020
 
 from PyQt5.QtQml import qmlRegisterType
 
+# import Audio here so people can import it without
+# going int the audio package to access it
 from .audio import Audio
-from soloman.pyqt_inter_audio import QAudio, QVideo
+from soloman.pyqt_inter_audio import QAudio
+from soloman.pyqt_inter_video import QVideo
 
 def register():
+
     qmlRegisterType(QAudio, 'soloman', 1, 0, 'Audio')
-    qmlRegisterType(QVideo, 'soloman', 1, 0, 'Video')
+    qmlRegisterType(QVideo, 'soloman', 1, 0, 'QVideo')
