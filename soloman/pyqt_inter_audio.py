@@ -4,23 +4,9 @@ Created on Fri Apr  3 21:33:24 2020
 
 @author: Ampofo
 """
-import os
 import threading
-from time import time, sleep
-from PyQt5.QtCore import pyqtProperty, QObject, pyqtSlot, Qt, QRect, QRectF
-from PyQt5.QtQuick import QQuickPaintedItem, QQuickItem
-from PyQt5.QtGui import QPainter, QFont, QImage, QColor, QPixmap, QPicture
+from PyQt5.QtCore import pyqtProperty, QObject, pyqtSlot
 from .audio import Audio
-
-
-class QVideo(QQuickItem):
-
-    """
-    """
-
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
 
 
 class QAudio(QObject):
