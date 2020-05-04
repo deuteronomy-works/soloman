@@ -7,9 +7,9 @@ Created on Mon Apr 27 07:52:16 2020
 import os
 import threading
 from time import sleep
-from PyQt5.QtCore import pyqtProperty, QUrl, pyqtSlot, pyqtSignal
+from PyQt5.QtCore import pyqtProperty, pyqtSlot, pyqtSignal
 from PyQt5.QtQuick import QQuickItem
-from PyQt5.QtQml import QQmlEngine, QQmlComponent, QQmlContext, QQmlPropertyMap, QQmlProperty
+
 
 class QVideo(QQuickItem):
 
@@ -22,10 +22,9 @@ class QVideo(QQuickItem):
         self._source = ''
         self.folder = "H:/GitHub/soloman/ex/"
         self._current_frame = 'file:///H:/GitHub/soloman/ex/vid_lv_001.jpg'
-        self._ui_should_update = True
         self.updater()
 
-    changeTimerStatus = pyqtSignal(bool, arguments=['timerStatus'])
+    frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
 
     @pyqtSlot()
     def updater(self):
@@ -39,6 +38,7 @@ class QVideo(QQuickItem):
 
         for each in conts[3:]:
             self._current_frame = 'file:///' + self.folder + '/' + each
+            self.updateFrame('')
             sleep(1/24)
 
     @pyqtProperty('QString')
@@ -49,16 +49,12 @@ class QVideo(QQuickItem):
     def currentFrame(self, frame):
         self._current_frame = frame
 
-    def timerStatus(self, status):
-        self.changeTimerStatus.emit(status)
+    @pyqtSlot()
+    def play(self):
+        pass
 
-    @pyqtProperty('bool')
-    def shouldUpdate(self):
-        return self._ui_should_update
-
-    @shouldUpdate.setter
-    def shouldUpdate(self, stat):
-        self._ui_should_update = stat
+    def _play(self):
+        pass
 
     @pyqtProperty('QString')
     def source(self):
@@ -68,6 +64,6 @@ class QVideo(QQuickItem):
     def source(self, source):
         self._source = source
 
-
-
+    def updateFrame(self, frame):
+        self.frameUpdate.emit(frame)
 

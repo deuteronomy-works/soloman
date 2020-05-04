@@ -7,18 +7,8 @@ QVideo {
     width: 600
     height: 400
 
-    onChangeTimerStatus: {
-        var status = timerStatus
-        timer.running = status
-    }
-
-
-    Timer {
-        id: timer
-        interval: 1000/24; running: false; repeat: true;
-        onTriggered: {
-            framebox.source = vid.currentFrame
-        }
+    onFrameUpdate: {
+        framebox.source = vid.currentFrame
     }
 
     Rectangle {
