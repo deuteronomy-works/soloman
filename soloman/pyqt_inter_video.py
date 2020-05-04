@@ -7,7 +7,7 @@ Created on Mon Apr 27 07:52:16 2020
 import os
 import threading
 from time import sleep
-from PyQt5.QtCore import pyqtProperty, QUrl, pyqtSlot
+from PyQt5.QtCore import pyqtProperty, QUrl, pyqtSlot, pyqtSignal
 from PyQt5.QtQuick import QQuickItem
 from PyQt5.QtQml import QQmlEngine, QQmlComponent, QQmlContext, QQmlPropertyMap, QQmlProperty
 
@@ -21,7 +21,11 @@ class QVideo(QQuickItem):
         super().__init__(parent)
         self._source = ''
         self.folder = "H:/GitHub/soloman/ex/"
-        self._current_frame = 'file:///H:/GitHub/soloman/ex/vid_lv_014.jpg'
+        self._current_frame = 'file:///H:/GitHub/soloman/ex/vid_lv_001.jpg'
+        self._ui_should_update = True
+        self.updater()
+
+    changeTimerStatus = pyqtSignal(bool, arguments=['timerStatus'])
 
     @pyqtSlot()
     def updater(self):
@@ -30,10 +34,9 @@ class QVideo(QQuickItem):
         u_thread.start()
 
     def _updater(self):
-        sleep(2)
+
         conts = os.listdir(self.folder)
 
-        print(self.currentFrame)
         for each in conts[3:]:
             self._current_frame = 'file:///' + self.folder + '/' + each
             sleep(1/24)
@@ -45,6 +48,17 @@ class QVideo(QQuickItem):
     @currentFrame.setter
     def currentFrame(self, frame):
         self._current_frame = frame
+
+    def timerStatus(self, status):
+        self.changeTimerStatus.emit(status)
+
+    @pyqtProperty('bool')
+    def shouldUpdate(self):
+        return self._ui_should_update
+
+    @shouldUpdate.setter
+    def shouldUpdate(self, stat):
+        self._ui_should_update = stat
 
     @pyqtProperty('QString')
     def source(self):

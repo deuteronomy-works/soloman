@@ -7,23 +7,29 @@ QVideo {
     width: 600
     height: 400
 
+    onChangeTimerStatus: {
+        var status = timerStatus
+        timer.running = status
+    }
 
 
     Timer {
-        interval: 500; running: true; repeat: true;
+        id: timer
+        interval: 1000/24; running: false; repeat: true;
         onTriggered: {
             framebox.source = vid.currentFrame
         }
     }
 
     Rectangle {
-        anchors.fill: parent
+        width: framebox.width
+        height: framebox.height
         color: "black"
 
         Image {
             id: framebox
             asynchronous: false
-            sourceSize: Qt.size(parent.width, parent.height)
+            sourceSize: Qt.size(vid.width, vid.height)
             source: vid.currentFrame
         }
 
