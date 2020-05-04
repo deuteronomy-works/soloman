@@ -60,6 +60,15 @@ class QVideo(QQuickItem):
         self._current_frame = frame
 
     @pyqtSlot()
+    def pause(self):
+        u_thread = threading.Thread(target = self._pause)
+        u_thread.daemon = True
+        u_thread.start()
+    
+    def _pause(self):
+        self._paused = True
+
+    @pyqtSlot()
     def play(self):
         u_thread = threading.Thread(target = self._play)
         u_thread.daemon = True
