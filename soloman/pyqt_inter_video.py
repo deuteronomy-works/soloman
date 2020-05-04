@@ -49,7 +49,7 @@ class QVideo(QQuickItem):
                 no += 1
                 sleep(1/24)
             else:
-                sleep(1/4)
+                sleep(1/10)
 
     @pyqtProperty('QString')
     def currentFrame(self):
@@ -67,6 +67,15 @@ class QVideo(QQuickItem):
     
     def _pause(self):
         self._paused = True
+
+    @pyqtSlot()
+    def resume(self):
+        u_thread = threading.Thread(target = self._resume)
+        u_thread.daemon = True
+        u_thread.start()
+    
+    def _resume(self):
+        self._paused = False
 
     @pyqtSlot()
     def play(self):
