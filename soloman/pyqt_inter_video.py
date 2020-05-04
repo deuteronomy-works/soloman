@@ -22,7 +22,6 @@ class QVideo(QQuickItem):
         self._source = ''
         self.folder = "H:/GitHub/soloman/ex/"
         self._current_frame = 'file:///H:/GitHub/soloman/ex/vid_lv_001.jpg'
-        self.updater()
 
     frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
 
@@ -51,10 +50,13 @@ class QVideo(QQuickItem):
 
     @pyqtSlot()
     def play(self):
-        pass
+        u_thread = threading.Thread(target = self._play)
+        u_thread.daemon = True
+        u_thread.start()
 
     def _play(self):
-        pass
+        # play video
+        self.updater()
 
     @pyqtProperty('QString')
     def source(self):
