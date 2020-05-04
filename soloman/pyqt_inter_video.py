@@ -22,6 +22,9 @@ class QVideo(QQuickItem):
         self._source = ''
         self.folder = "H:/GitHub/soloman/ex/"
         self._current_frame = 'file:///H:/GitHub/soloman/ex/vid_lv_001.jpg'
+        # controls
+        self._stopped = False
+        self._paused = False
 
     frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
 
@@ -34,11 +37,19 @@ class QVideo(QQuickItem):
     def _updater(self):
 
         conts = os.listdir(self.folder)
+        final = conts[3:]
+        # Use no to evaluate
+        no = 0
 
-        for each in conts[3:]:
-            self._current_frame = 'file:///' + self.folder + '/' + each
-            self.updateFrame('')
-            sleep(1/24)
+        while not self._stopped and no != len(final):
+            if not self._paused:
+                self._current_frame = 'file:///' + self.folder + '/' + final[no]
+                self.updateFrame('')
+                # update no
+                no += 1
+                sleep(1/24)
+            else:
+                sleep(1/4)
 
     @pyqtProperty('QString')
     def currentFrame(self):
