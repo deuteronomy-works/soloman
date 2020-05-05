@@ -10,6 +10,12 @@
 *.dll
 *.dylib
 
+# python
+__pycache__
+dist
+build
+*.egg
+
 # Qt-es
 object_script.*.Release
 object_script.*.Debug
@@ -50,3 +56,9 @@ compile_commands.json
 
 # QtCreator local machine specific files for imported projects
 *creator.user*
+
+
+# Project
+*.wav
+*.egg-info
+ex/
