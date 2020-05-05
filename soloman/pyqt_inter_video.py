@@ -45,7 +45,7 @@ class QVideo(QQuickItem):
         self._stopped = True
         sleep(.3)
         # if user has called the stop function
-        # we will need to reset in order to restart play
+        # we will need to reset it in order to restart play
         self._stopped = False
 
         while not self._stopped and no != len(final):
@@ -57,6 +57,9 @@ class QVideo(QQuickItem):
                 sleep(1/24)
             else:
                 sleep(1/10)
+        # stop showing the last frame
+        self._current_frame = ''
+        self.updateFrame('')
 
     @pyqtProperty('QString')
     def currentFrame(self):
