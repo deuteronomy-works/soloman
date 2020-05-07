@@ -19,9 +19,11 @@ class QVideo(QQuickItem):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        # Video
         self._source = ''
         self.folder = "H:/GitHub/soloman/ex/"
         self._current_frame = 'file:///H:/GitHub/soloman/ex/vid_lv_001.jpg'
+        self._fps = 24
         # controls
         self._stopped = False
         self._paused = False
@@ -40,7 +42,7 @@ class QVideo(QQuickItem):
         final = conts[3:]
         # Use no to evaluate
         no = 0
-        
+
         # Avoid multiple playing instances
         self._stopped = True
         sleep(.3)
@@ -68,6 +70,14 @@ class QVideo(QQuickItem):
     @currentFrame.setter
     def currentFrame(self, frame):
         self._current_frame = frame
+
+    @pyqtProperty('int')
+    def fps(self):
+        return self._fps
+
+    @fps.setter
+    def fps(self, fps):
+        self._fps = fps
 
     @pyqtSlot()
     def pause(self):
