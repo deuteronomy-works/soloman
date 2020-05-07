@@ -116,9 +116,7 @@ class QVideo(QQuickItem):
         u_thread.start()
     
     def _seek(self, seconds):
-        self._paused = True
         self._frame_no = self._fps * seconds
-        self._paused = False
 
     @pyqtProperty('QString')
     def source(self):
