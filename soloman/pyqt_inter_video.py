@@ -24,6 +24,7 @@ class QVideo(QQuickItem):
         self.folder = "H:/GitHub/soloman/ex/"
         self._current_frame = 'file:///H:/GitHub/soloman/ex/vid_lv_001.jpg'
         self._fps = 24
+        self._frame_no = 0
         # controls
         self._stopped = False
         self._paused = False
@@ -41,7 +42,6 @@ class QVideo(QQuickItem):
         conts = os.listdir(self.folder)
         final = conts[3:]
         # Use no to evaluate
-        no = 0
 
         # Avoid multiple playing instances
         self._stopped = True
@@ -50,16 +50,17 @@ class QVideo(QQuickItem):
         # we will need to reset it in order to restart play
         self._stopped = False
 
-        while not self._stopped and no != len(final):
+        while not self._stopped and self._frame_no != len(final):
             if not self._paused:
-                self._current_frame = 'file:///' + self.folder + '/' + final[no]
+                self._current_frame = 'file:///' + self.folder + '/' + final[self._frame_no]
                 self.updateFrame('')
                 # update no
-                no += 1
-                sleep(1/24)
+                self._frame_no += 1
+                sleep(1/self._fps)
             else:
                 sleep(1/10)
         # stop showing the last frame
+        self._frame_no = 0
         self._current_frame = ''
         self.updateFrame('')
 
@@ -106,6 +107,17 @@ class QVideo(QQuickItem):
     def _play(self):
         # play video
         self.updater()
+
+    @pyqtSlot(int)
+    def seek(self, seconds):
+        u_thread = threading.Thread(target = self._seek, args=[seconds])
+        u_thread.daemon = True
+        u_thread.start()
+    
+    def _seek(self, seconds):
+        self._paused = True
+        self._frame_no = self._fps * seconds
+        self._paused = False
 
     @pyqtProperty('QString')
     def source(self):
