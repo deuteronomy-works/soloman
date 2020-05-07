@@ -22,3 +22,6 @@ def register():
 
     qmlRegisterType(QAudio, 'soloman', 1, 0, 'Audio')
     qmlRegisterType(QVideo, 'soloman', 1, 0, 'QVideo')
+
+
+register()
