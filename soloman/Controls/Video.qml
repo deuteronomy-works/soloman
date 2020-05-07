@@ -11,19 +11,12 @@ QVideo {
         framebox.source = vid.currentFrame
     }
 
-    Rectangle {
-        width: vid.width
-        height: vid.height
-        color: "black"
-
-        Image {
-            anchors.centerIn: parent
-            id: framebox
-            asynchronous: false
-            sourceSize: Qt.size(vid.width, vid.height)
-            source: vid.currentFrame
-        }
-
+    Image {
+        anchors.centerIn: parent
+        id: framebox
+        asynchronous: false
+        sourceSize: Qt.size(vid.width, vid.height)
+        source: vid.currentFrame
     }
 
 }
