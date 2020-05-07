@@ -45,10 +45,12 @@ class QVideo(QQuickItem):
 
         # Avoid multiple playing instances
         self._stopped = True
+        self._frame_no = 0
         sleep(.3)
         # if user has called the stop function
         # we will need to reset it in order to restart play
         self._stopped = False
+        self._paused = False
 
         while not self._stopped and self._frame_no != len(final):
             if not self._paused:
@@ -60,7 +62,6 @@ class QVideo(QQuickItem):
             else:
                 sleep(1/10)
         # stop showing the last frame
-        self._frame_no = 0
         self._current_frame = ''
         self.updateFrame('')
 
