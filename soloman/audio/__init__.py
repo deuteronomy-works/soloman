@@ -192,7 +192,6 @@ class Audio:
 
         pause_thread = threading.Thread(target=self._pause)
         pause_thread.start()
-        sleep(1)
 
 
     def _pause(self):
