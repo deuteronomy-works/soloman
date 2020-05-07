@@ -33,6 +33,11 @@ class QVideo(QQuickItem):
 
     @pyqtSlot()
     def updater(self):
+        # Avoid multiple playing instances
+        self._stopped = True
+        self._frame_no = 0
+        sleep(0.1)
+
         u_thread = threading.Thread(target = self._updater)
         u_thread.daemon = True
         u_thread.start()
@@ -41,13 +46,8 @@ class QVideo(QQuickItem):
 
         conts = os.listdir(self.folder)
         final = conts[3:]
-        # Use no to evaluate
 
-        # Avoid multiple playing instances
-        self._stopped = True
-        self._frame_no = 0
-        sleep(.3)
-        # if user has called the stop function
+        # if user has called the stop or pause function
         # we will need to reset it in order to restart play
         self._stopped = False
         self._paused = False
