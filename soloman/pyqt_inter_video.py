@@ -6,9 +6,10 @@ Created on Mon Apr 27 07:52:16 2020
 """
 import os
 import threading
-from time import sleep
+from time import sleep, time
 from PyQt5.QtCore import pyqtProperty, pyqtSlot, pyqtSignal
 from PyQt5.QtQuick import QQuickItem
+from .pyqt_inter_audio import QAudio
 
 
 class QVideo(QQuickItem):
@@ -28,6 +29,14 @@ class QVideo(QQuickItem):
         # controls
         self._stopped = False
         self._paused = False
+        #  Timer
+        self._start_time = 0
+        self._total_time = 0
+        self._total_elapsed_time = 0.0
+        # test audio
+        self.aud = QAudio()
+        self.audio_file = 'H:/GitHub/soloman/soloman/audio/data/music/saves/vid.wav'
+        self.aud.prepare(self.audio_file)
 
     frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
 
@@ -52,16 +61,31 @@ class QVideo(QQuickItem):
         self._stopped = False
         self._paused = False
 
+        self._start_time = time()  # set the universal start time
+        self.setTime()
+        self.setFrameNo()
+
         while not self._stopped and self._frame_no != len(final):
+            
+            #t1 = time()
             if not self._paused:
                 self._current_frame = 'file:///' + self.folder + '/' + final[self._frame_no]
+                #print(self._current_frame)
                 self.updateFrame('')
                 # update no
-                self._frame_no += 1
-                sleep(1/self._fps)
+                #self._frame_no += 1
+                # o.0416
+                #full_time = 1/self._fps
+                #t2 = time()
+                #rem = full_time - (t2 - t1)
+                #print('rem: ', rem)
+                sleep(1/24)
+                #sleep(interval)
+                #print('sleep:', interval)
             else:
                 sleep(1/10)
         # stop showing the last frame
+        self._stopped = True  # stop all other processs; will cause no trouble
         self._current_frame = ''
         self.updateFrame('')
 
@@ -99,6 +123,24 @@ class QVideo(QQuickItem):
     def _resume(self):
         self._paused = False
 
+    def monitor(self):
+        u_thread = threading.Thread(target = self._monitor)
+        u_thread.daemon = True
+        u_thread.start()
+    
+    def _monitor(self):
+        total = 0
+        prev = 0
+        tim = 0
+        for x in range(30):
+            t1 = time()
+            t2 = 0
+            while t2-t1 < 1:
+                t2 = time()
+                total = self._frame_no - prev
+            prev = self._frame_no
+            print(total, self._frame_no, self._total_elapsed_time, (self._total_elapsed_time/41.6))
+
     @pyqtSlot()
     def play(self):
         u_thread = threading.Thread(target = self._play)
@@ -108,6 +150,8 @@ class QVideo(QQuickItem):
     def _play(self):
         # play video
         self.updater()
+        self.monitor()
+        print('delay: ', self.aud.delay_play(0.5))
 
     @pyqtSlot(int)
     def seek(self, seconds):
@@ -134,6 +178,38 @@ class QVideo(QQuickItem):
     
     def _stop(self):
         self._stopped = True
+
+    def setFrameNo(self):
+        # start the setTime thread
+        s_thread = threading.Thread(target=self._setFrameNo)
+        s_thread.daemon = True
+        s_thread.start()
+
+    def _setFrameNo(self):
+        # 24fps 41.6 micro
+        # 10fps 100 micro
+        while not self._stopped:
+            self._frame_no = round(self._total_elapsed_time / 41.6)
+            #print('no: ', self._frame_no, self._total_elapsed_time)
+            sleep(1/2)
+
+    def setTime(self):
+        # start the setTime thread
+        s_thread = threading.Thread(target=self._setTime)
+        s_thread.daemon = True
+        s_thread.start()
+
+    def _setTime(self):
+        # set the time every 10 milliseconds
+        # this will be used to know which frame is up
+        t1 = self._start_time
+        while not self._stopped:
+            sleep(0.1)
+            t2 = time()
+            tm = t2 - t1
+            #t1 = t2 # this is much accurate
+            micro = round(tm, 2) * 1000 # this convert to microseconds
+            self._total_elapsed_time = micro
 
     def updateFrame(self, frame):
         self.frameUpdate.emit(frame)
