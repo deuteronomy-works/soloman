@@ -15,11 +15,10 @@ aud.play('/path/to/music.mp3')
 
 ## Usage for Qml
 ```python
-from soloman import register
+import soloman
 ...
 engine = QQmlApplicationEngine()
 ...
-register()
 engine.load('example.qml')
 
 ```
@@ -29,7 +28,7 @@ import QtQuick 2.10
 ...
 import soloman
 
-Audio {
+SAudio {
     id: aud
 }
 
