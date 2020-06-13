@@ -65,6 +65,13 @@ ToolTip
 MenuSeparator
 ToolSeparator
 
+## Original controls
+CustTabItem
+CustTabView
+SAudio ****
+SVideo
+
 * Do this later
 ** Do this later, but earlier than a one star
 *** should it be in this category
+**** Doesn't have a qml file but is accesible in qml

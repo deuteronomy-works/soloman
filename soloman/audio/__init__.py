@@ -192,8 +192,6 @@ class Audio:
 
         pause_thread = threading.Thread(target=self._pause)
         pause_thread.start()
-        sleep(1)
-
 
     def _pause(self):
 
@@ -210,8 +208,6 @@ class Audio:
 
         resume_thread = threading.Thread(target=self._resume)
         resume_thread.start()
-        sleep(1)
-
 
     def _resume(self):
 
@@ -338,5 +334,6 @@ class Audio:
         if final_seek == 0:
             final_seek = 1
         self._seek_int = final_seek
+        # Reset seek so that we don't keep seeking.
         sleep(0.1)
         self._seek_int = 0
