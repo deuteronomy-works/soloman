@@ -20,7 +20,7 @@ def register():
     else:
         os.environ['QML2_IMPORT_PATH'] = directory
 
-    qmlRegisterType(QAudio, 'soloman', 1, 0, 'Audio')
+    qmlRegisterType(QAudio, 'soloman', 1, 0, 'SAudio')
     qmlRegisterType(QVideo, 'soloman', 1, 0, 'QVideo')
 
 
