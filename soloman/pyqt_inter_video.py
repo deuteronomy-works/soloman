@@ -139,7 +139,7 @@ class QVideo(QQuickItem):
                 t2 = time()
                 total = self._frame_no - prev
             prev = self._frame_no
-            print(total, self._frame_no, self._total_elapsed_time, (self._total_elapsed_time/41.6))
+            # print(total, self._frame_no, self._total_elapsed_time, (self._total_elapsed_time/41.6))
 
     @pyqtSlot()
     def play(self):
@@ -151,7 +151,6 @@ class QVideo(QQuickItem):
         # play video
         self.updater()
         self.monitor()
-        print('delay: ', self.aud.delay_play(0.5))
 
     @pyqtSlot(int)
     def seek(self, seconds):

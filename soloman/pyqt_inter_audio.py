@@ -18,7 +18,6 @@ class QAudio(QObject):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.aud = Audio()
-        print(self.aud)
 
         self._save_folder = ''
         self._volume_level = 1.4
@@ -111,5 +110,4 @@ class QAudio(QObject):
     @volume.setter
     def volume(self, level):
         self._volume_level = level
-        print('level: ', level)
         self.aud.controlVolume(self._volume_level)
