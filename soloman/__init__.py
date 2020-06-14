@@ -26,8 +26,8 @@ def register():
         print('apth: ', path)
         os.system('RD "' + path + '" /S /Q')
 
-    qmlRegisterType(QAudio, 'soloman', 1, 0, 'SAudio')
-    qmlRegisterType(QVideo, 'soloman', 1, 0, 'QVideo')
+    qmlRegisterType(QAudio, 'soloman', 2, 1, 'SAudio')
+    qmlRegisterType(QVideo, 'soloman', 2, 1, 'QVideo')
 
 
 register()

@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import soloman 1.0
+import soloman 2.1
 
 QVideo {
     id: vid
@@ -17,6 +17,7 @@ QVideo {
         asynchronous: false
         sourceSize: Qt.size(vid.width, vid.height)
         source: vid.currentFrame
+
     }
 
 }
