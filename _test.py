@@ -16,7 +16,7 @@ app = QGuiApplication(sys.argv)
 engine = QQmlApplicationEngine()
 engine.quit.connect(app.quit)
 
-engine.load(QUrl('example.qml'))
+engine.load(QUrl('tests/example.qml'))
 
 
 sys.exit(app.exec_())
