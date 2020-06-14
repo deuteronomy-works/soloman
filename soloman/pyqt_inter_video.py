@@ -6,9 +6,11 @@ Created on Mon Apr 27 07:52:16 2020
 """
 import os
 import threading
+from random import randrange
 from time import sleep, time
 from PyQt5.QtCore import pyqtProperty, pyqtSlot, pyqtSignal
 from PyQt5.QtQuick import QQuickItem
+from pyffmpeg import FFmpeg
 from .pyqt_inter_audio import QAudio
 
 
@@ -20,6 +22,7 @@ class QVideo(QQuickItem):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.convert_folder = self.fix_splashes(os.environ['TEMP']) + '/soloman/converts'
         self._same_session = False
         # Video
         self._source = ''
@@ -37,12 +40,9 @@ class QVideo(QQuickItem):
         self._start_time = 0
         self._total_time = 0
         self._total_elapsed_time = 0.0
-        # test audio
-        self.aud = QAudio()
-        self.audio_file = 'H:/GitHub/soloman/soloman/audio/data/music/saves/vid.wav'
-        self.aud.prepare(self.audio_file)
 
     frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
+    destroyed = pyqtSignal()
 
     @pyqtSlot()
     def updater(self):
@@ -95,9 +95,13 @@ class QVideo(QQuickItem):
         """
         convert the video files to stills
         """
-        self.folder = os.path.dirname(fileName)
+        self.folder = self.convert_folder + "/" + str(randrange(1000, 4000)) + "/"
+        os.makedirs(self.folder)
         self._stills_type = 'jpg'
-        raise RuntimeError('Conversion not yet ready')
+
+        ff = FFmpeg()
+        out = self.folder + "vid_%03d.jpg"
+        ff.options("-i " + fileName + " -r " + str(24) + " " + out) # use fps here
 
     def fix_splashes(self, fileName):
         """
@@ -156,7 +160,6 @@ class QVideo(QQuickItem):
     def _monitor(self):
         total = 0
         prev = 0
-        tim = 0
         for x in range(30):
             t1 = time()
             t2 = 0
@@ -233,7 +236,7 @@ class QVideo(QQuickItem):
         refresh_time = 1000 / 24
         sleep_time = 1 / (self.fps)
         while not self._stopped:
-            self._frame_no = round(self._total_elapsed_time / 41.6)
+            self._frame_no = round(self._total_elapsed_time / refresh_time)
             #print('no: ', self._frame_no, self._total_elapsed_time)
             sleep(sleep_time)
 
@@ -260,4 +263,3 @@ class QVideo(QQuickItem):
 
     def updateFrame(self, frame):
         self.frameUpdate.emit(frame)
-
