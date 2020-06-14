@@ -139,7 +139,7 @@ class QVideo(QQuickItem):
                 t2 = time()
                 total = self._frame_no - prev
             prev = self._frame_no
-            # print(total, self._frame_no, self._total_elapsed_time, (self._total_elapsed_time/41.6))
+            print(total, self._frame_no, self._total_elapsed_time, (self._total_elapsed_time/41.6))
 
     @pyqtSlot()
     def play(self):
@@ -185,12 +185,20 @@ class QVideo(QQuickItem):
         s_thread.start()
 
     def _setFrameNo(self):
+        """
+        Sets the frame based on the current time. For instance;
+        for 24fps if the current time is the first second, the current
+        frame should be frame no. 24, on the second second, the current
+        frame is 48 and so on.
+        """
         # 24fps 41.6 micro
         # 10fps 100 micro
+        refresh_time = 1000 / 24
+        sleep_time = 1 / (self.fps)
         while not self._stopped:
             self._frame_no = round(self._total_elapsed_time / 41.6)
             #print('no: ', self._frame_no, self._total_elapsed_time)
-            sleep(1/2)
+            sleep(sleep_time)
 
     def setTime(self):
         # start the setTime thread
@@ -203,7 +211,10 @@ class QVideo(QQuickItem):
         # this will be used to know which frame is up
         t1 = self._start_time
         while not self._stopped:
-            sleep(0.1)
+            # *** very very important code; The speed at which
+            # the time will be refreshed.
+            sleep(0.01)
+            # ***
             t2 = time()
             tm = t2 - t1
             #t1 = t2 # this is much accurate
