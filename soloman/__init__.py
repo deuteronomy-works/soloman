@@ -20,6 +20,12 @@ def register():
     else:
         os.environ['QML2_IMPORT_PATH'] = directory
 
+    # Delete the contents of our Temp folder
+    path = os.path.join(os.environ['TEMP'], 'soloman', 'converts')
+    if os.path.exists(path):
+        print('apth: ', path)
+        os.system('RD "' + path + '" /S /Q')
+
     qmlRegisterType(QAudio, 'soloman', 1, 0, 'SAudio')
     qmlRegisterType(QVideo, 'soloman', 1, 0, 'QVideo')
 
