@@ -20,12 +20,16 @@ class QVideo(QQuickItem):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self._same_session = False
         # Video
         self._source = ''
-        self.folder = "H:/GitHub/soloman/ex/"
-        self._current_frame = 'file:///H:/GitHub/soloman/ex/vid_lv_001.jpg'
+        self.folder = ""
+        self._current_frame = ''
         self._fps = 24
         self._frame_no = 0
+        self._supported_vid_files = ['mp4']
+        self._stills_content = []
+        self._stills_type = ""
         # controls
         self._stopped = False
         self._paused = False
@@ -45,7 +49,7 @@ class QVideo(QQuickItem):
         # Avoid multiple playing instances
         self._stopped = True
         self._frame_no = 0
-        sleep(0.1)
+        sleep(0.3)
 
         u_thread = threading.Thread(target = self._updater)
         u_thread.daemon = True
@@ -53,8 +57,8 @@ class QVideo(QQuickItem):
 
     def _updater(self):
 
-        conts = os.listdir(self.folder)
-        final = conts[3:]
+        #conts = os.listdir(self.folder)
+        stills = self._stills_content
 
         # if user has called the stop or pause function
         # we will need to reset it in order to restart play
@@ -65,23 +69,13 @@ class QVideo(QQuickItem):
         self.setTime()
         self.setFrameNo()
 
-        while not self._stopped and self._frame_no != len(final):
+        while not self._stopped and self._frame_no != len(stills):
             
             #t1 = time()
             if not self._paused:
-                self._current_frame = 'file:///' + self.folder + '/' + final[self._frame_no]
-                #print(self._current_frame)
+                self._current_frame = 'file:///' + self.folder + '/' + stills[self._frame_no]
                 self.updateFrame('')
-                # update no
-                #self._frame_no += 1
-                # o.0416
-                #full_time = 1/self._fps
-                #t2 = time()
-                #rem = full_time - (t2 - t1)
-                #print('rem: ', rem)
                 sleep(1/24)
-                #sleep(interval)
-                #print('sleep:', interval)
             else:
                 sleep(1/10)
         # stop showing the last frame
@@ -96,6 +90,37 @@ class QVideo(QQuickItem):
     @currentFrame.setter
     def currentFrame(self, frame):
         self._current_frame = frame
+
+    def convert_to_stills(self, fileName):
+        """
+        convert the video files to stills
+        """
+        self.folder = os.path.dirname(fileName)
+        self._stills_type = 'jpg'
+        raise RuntimeError('Conversion not yet ready')
+
+    def fix_splashes(self, fileName):
+        """
+        Replace backslash with forward slash
+        """
+        abs_path = os.path.abspath(fileName)
+        return abs_path.replace("\\", '/')
+
+    def is_stills(self, fileName):
+        ext = os.path.splitext(fileName)[1][1:]
+        if ext not in self._supported_vid_files:
+            # stills
+            try:
+                os.listdir(fileName)
+                self.folder = fileName
+            except:
+                self.folder = os.path.dirname(fileName)
+
+            self._stills_type = ext
+            return True
+        else:
+            # video
+            return False
 
     @pyqtProperty('int')
     def fps(self):
@@ -141,14 +166,26 @@ class QVideo(QQuickItem):
             prev = self._frame_no
             print(total, self._frame_no, self._total_elapsed_time, (self._total_elapsed_time/41.6))
 
-    @pyqtSlot()
-    def play(self):
-        u_thread = threading.Thread(target = self._play)
+    @pyqtSlot(str)
+    def play(self, fileName):
+        u_thread = threading.Thread(target = self._play, args=[fileName])
         u_thread.daemon = True
         u_thread.start()
 
-    def _play(self):
+    def _play(self, fileName):
         # play video
+        if not self._same_session:
+            filename = self.fix_splashes(fileName)
+            if self.is_stills(filename):
+                # stills
+                pass
+            else:
+                # not stills
+                self.convert_to_stills(filename)
+
+            self._stills_content = os.listdir(self.folder)
+            self._same_session = True
+
         self.updater()
         self.monitor()
 
