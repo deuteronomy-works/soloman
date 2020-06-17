@@ -59,7 +59,6 @@ class QVideo(QQuickItem):
     def _updater(self):
 
         #conts = os.listdir(self.folder)
-        stills = self._stills_content
 
         # if user has called the stop or pause function
         # we will need to reset it in order to restart play
@@ -70,11 +69,11 @@ class QVideo(QQuickItem):
         self.setTime()
         self.setFrameNo()
 
-        while not self._stopped and self._frame_no != len(stills):
-            
+        while not self._stopped and self._frame_no != len(self._stills_content):
+
             #t1 = time()
             if not self._paused:
-                self._current_frame = 'file:///' + self.folder + '/' + stills[self._frame_no]
+                self._current_frame = 'file:///' + self.folder + '/' + self._stills_content[self._frame_no]
                 self.updateFrame('')
                 sleep(1/24)
             else:
@@ -198,7 +197,7 @@ class QVideo(QQuickItem):
         u_thread = threading.Thread(target = self._seek, args=[seconds])
         u_thread.daemon = True
         u_thread.start()
-    
+
     def _seek(self, seconds):
         self._frame_no = self._fps * seconds
 
