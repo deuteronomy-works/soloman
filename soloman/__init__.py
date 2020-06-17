@@ -9,6 +9,7 @@ from PyQt5.QtQml import qmlRegisterType
 # import Audio here so people can import it without
 # going int the audio package to access it
 from .audio import Audio
+from .video import Video
 from soloman.pyqt_inter_audio import QAudio
 from soloman.pyqt_inter_video import QVideo
 
@@ -23,7 +24,6 @@ def register():
     # Delete the contents of our Temp folder
     path = os.path.join(os.environ['TEMP'], 'soloman', 'converts')
     if os.path.exists(path):
-        print('apth: ', path)
         os.system('RD "' + path + '" /S /Q')
 
     qmlRegisterType(QAudio, 'soloman', 2, 1, 'SAudio')

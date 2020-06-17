@@ -8,6 +8,7 @@ import os
 import threading
 from random import randrange
 from time import sleep, time
+import cv2
 from PyQt5.QtCore import pyqtProperty, pyqtSlot, pyqtSignal
 from PyQt5.QtQuick import QQuickItem
 from pyffmpeg import FFmpeg
@@ -260,6 +261,21 @@ class QVideo(QQuickItem):
             #t1 = t2 # this is much accurate
             micro = round(tm, 2) * 1000 # this convert to microseconds
             self._total_elapsed_time = micro
+
+    def start_cv2(self):
+        self.folder = self.convert_folder + "/" + str(randrange(1, 1000))
+        os.makedirs(self.folder)
+
+    def show_cv2_frame(self, frame):
+        c_thread = threading.Thread(target=self._show_cv2_frame, args=[frame])
+        c_thread.daemon = True
+        c_thread.start()
+
+    def _show_cv2_frame(self, frame):
+        filename = self.folder + "/" + str(randrange(1, 1000000)) + ".jpg"
+        cv2.imwrite(filename, frame)
+        self._current_frame = 'file:///' + filename
+        self.updateFrame('')
 
     def updateFrame(self, frame):
         self.frameUpdate.emit(frame)
