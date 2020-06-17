@@ -41,6 +41,8 @@ class QVideo(QQuickItem):
         self._start_time = 0
         self._total_time = 0
         self._total_elapsed_time = 0.0
+        # Opencv
+        self._cv2_frames_len = 0
 
     frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
     destroyed = pyqtSignal()
@@ -262,7 +264,11 @@ class QVideo(QQuickItem):
             self._total_elapsed_time = micro
 
     def start_cv2(self):
-        self.folder = self.convert_folder + "/" + str(randrange(1, 1000))
+        if os.path.exists(self.convert_folder):
+            fold_len = len(os.listdir(self.convert_folder)) + 1
+        else:
+            fold_len = 1
+        self.folder = self.convert_folder + "/" + str(fold_len)
         os.makedirs(self.folder)
 
     def show_cv2_frame(self, frame):
@@ -271,7 +277,8 @@ class QVideo(QQuickItem):
         c_thread.start()
 
     def _show_cv2_frame(self, frame):
-        filename = self.folder + "/" + str(randrange(1, 1000000)) + ".jpg"
+        self._cv2_frames_len += 1
+        filename = self.folder + "/" + str(self._cv2_frames_len) + ".jpg"
         cv2.imwrite(filename, frame)
         self._current_frame = 'file:///' + filename
         self.updateFrame('')
