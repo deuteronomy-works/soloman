@@ -43,6 +43,7 @@ class QVideo(QQuickItem):
         self._total_elapsed_time = 0.0
         # Opencv
         self._cv2_frames_len = 0
+        self._cv2_session = False
 
     frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
     destroyed = pyqtSignal()
@@ -270,6 +271,7 @@ class QVideo(QQuickItem):
             fold_len = 1
         self.folder = self.convert_folder + "/" + str(fold_len)
         os.makedirs(self.folder)
+        self.cv2_updater()
 
     def show_cv2_frame(self, frame):
         c_thread = threading.Thread(target=self._show_cv2_frame, args=[frame])
@@ -277,11 +279,58 @@ class QVideo(QQuickItem):
         c_thread.start()
 
     def _show_cv2_frame(self, frame):
+        # create the frame image
         self._cv2_frames_len += 1
         filename = self.folder + "/" + str(self._cv2_frames_len) + ".jpg"
         cv2.imwrite(filename, frame)
-        self._current_frame = 'file:///' + filename
+        # call the updater to do it in the set fps
+
+    def cv2_updater(self):
+        # Avoid multiple playing instances
+        self._stopped = True
+        self._frame_no = 0
+        sleep(0.5)
+
+        u_thread = threading.Thread(target = self._cv2_updater)
+        u_thread.daemon = True
+        u_thread.start()
+
+    def _cv2_updater(self):
+        """
+        The updater for cv2
+        """
+
+        # if user has called the stop or pause function
+        # we will need to reset it in order to restart play
+        self._stopped = False
+        self._paused = False
+
+        self._start_time = time()  # set the universal start time
+        self.setTime()
+        self.setFrameNo()
+
+        # if no show frame has been called sleep and loop
+        while self._cv2_frames_len == 0:
+            sleep(1/3)
+
+        # Avoid showing frame 0
+        if self._frame_no == 0:
+            self._frame_no += 1
+
+        while not self._stopped and self._frame_no <= self._cv2_frames_len:
+
+            if not self._paused:
+                self._current_frame = 'file:///' + self.folder + '/' + str(self._frame_no) + ".jpg"
+                self.updateFrame('')
+                sleep(1/24)
+            else:
+                sleep(1/10)
+        # stop showing the last frame
+        self._stopped = True  # stop all other processs; will cause no trouble
+        self._current_frame = ''
         self.updateFrame('')
+        self._cv2_session = False
+
 
     def updateFrame(self, frame):
         self.frameUpdate.emit(frame)
