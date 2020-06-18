@@ -20,6 +20,14 @@ class Video():
         g_thread.daemon=True
         g_thread.start()
 
+    def show_frame(self, frame):
+        g_thread = threading.Thread(target=self._show_frame, args=[frame])
+        g_thread.daemon=True
+        g_thread.start()
+
+    def _show_frame(self, frame):
+        self.QVideo.show_cv2_frame(frame)
+
     def _get_QVideo(self, obj_name):
         """
         Get the SVideo's QVideo object
@@ -36,4 +44,4 @@ class Video():
         """
         Updates the QVideo frames
         """
-        self.QVideo.show_cv2_frame(frame)
+        self.QVideo.make_cv2_frame(frame)

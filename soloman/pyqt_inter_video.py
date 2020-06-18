@@ -24,6 +24,8 @@ class QVideo(QQuickItem):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.convert_folder = self.fix_splashes(os.environ['TEMP']) + '/soloman/converts'
+        self.temp_folder = self.convert_folder + '/temp'
+        os.makedirs(self.temp_folder)
         self._same_session = False
         # Video
         self._source = ''
@@ -43,6 +45,7 @@ class QVideo(QQuickItem):
         self._total_elapsed_time = 0.0
         # Opencv
         self._cv2_frames_len = 0
+        self._cv2_tmp_frames_len = 0
         self._cv2_session = False
 
     frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
@@ -273,17 +276,33 @@ class QVideo(QQuickItem):
         os.makedirs(self.folder)
         self.cv2_updater()
 
+    def make_cv2_frame(self, frame):
+        c_thread = threading.Thread(target=self._make_cv2_frame, args=[frame])
+        c_thread.daemon = True
+        c_thread.start()
+
+    def _make_cv2_frame(self, frame):
+        # create the frame image
+        self._cv2_frames_len += 1
+        filename = self.folder + "/" + str(self._cv2_frames_len) + ".jpg"
+        cv2.imwrite(filename, frame)
+
+    def _make_temp_cv2_frame(self, frame):
+        # create the frame image
+        self._cv2_tmp_frames_len += 1
+        filename = self.temp_folder + "/" + str(self._cv2_tmp_frames_len) + ".jpg"
+        cv2.imwrite(filename, frame)
+        return filename
+
     def show_cv2_frame(self, frame):
         c_thread = threading.Thread(target=self._show_cv2_frame, args=[frame])
         c_thread.daemon = True
         c_thread.start()
 
     def _show_cv2_frame(self, frame):
-        # create the frame image
-        self._cv2_frames_len += 1
-        filename = self.folder + "/" + str(self._cv2_frames_len) + ".jpg"
-        cv2.imwrite(filename, frame)
-        # call the updater to do it in the set fps
+        name = self._make_temp_cv2_frame(frame)
+        self._current_frame = 'file:///' + name
+        self.updateFrame('')
 
     def cv2_updater(self):
         # Avoid multiple playing instances
@@ -325,10 +344,13 @@ class QVideo(QQuickItem):
                 sleep(1/24)
             else:
                 sleep(1/10)
+
+
         # stop showing the last frame
-        self._stopped = True  # stop all other processs; will cause no trouble
         self._current_frame = ''
         self.updateFrame('')
+        
+        self._stopped = True  # stop all other processs; will cause no trouble
         self._cv2_session = False
 
 
