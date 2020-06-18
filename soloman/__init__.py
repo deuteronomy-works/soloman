@@ -4,6 +4,7 @@ Created on Tue Mar 31 12:50:44 2020
 
 """
 import os
+from time import sleep
 from PyQt5.QtQml import qmlRegisterType
 
 # import Audio here so people can import it without
@@ -12,6 +13,10 @@ from .audio import Audio
 from .video import Video
 from soloman.pyqt_inter_audio import QAudio
 from soloman.pyqt_inter_video import QVideo
+
+def FPS_24():
+    sleep(1/40)
+    return True
 
 def register():
 
