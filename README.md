@@ -112,7 +112,7 @@ engine.load('example.qml')
 ```qml
 import QtQuick 2.14
 ...
-import soloman 2.1
+import soloman 2.2
 
 SAudio {
     id: aud
