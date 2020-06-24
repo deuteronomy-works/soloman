@@ -3,6 +3,7 @@ import sys
 import cv2
 import numpy as np
 import threading
+from time import sleep
 import os
 
 from PyQt5.QtCore import QUrl, QObject
@@ -30,7 +31,8 @@ sol = soloman.Video(engine)
 sol.get_QVideo('lover')
 
 # Capture
-capture = cv2.VideoCapture('ex/vid.mp4')
+source = "ex/vid.mp4"
+capture = cv2.VideoCapture(source)
 
 fgbg = cv2.createBackgroundSubtractorMOG2(50, 200, True)
 
@@ -45,7 +47,7 @@ def _ok():
 
     frameCount = 0
 
-    while frameCount < 500:
+    while True:
 
         ret, frame = capture.read()
 
@@ -54,10 +56,14 @@ def _ok():
         if not ret:
             break
 
-        resized = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
-        
-        mask = fgbg.apply(resized)
-        sol.update(mask)
+        #resized = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
+
+        #mask = fgbg.apply(resized)
+        """cv2.imshow('frame', frame)
+        if cv2.waitKey(20) & 0xFF == 27:
+            break"""
+        sol.update(frame)
+        sleep(1/100)
 
 ok()
 
