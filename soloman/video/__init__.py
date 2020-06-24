@@ -15,8 +15,8 @@ class Video():
         self._root_object = self._engine.rootObjects()[0]
         self.QVideo = ()
 
-    def get_QVideo(self, obj_name):
-        g_thread = threading.Thread(target=self._get_QVideo, args=[obj_name])
+    def get_SVideo(self, obj_name):
+        g_thread = threading.Thread(target=self._get_SVideo, args=[obj_name])
         g_thread.daemon=True
         g_thread.start()
 
@@ -28,7 +28,7 @@ class Video():
     def _show_frame(self, frame):
         self.QVideo.show_cv2_frame(frame)
 
-    def _get_QVideo(self, obj_name):
+    def _get_SVideo(self, obj_name):
         """
         Get the SVideo's QVideo object
         """
