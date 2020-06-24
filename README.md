@@ -4,7 +4,87 @@ For the love of python and qml
 ## Installation
     pip install soloman
 
-## Usage for python
+
+
+## Python Usage
+
+### Show cv2 frame
+
+example.py
+
+```python
+import sys
+import cv2
+import threading
+from time import sleep
+
+from PyQt5.QtGui import QGuiApplication
+from PyQt5.QtQml QQmlApplicationEngine
+import soloman
+
+app = QGuiApplication(sys.argv)
+
+# Create a QML engine.
+engine = QQmlApplicationEngine()
+engine.quit.connect(app.quit)
+engine.load(QUrl('example.qml'))
+
+# Get SVideo
+vid = soloman.Video(engine)
+vid.get_SVideo('screen_01')  # objectName goes here
+
+# Capture
+capture = cv2.VideoCapture(0)  # capture camera
+
+def start_capt():
+    # start thread
+    o_thread = threading.Thread(target=_start_capt)
+    o_thread.daemon = True
+    o_thread.start()
+
+def _start_capt():
+
+    while True:
+
+        ret, frame = capture.read()
+
+        if not ret:
+            break
+
+        vid.show_frame(frame)
+        sleep(1/24)
+
+# Call to start capturing
+start_capt()
+
+# Run the app
+ret_value = app.exec_()
+capture.release()
+sys.exit(0)
+```
+
+example.qml
+
+```qml
+import QtQuick 2.14
+import QtQuick.Controls 2.14
+import solomon 2.2
+
+ApplicationWindow {
+	visible: true
+	width: 800
+	height: 500
+
+    SVideo {
+        objectName: "screen_01"  // declare objectName to be used in python
+    }
+    
+}
+```
+
+
+
+
 
 ### Play audio
 ```python
