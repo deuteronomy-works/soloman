@@ -173,7 +173,7 @@ class QVideo(QQuickItem):
                 t2 = time()
                 total = self._frame_no - prev
             prev = self._frame_no
-            # print(total, self._frame_no, self._total_elapsed_time, (self._total_elapsed_time/41.6))
+            print(total, self._frame_no, self._total_elapsed_time, (self._total_elapsed_time/41.6))
 
     @pyqtSlot(str)
     def play(self, fileName):
@@ -196,7 +196,7 @@ class QVideo(QQuickItem):
             self._same_session = True
 
         self.updater()
-        self.monitor()
+        # self.monitor() # not in debug mode
 
     @pyqtSlot(int)
     def seek(self, seconds):
@@ -243,7 +243,6 @@ class QVideo(QQuickItem):
         sleep_time = 1 / (self.fps)
         while not self._stopped:
             self._frame_no = round(self._total_elapsed_time / refresh_time)
-            # print('no: ', self._frame_no, self._total_elapsed_time)
             sleep(sleep_time)
 
     def setTime(self):
