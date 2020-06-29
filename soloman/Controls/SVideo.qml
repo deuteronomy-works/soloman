@@ -3,9 +3,9 @@ import soloman 2.2
 
 QVideo {
     id: vid
-    anchors.centerIn: parent
-    width: 600
-    height: 400
+
+    implicitWidth: 640
+    implicitHeight: 360
 
     onFrameUpdate: {
         framebox.source = vid.currentFrame
@@ -15,8 +15,9 @@ QVideo {
         anchors.centerIn: parent
         id: framebox
         asynchronous: false
-        sourceSize: Qt.size(vid.width, vid.height)
+        sourceSize: Qt.size(parent.width, parent.height)
         source: vid.currentFrame
+
 
     }
 

@@ -22,17 +22,20 @@ app = QGuiApplication(sys.argv)
 engine = QQmlApplicationEngine()
 engine.quit.connect(app.quit)
 
-engine.load(QUrl('tests/example.qml'))
+engine.load(QUrl('tests/exampl.qml'))
 
 
 
 
 sol = soloman.Video(engine)
-sol.get_QVideo('lover')
+sol.get_SVideo('lover')
+vid = soloman.Video(engine)
+vid.get_SVideo('love')
 
 # Capture
 source = "ex/vid.mp4"
 capture = cv2.VideoCapture(source)
+cap = cv2.VideoCapture(0)
 
 fgbg = cv2.createBackgroundSubtractorMOG2(50, 200, True)
 
@@ -50,6 +53,7 @@ def _ok():
     while True:
 
         ret, frame = capture.read()
+        re, fran = cap.read()
 
         frameCount += 1
 
@@ -62,8 +66,9 @@ def _ok():
         """cv2.imshow('frame', frame)
         if cv2.waitKey(20) & 0xFF == 27:
             break"""
-        sol.update(frame)
-        sleep(1/100)
+        sol.show_frame(frame)
+        vid.show_frame(fran)
+        sleep(1/24)
 
 ok()
 

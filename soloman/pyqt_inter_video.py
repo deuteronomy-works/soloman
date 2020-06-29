@@ -24,7 +24,7 @@ class QVideo(QQuickItem):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.convert_folder = self.fix_splashes(os.environ['TEMP']) + '/soloman/converts'
-        self.temp_folder = self.convert_folder + '/temp'
+        self.temp_folder = self.convert_folder + '/temp' + str(randrange(1, 1000000))
         os.makedirs(self.temp_folder)
         self._same_session = False
         # Video
@@ -268,6 +268,7 @@ class QVideo(QQuickItem):
             self._total_elapsed_time = micro
 
     def start_cv2(self):
+        sleep(1/randrange(10, 40))  # in case of multiple threaded instances
         if os.path.exists(self.convert_folder):
             fold_len = len(os.listdir(self.convert_folder)) + 1
         else:
