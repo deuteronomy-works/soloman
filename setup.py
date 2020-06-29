@@ -6,7 +6,7 @@ with open('README.md', 'r') as rm:
 
 setup(
     name='soloman',
-    version='2.2',
+    version='2.2.1',
     description='For the love of python and qml',
     long_description=long_desc,
     long_description_content_type='text/markdown',

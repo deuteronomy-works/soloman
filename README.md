@@ -1,6 +1,11 @@
 # soloman
 For the love of python and qml
 
+## Change Log
+* Bug fix for version 2.2
+
+
+
 ## Installation
     pip install soloman
 
