@@ -1,4 +1,4 @@
-# soloman
+# soloman    [![Downloads](https://pepy.tech/badge/soloman)](https://pepy.tech/project/soloman)
 For the love of python and qml
 
 ## Change Log
