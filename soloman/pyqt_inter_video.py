@@ -31,7 +31,7 @@ class QVideo(QQuickItem):
         self._source = ''
         self.folder = ""
         self._current_frame = ''
-        self._fps = 24
+        self._fps = 30
         self._frame_no = 0
         self._supported_vid_files = ['mp4']
         self._stills_content = []
@@ -81,7 +81,7 @@ class QVideo(QQuickItem):
             if not self._paused:
                 self._current_frame = 'file:///' + self.folder + '/' + self._stills_content[self._frame_no]
                 self.updateFrame('')
-                sleep(1/24)
+                sleep(1/self._fps) # sleep equivalent of FPS
             else:
                 sleep(1/10)
         # stop showing the last frame
@@ -180,7 +180,7 @@ class QVideo(QQuickItem):
         u_thread = threading.Thread(target = self._play, args=[fileName])
         u_thread.daemon = True
         u_thread.start()
-
+ 
     def _play(self, fileName):
         # play video
         if not self._same_session:
@@ -220,7 +220,7 @@ class QVideo(QQuickItem):
         u_thread = threading.Thread(target = self._stop)
         u_thread.daemon = True
         u_thread.start()
-    
+
     def _stop(self):
         self._stopped = True
 
@@ -239,8 +239,8 @@ class QVideo(QQuickItem):
         """
         # 24fps 41.6 micro
         # 10fps 100 micro
-        refresh_time = 1000 / 24
-        sleep_time = 1 / (self.fps)
+        refresh_time = 1000 / self._fps
+        sleep_time = 1 / (self._fps)
         while not self._stopped:
             self._frame_no = round(self._total_elapsed_time / refresh_time)
             sleep(sleep_time)
@@ -305,7 +305,7 @@ class QVideo(QQuickItem):
         self.updateFrame('')
 
     def cv2_updater(self):
-        # Avoid multiple playing instances
+        # Avoid multiple playing instances Not multiple objects though
         self._stopped = True
         self._frame_no = 0
         sleep(0.5)
@@ -341,7 +341,7 @@ class QVideo(QQuickItem):
             if not self._paused:
                 self._current_frame = 'file:///' + self.folder + '/' + str(self._frame_no) + ".jpg"
                 self.updateFrame('')
-                sleep(1/24)
+                sleep(1/self._fps)
             else:
                 sleep(1/10)
 
