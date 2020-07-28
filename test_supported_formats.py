@@ -7,7 +7,7 @@ from soloman import QVideo
 
 EXAMPLE_PATH = os.path.join(os.path.dirname(__file__), 'tests', 'videos')
 
-@pytest.mark.parametrize('fileName', [
+@pytest.mark.parametrize('file_name', [
     (str(os.path.join(EXAMPLE_PATH, 'countdown.mp4')))
     ])
 def test_supported_formats(file_name):
