@@ -33,7 +33,10 @@ class QVideo(QQuickItem):
         self._current_frame = ''
         self._fps = 30
         self._frame_no = 0
-        self._supported_vid_files = ['mp4']
+        self._supported_vid_files = [
+            'mp4', "asf", "avi", "flv",
+            "gif", "mov", "3gp", "3gpp",
+            "mkv", "webm"]
         self._stills_content = []
         self._stills_type = ""
         # controls
