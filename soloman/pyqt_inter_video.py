@@ -32,9 +32,9 @@ class QVideo(QQuickItem):
         self.folder = ""
         self._current_frame = ''
         if fps:
-            self._fps = fps
+            self.fps = fps
         else:
-            self._fps = 29.97
+            self.fps = 29.97
         self._frame_no = 0
         self._supported_vid_files = [
             'mp4', "asf", "avi", "flv",
@@ -87,7 +87,7 @@ class QVideo(QQuickItem):
             if not self._paused:
                 self._current_frame = 'file:///' + self.folder + '/' + self._stills_content[self._frame_no]
                 self.updateFrame('')
-                sleep(1/self._fps) # sleep equivalent of FPS
+                sleep(1/self.fps) # sleep equivalent of FPS
             else:
                 sleep(1/10)
         # stop showing the last frame
@@ -113,7 +113,7 @@ class QVideo(QQuickItem):
 
         ff = FFmpeg()
         out = self.folder + "vid_%03d.jpg"
-        ff.options("-i " + fileName + " -r " + str(self._fps) + " " + out) # use fps here
+        ff.options("-i " + fileName + " -r " + str(self.fps) + " " + out) # use fps here
 
     def fix_splashes(self, fileName):
         """
@@ -140,11 +140,11 @@ class QVideo(QQuickItem):
 
     @pyqtProperty('int')
     def fps(self):
-        return self._fps
+        return self.fps
 
     @fps.setter
     def fps(self, fps):
-        self._fps = fps
+        self.fps = fps
 
     @pyqtSlot()
     def pause(self):
@@ -172,7 +172,7 @@ class QVideo(QQuickItem):
     def _monitor(self):
         total = 0
         prev = 0
-        micro = round(1000 / self._fps, 2)
+        micro = round(1000 / self.fps, 2)
         for x in range(30):
             t1 = time()
             t2 = 0
@@ -218,7 +218,7 @@ class QVideo(QQuickItem):
         u_thread.start()
 
     def _seek(self, seconds):
-        self._frame_no = self._fps * seconds
+        self._frame_no = self.fps * seconds
 
     @pyqtProperty('QString')
     def source(self):
@@ -252,8 +252,8 @@ class QVideo(QQuickItem):
         """
         # 24fps 41.6 micro
         # 10fps 100 micro
-        refresh_time = 1000 / self._fps
-        sleep_time = 1 / (self._fps)
+        refresh_time = 1000 / self.fps
+        sleep_time = 1 / (self.fps)
         while not self._stopped:
             self._frame_no = round(self._total_elapsed_time / refresh_time)
             sleep(sleep_time)
@@ -354,7 +354,7 @@ class QVideo(QQuickItem):
             if not self._paused:
                 self._current_frame = 'file:///' + self.folder + '/' + str(self._frame_no) + ".jpg"
                 self.updateFrame('')
-                sleep(1/self._fps)
+                sleep(1/self.fps)
             else:
                 sleep(1/10)
 
