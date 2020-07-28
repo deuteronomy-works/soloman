@@ -31,7 +31,7 @@ class QVideo(QQuickItem):
         self._source = ''
         self.folder = ""
         self._current_frame = ''
-        self._fps = 30
+        self._fps = 29.97
         self._frame_no = 0
         self._supported_vid_files = [
             'mp4', "asf", "avi", "flv",
@@ -169,6 +169,7 @@ class QVideo(QQuickItem):
     def _monitor(self):
         total = 0
         prev = 0
+        micro = round(1000 / self._fps, 2)
         for x in range(30):
             t1 = time()
             t2 = 0
@@ -176,7 +177,13 @@ class QVideo(QQuickItem):
                 t2 = time()
                 total = self._frame_no - prev
             prev = self._frame_no
-            print(total, self._frame_no, self._total_elapsed_time, (self._total_elapsed_time/41.6))
+            print(
+                'Total: {}, Frame no: {}, Elapsed time: {}, Elapsed Time / {}: {}'.format(total,
+                self._frame_no,
+                self._total_elapsed_time,
+                micro,
+                (self._total_elapsed_time/micro))
+            )
 
     @pyqtSlot(str)
     def play(self, fileName):
@@ -199,7 +206,7 @@ class QVideo(QQuickItem):
             self._same_session = True
 
         self.updater()
-        # self.monitor() # not in debug mode
+        self.monitor() # not in debug mode
 
     @pyqtSlot(int)
     def seek(self, seconds):
