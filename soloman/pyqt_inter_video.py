@@ -139,11 +139,11 @@ class QVideo(QQuickItem):
             return False
 
     @pyqtProperty('int')
-    def fps(self):
+    def framesPerSecond(self):
         return self.fps
 
-    @fps.setter
-    def fps(self, fps):
+    @framesPerSecond.setter
+    def framesPerSecond(self, fps):
         self.fps = fps
 
     @pyqtSlot()
