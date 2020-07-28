@@ -110,7 +110,7 @@ class QVideo(QQuickItem):
 
         ff = FFmpeg()
         out = self.folder + "vid_%03d.jpg"
-        ff.options("-i " + fileName + " -r " + str(24) + " " + out) # use fps here
+        ff.options("-i " + fileName + " -r " + str(self._fps) + " " + out) # use fps here
 
     def fix_splashes(self, fileName):
         """
