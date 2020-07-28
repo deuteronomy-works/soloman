@@ -21,7 +21,7 @@ class QVideo(QQuickItem):
     """
 
 
-    def __init__(self, parent=None, fps=None):
+    def __init__(self, parent=None, frames_per=None):
         super().__init__(parent)
         self.convert_folder = self.fix_splashes(os.environ['TEMP']) + '/soloman/converts'
         self.temp_folder = self.convert_folder + '/temp' + str(randrange(1, 1000000))
@@ -31,8 +31,8 @@ class QVideo(QQuickItem):
         self._source = ''
         self.folder = ""
         self._current_frame = ''
-        if fps:
-            self.fps = fps
+        if frames_per:
+            self.fps = frames_per
         else:
             self.fps = 29.97
         self._frame_no = 0
