@@ -45,9 +45,6 @@ class Audio:
         self.ff = FFmpeg(self.save_folder)
         self.ff.overwrite = False
 
-    def __str__(self):
-        return 'soloman.Audio'
-
     def converter(self, file_path):
 
         """
@@ -178,6 +175,7 @@ class Audio:
         stop_thread.start()
         # implement a wait
         sleep(1)
+
 
     def _stop(self):
 

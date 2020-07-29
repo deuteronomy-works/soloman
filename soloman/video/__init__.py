@@ -15,9 +15,6 @@ class Video():
         self._root_object = self._engine.rootObjects()[0]
         self.QVideo = ()
 
-    def __str__(self):
-        return 'soloman.Video'
-
     def get_SVideo(self, obj_name):
         g_thread = threading.Thread(target=self._get_SVideo, args=[obj_name])
         g_thread.daemon=True
