@@ -209,7 +209,7 @@ class QVideo(QQuickItem):
             self._same_session = True
 
         self.updater()
-        self.monitor() # not in debug mode
+        # self.monitor() # not in debug mode
 
     @pyqtSlot(int)
     def seek(self, seconds):
