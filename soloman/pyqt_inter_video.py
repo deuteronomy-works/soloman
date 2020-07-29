@@ -21,7 +21,7 @@ class QVideo(QQuickItem):
     """
 
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, frames_per=None):
         super().__init__(parent)
         self.convert_folder = self.fix_splashes(os.environ['TEMP']) + '/soloman/converts'
         self.temp_folder = self.convert_folder + '/temp' + str(randrange(1, 1000000))
@@ -31,9 +31,15 @@ class QVideo(QQuickItem):
         self._source = ''
         self.folder = ""
         self._current_frame = ''
-        self._fps = 24
+        if frames_per:
+            self.fps = frames_per
+        else:
+            self.fps = 29.97
         self._frame_no = 0
-        self._supported_vid_files = ['mp4']
+        self._supported_vid_files = [
+            'mp4', "asf", "avi", "flv",
+            "gif", "mov", "3gp", "3gpp",
+            "mkv", "webm"]
         self._stills_content = []
         self._stills_type = ""
         # controls
@@ -81,7 +87,7 @@ class QVideo(QQuickItem):
             if not self._paused:
                 self._current_frame = 'file:///' + self.folder + '/' + self._stills_content[self._frame_no]
                 self.updateFrame('')
-                sleep(1/24)
+                sleep(1/self.fps) # sleep equivalent of FPS
             else:
                 sleep(1/10)
         # stop showing the last frame
@@ -107,7 +113,7 @@ class QVideo(QQuickItem):
 
         ff = FFmpeg()
         out = self.folder + "vid_%03d.jpg"
-        ff.options("-i " + fileName + " -r " + str(24) + " " + out) # use fps here
+        ff.options("-i " + fileName + " -r " + str(self.fps) + " " + out) # use fps here
 
     def fix_splashes(self, fileName):
         """
@@ -133,12 +139,12 @@ class QVideo(QQuickItem):
             return False
 
     @pyqtProperty('int')
-    def fps(self):
-        return self._fps
+    def framesPerSecond(self):
+        return self.fps
 
-    @fps.setter
-    def fps(self, fps):
-        self._fps = fps
+    @framesPerSecond.setter
+    def framesPerSecond(self, fps):
+        self.fps = fps
 
     @pyqtSlot()
     def pause(self):
@@ -166,6 +172,7 @@ class QVideo(QQuickItem):
     def _monitor(self):
         total = 0
         prev = 0
+        micro = round(1000 / self.fps, 2)
         for x in range(30):
             t1 = time()
             t2 = 0
@@ -173,14 +180,20 @@ class QVideo(QQuickItem):
                 t2 = time()
                 total = self._frame_no - prev
             prev = self._frame_no
-            print(total, self._frame_no, self._total_elapsed_time, (self._total_elapsed_time/41.6))
+            print(
+                'Total: {}, Frame no: {}, Elapsed time: {}, Elapsed Time / {}: {}'.format(total,
+                self._frame_no,
+                self._total_elapsed_time,
+                micro,
+                (self._total_elapsed_time/micro))
+            )
 
     @pyqtSlot(str)
     def play(self, fileName):
         u_thread = threading.Thread(target = self._play, args=[fileName])
         u_thread.daemon = True
         u_thread.start()
-
+ 
     def _play(self, fileName):
         # play video
         if not self._same_session:
@@ -196,7 +209,7 @@ class QVideo(QQuickItem):
             self._same_session = True
 
         self.updater()
-        # self.monitor() # not in debug mode
+        self.monitor() # not in debug mode
 
     @pyqtSlot(int)
     def seek(self, seconds):
@@ -205,7 +218,7 @@ class QVideo(QQuickItem):
         u_thread.start()
 
     def _seek(self, seconds):
-        self._frame_no = self._fps * seconds
+        self._frame_no = self.fps * seconds
 
     @pyqtProperty('QString')
     def source(self):
@@ -220,7 +233,7 @@ class QVideo(QQuickItem):
         u_thread = threading.Thread(target = self._stop)
         u_thread.daemon = True
         u_thread.start()
-    
+
     def _stop(self):
         self._stopped = True
 
@@ -239,7 +252,7 @@ class QVideo(QQuickItem):
         """
         # 24fps 41.6 micro
         # 10fps 100 micro
-        refresh_time = 1000 / 24
+        refresh_time = 1000 / self.fps
         sleep_time = 1 / (self.fps)
         while not self._stopped:
             self._frame_no = round(self._total_elapsed_time / refresh_time)
@@ -305,7 +318,7 @@ class QVideo(QQuickItem):
         self.updateFrame('')
 
     def cv2_updater(self):
-        # Avoid multiple playing instances
+        # Avoid multiple playing instances Not multiple objects though
         self._stopped = True
         self._frame_no = 0
         sleep(0.5)
@@ -341,7 +354,7 @@ class QVideo(QQuickItem):
             if not self._paused:
                 self._current_frame = 'file:///' + self.folder + '/' + str(self._frame_no) + ".jpg"
                 self.updateFrame('')
-                sleep(1/24)
+                sleep(1/self.fps)
             else:
                 sleep(1/10)
 
