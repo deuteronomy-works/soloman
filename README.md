@@ -5,7 +5,7 @@ For the love of python and qml
 ### version 2.2.2
 * Frames per second is universally used
 * Allow user to set Frames per second
-* More formats are now supported ("asf", "avi", "flv", "gif", "mov", "3gp", "3gpp", "mkv", "webm")
+* More formats has been added ("asf", "avi", "flv", "gif", "mov", "3gp", "3gpp", "mkv", "webm")
 
 
 
