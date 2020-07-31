@@ -2,10 +2,10 @@
 For the love of python and qml
 
 ## Change Log
-### version 2.2.2
-* Frames per second is universally used
-* Allow user to set Frames per second
-* More formats has been added ("asf", "avi", "flv", "gif", "mov", "3gp", "3gpp", "mkv", "webm")
+### version 2.3
+* Add helper functions for OpenCV users to handle frames per second rates.
+
+[refer to milestone](https://github.com/deuteronomy-works/soloman/milestone/10)
 
 
 
