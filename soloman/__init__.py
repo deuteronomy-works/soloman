@@ -13,10 +13,8 @@ from .audio import Audio
 from .video import Video
 from soloman.pyqt_inter_audio import QAudio
 from soloman.pyqt_inter_video import QVideo
+from soloman.fps_clocks import *
 
-def FPS_24():
-    sleep(1/40)
-    return True
 
 def register():
 
