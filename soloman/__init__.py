@@ -7,16 +7,14 @@ import os
 from time import sleep
 from PyQt5.QtQml import qmlRegisterType
 
-# import Audio here so people can import it without
-# going int the audio package to access it
+# import Audio and Video here so people can import it without
+# going into the audio and video packages to access them
 from .audio import Audio
 from .video import Video
 from soloman.pyqt_inter_audio import QAudio
 from soloman.pyqt_inter_video import QVideo
+from soloman.fps_clocks import *
 
-def FPS_24():
-    sleep(1/40)
-    return True
 
 def register():
 

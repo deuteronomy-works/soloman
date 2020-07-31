@@ -33,7 +33,7 @@ vid = soloman.Video(engine)
 vid.get_SVideo('love')
 
 # Capture
-source = "ex/vid.mp4"
+source = "ex/countdown640.mp4"
 capture = cv2.VideoCapture(source)
 cap = cv2.VideoCapture(0)
 
@@ -68,7 +68,7 @@ def _ok():
             break"""
         sol.show_frame(frame)
         vid.show_frame(fran)
-        sleep(1/24)
+        soloman.fps_30()
 
 ok()
 
