@@ -8,4 +8,5 @@ Rectangle {
     color: "dodgerblue"
     visible: index == parent.currentIndex
     objectName: "CustTabItem"
+
 }

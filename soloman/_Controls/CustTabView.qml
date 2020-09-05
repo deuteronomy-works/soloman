@@ -40,10 +40,8 @@ ApplicationWindow {
         id: basev
         anchors.fill: parent
 
-        signal addChild(url ur_l)
-
-        onAddChild: {
-            var mComp = Qt.createQmlObject('import QtQuick 2.10; Rectangle {property int index:' + basev.count +';anchors.fill: parent;color: "green";visible: index == parent.currentIndex;}', basev)
+        function addChild(ur_l) {
+            var mComp = Qt.createQmlObject('import QtQuick 2.10; Rectangle {property int index:' + basev.count +';anchors.fill: parent;color: "white";visible: index == parent.currentIndex;}', basev)
             basev.count += 1
             var comp = Qt.createComponent(ur_l)
             var obj = comp.createObject(mComp)
