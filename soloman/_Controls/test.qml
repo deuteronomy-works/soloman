@@ -21,7 +21,6 @@ ApplicationWindow {
 
             onClicked: {
                 sview.currentIndex = 1
-                sview.currentItem.color = "red"
             }
 
         }
@@ -42,7 +41,7 @@ ApplicationWindow {
 
         color: "green"
 
-        CustTabItem {}
+        STab { color: "brown"}
 
         Component.onCompleted: { console.log(this.addChild("TestComp.qml"))}
 
