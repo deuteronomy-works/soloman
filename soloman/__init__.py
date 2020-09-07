@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Mar 31 12:50:44 2020
+Created on Tue Mar 31 2020 12:50:44
 
 """
 import os
@@ -29,8 +29,8 @@ def register():
     if os.path.exists(path):
         os.system('RD "' + path + '" /S /Q')
 
-    qmlRegisterType(QAudio, 'soloman', 2, 2, 'SAudio')
-    qmlRegisterType(QVideo, 'soloman', 2, 2, 'QVideo')
+    qmlRegisterType(QAudio, 'soloman', 2, 4, 'SAudio')
+    qmlRegisterType(QVideo, 'soloman', 2, 4, 'QVideo')
 
 
 register()
