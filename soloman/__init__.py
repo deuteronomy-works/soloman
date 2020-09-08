@@ -18,12 +18,6 @@ from soloman.fps_clocks import *
 
 def register():
 
-    directory = __file__.replace('\\soloman\\__init__.py', '')
-    if 'QML2_IMPORT_PATH' in os.environ:
-        os.environ['QML2_IMPORT_PATH'] += ';' + directory
-    else:
-        os.environ['QML2_IMPORT_PATH'] = directory
-
     # Delete the contents of our Temp folder
     path = os.path.join(os.environ['TEMP'], 'soloman', 'converts')
     if os.path.exists(path):
