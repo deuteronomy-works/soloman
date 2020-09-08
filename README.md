@@ -1,9 +1,6 @@
 # soloman    [![Downloads](https://pepy.tech/badge/soloman)](https://pepy.tech/project/soloman)
 For the love of python and qml
 
-## Change Log
-### version 2.3
-* Add helper functions for OpenCV users to handle frames per second rates.
 
 [refer to milestone](https://github.com/deuteronomy-works/soloman/milestone/10)
 
@@ -15,6 +12,88 @@ For the love of python and qml
 
 
 ## Python Usage
+
+
+
+### Play audio
+```python
+from soloman import Audio
+
+
+aud = Audio()
+aud.play('/path/to/music.mp3')
+```
+
+## Qml Usage
+example.py
+```python
+import soloman
+...
+engine = QQmlApplicationEngine()
+...
+engine.load('example.qml')
+
+```
+
+### Play audio
+*example.qml*
+
+```qml
+import QtQuick 2.14
+...
+import soloman 2.4
+
+SAudio {
+    id: aud
+}
+
+Button {
+    text: "Play"
+    onClicked: aud.play('path/to/music.mp3')
+}
+
+```
+
+### Play videos
+*example.qml*
+
+#### Play a video file
+
+```qml
+import QtQuick 2.14
+...
+import soloman 2.4
+
+SVideo {
+    id: vid
+}
+
+Button {
+    text: "Play video"
+    onClicked: vid.play('path/to/video.mp4')
+}
+```
+
+### Play stills
+
+##### Option one
+
+```qml
+...
+    onClicked: vid.play('path/to/video_stills_01.jpg') # possibly the first image
+...
+```
+
+##### Option two
+
+```qml
+...
+    onClicked: vid.play('path/to/') # make sure folder contains only stills
+...
+```
+
+
+
 
 ### Show cv2 frame
 
@@ -76,7 +155,7 @@ example.qml
 ```qml
 import QtQuick 2.14
 import QtQuick.Controls 2.14
-import solomon 2.2
+import solomon 2.4
 
 ApplicationWindow {
 	visible: true
@@ -91,85 +170,6 @@ ApplicationWindow {
 ```
 
 
-
-
-
-### Play audio
-```python
-from soloman import Audio
-
-
-aud = Audio()
-aud.play('/path/to/music.mp3')
-```
-
-## Qml Usage
-example.py
-```python
-import soloman
-...
-engine = QQmlApplicationEngine()
-...
-engine.load('example.qml')
-
-```
-
-### Play audio
-*example.qml*
-
-```qml
-import QtQuick 2.14
-...
-import soloman 2.2
-
-SAudio {
-    id: aud
-}
-
-Button {
-    text: "Play"
-    onClicked: aud.play('path/to/music.mp3')
-}
-
-```
-
-### Play videos
-*example.qml*
-
-#### Play a video file
-
-```qml
-import QtQuick 2.14
-...
-import soloman 2.1
-
-SVideo {
-    id: vid
-}
-
-Button {
-    text: "Play video"
-    onClicked: vid.play('path/to/video.mp4')
-}
-```
-
-### Play stills
-
-##### Option one
-
-```qml
-...
-    onClicked: vid.play('path/to/video_stills_01.jpg') # possibly the first image
-...
-```
-
-##### Option two
-
-```qml
-...
-    onClicked: vid.play('path/to/') # make sure folder contains only stills
-...
-```
 
 
 
