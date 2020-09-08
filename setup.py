@@ -30,5 +30,6 @@ setup(
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
-    packages=find_packages(),
+    packages=['soloman', 'soloman.audio', 'soloman.video'],
+    package_data={'PyQt5': ['Qt/qml/soloman/qmldir', 'Qt/qml/soloman/*.qml']},
 )
