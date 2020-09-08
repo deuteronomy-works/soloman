@@ -6,7 +6,7 @@ with open('README.md', 'r') as rm:
 
 setup(
     name='soloman',
-    version='2.3',
+    version='2.4-dev',
     description='For the love of python and qml',
     long_description=long_desc,
     long_description_content_type='text/markdown',
@@ -30,6 +30,6 @@ setup(
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
-    packages=['soloman', 'soloman.audio', 'soloman.video'],
+    packages=['soloman', 'soloman.audio', 'soloman.video', 'PyQt5'],
     package_data={'PyQt5': ['Qt/qml/soloman/qmldir', 'Qt/qml/soloman/*.qml']},
 )
