@@ -6,7 +6,7 @@ with open('README.md', 'r') as rm:
 
 setup(
     name='soloman',
-    version='2.4-beta',
+    version='2.4.1',
     description='For the love of python and qml',
     long_description=long_desc,
     long_description_content_type='text/markdown',
@@ -23,7 +23,7 @@ setup(
     classifiers = [
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Environment :: Other Environment",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
