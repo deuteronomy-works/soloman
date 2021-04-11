@@ -59,6 +59,9 @@ class QVideo(QQuickItem):
         self._tile_enumeration = False
 
     frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
+    aspectRatioChanged = pyqtSignal(bool, arguments=['aspectRatio'])
+    tileChanged = pyqtSignal(int, arguments=['tileChange'])
+    tileEnumChanged = pyqtSignal(bool, arguments=['tileEnum'])
     destroyed = pyqtSignal()
 
     @pyqtSlot()
@@ -99,7 +102,7 @@ class QVideo(QQuickItem):
         self._current_frame = ''
         self.updateFrame('')
 
-    @pyqtProperty(bool)
+    @pyqtProperty(bool, notify=aspectRatioChanged)
     def aspectRatio(self):
         return self._aspect_ratio
 
@@ -107,7 +110,7 @@ class QVideo(QQuickItem):
     def aspectRatio(self, value):
         self._aspect_ratio = value
 
-    @pyqtProperty('QString')
+    @pyqtProperty('QString', notify=frameUpdate)
     def currentFrame(self):
         return self._current_frame
 
@@ -115,7 +118,7 @@ class QVideo(QQuickItem):
     def currentFrame(self, frame):
         self._current_frame = frame
 
-    @pyqtProperty(int)
+    @pyqtProperty(int, notify=tileChanged)
     def tile(self):
         return self._tile
 
@@ -125,7 +128,7 @@ class QVideo(QQuickItem):
         if self._tile > 2 and self._tile < 6:
             self._tile_enumeration = value
 
-    @pyqtProperty(int)
+    @pyqtProperty(int, notify=tileEnumChanged)
     def tileEnumeration(self):
         return self._tile_enumeration
 
