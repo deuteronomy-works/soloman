@@ -6,6 +6,7 @@ QVideo {
 
     implicitWidth: 640
     implicitHeight: 360
+    aspectRatio: true
 
     onFrameUpdate: {
         framebox.source = vid.currentFrame
@@ -15,9 +16,10 @@ QVideo {
         anchors.centerIn: parent
         id: framebox
         asynchronous: false
-        sourceSize: Qt.size(parent.width, parent.height)
+        sourceSize: Qt.size(vid.width, vid.height)
         source: vid.currentFrame
-
+        anchors.fill: vid
+        fillMode: aspectRatio ? Image.PreserveAspectFit : Image.Stretch
 
     }
 

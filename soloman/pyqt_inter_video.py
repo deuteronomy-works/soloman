@@ -30,7 +30,6 @@ class QVideo(QQuickItem):
         # Video
         self._source = ''
         self.folder = ""
-        self._current_frame = ''
         if frames_per:
             self.fps = frames_per
         else:
@@ -53,6 +52,9 @@ class QVideo(QQuickItem):
         self._cv2_frames_len = 0
         self._cv2_tmp_frames_len = 0
         self._cv2_session = False
+        # Qml property
+        self._current_frame = ''
+        self._aspect_ratio = True
 
     frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
     destroyed = pyqtSignal()
@@ -102,6 +104,14 @@ class QVideo(QQuickItem):
     @currentFrame.setter
     def currentFrame(self, frame):
         self._current_frame = frame
+
+    @pyqtProperty(bool)
+    def aspectRatio(self):
+        return self._aspect_ratio
+
+    @aspectRatio.setter
+    def aspectRatio(self, value):
+        self._aspect_ratio = value
 
     def convert_to_stills(self, fileName):
         """
