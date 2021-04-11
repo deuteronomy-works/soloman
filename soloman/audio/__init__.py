@@ -36,10 +36,10 @@ class Audio:
         self._seek_int = 0
         parent_folder = os.path.dirname(__file__)
         if saveFolder:
-            self.save_folder = os.path.realpath(saveFolder)
+            self.save_folder = saveFolder
         else:
-            self.save_folder = os.path.realpath(os.path.join(parent_folder,
-                                            'data', 'music', 'saves'))
+            self.save_folder = os.path.join(parent_folder,
+                                            'data', 'music', 'saves')
         if not os.path.exists(self.save_folder):
             os.makedirs(self.save_folder)
         self.ff = FFmpeg(self.save_folder)
