@@ -7,7 +7,7 @@ class Video():
 
 
     """
-    Provides interface between qml SVideo and QVideo to the User
+    Provides interface between qml SVideo and QVideo
     """
 
     def __init__(self, engine=None):
