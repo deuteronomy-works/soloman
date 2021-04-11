@@ -160,7 +160,7 @@ class QVideo(QQuickItem):
         u_thread = threading.Thread(target = self._resume)
         u_thread.daemon = True
         u_thread.start()
-    
+
     def _resume(self):
         self._paused = False
 
@@ -168,7 +168,7 @@ class QVideo(QQuickItem):
         u_thread = threading.Thread(target = self._monitor)
         u_thread.daemon = True
         u_thread.start()
-    
+
     def _monitor(self):
         total = 0
         prev = 0
@@ -365,7 +365,6 @@ class QVideo(QQuickItem):
         
         self._stopped = True  # stop all other processs; will cause no trouble
         self._cv2_session = False
-
 
     def updateFrame(self, frame):
         self.frameUpdate.emit(frame)
