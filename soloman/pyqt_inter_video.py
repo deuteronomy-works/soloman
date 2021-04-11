@@ -55,6 +55,8 @@ class QVideo(QQuickItem):
         # Qml property
         self._current_frame = ''
         self._aspect_ratio = True
+        self._tile = 0
+        self._tile_enumeration = False
 
     frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
     destroyed = pyqtSignal()
@@ -97,6 +99,14 @@ class QVideo(QQuickItem):
         self._current_frame = ''
         self.updateFrame('')
 
+    @pyqtProperty(bool)
+    def aspectRatio(self):
+        return self._aspect_ratio
+
+    @aspectRatio.setter
+    def aspectRatio(self, value):
+        self._aspect_ratio = value
+
     @pyqtProperty('QString')
     def currentFrame(self):
         return self._current_frame
@@ -105,13 +115,23 @@ class QVideo(QQuickItem):
     def currentFrame(self, frame):
         self._current_frame = frame
 
-    @pyqtProperty(bool)
-    def aspectRatio(self):
-        return self._aspect_ratio
+    @pyqtProperty(int)
+    def tile(self):
+        return self._tile
 
-    @aspectRatio.setter
-    def aspectRatio(self, value):
-        self._aspect_ratio = value
+    @tile.setter
+    def tile(self, value):
+        self._tile = value
+        if self._tile > 2 and self._tile < 6:
+            self._tile_enumeration = value
+
+    @pyqtProperty(int)
+    def tileEnumeration(self):
+        return self._tile_enumeration
+
+    @tileEnumeration.setter
+    def tileEnumeration(self, value):
+        pass
 
     def convert_to_stills(self, fileName):
         """

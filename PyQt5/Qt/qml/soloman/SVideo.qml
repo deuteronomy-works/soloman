@@ -6,7 +6,8 @@ QVideo {
 
     implicitWidth: 640
     implicitHeight: 360
-    aspectRatio: true
+    aspectRatio: false
+    tile: Image.Tile
 
     onFrameUpdate: {
         framebox.source = vid.currentFrame
@@ -19,7 +20,7 @@ QVideo {
         sourceSize: Qt.size(vid.width, vid.height)
         source: vid.currentFrame
         anchors.fill: vid
-        fillMode: aspectRatio ? Image.PreserveAspectFit : Image.Stretch
+        fillMode: vid.aspectRatio | vid.tile ? Image.PreserveAspectFit | vid.tileEnumeration : vid.aspectRatio ? Image.PreserveAspectFit : vid.tile ? tileEnumeration : Image.Stretch
 
     }
 
