@@ -4,7 +4,6 @@ Created on Fri Apr  3 21:33:24 2020
 
 @author: Ampofo
 """
-import os
 import threading
 from PyQt5.QtCore import pyqtProperty, QObject, pyqtSlot
 from .audio import Audio
@@ -30,11 +29,9 @@ class QAudio(QObject):
         self.aud.pause()
 
     def _play(self, filename):
-        filename = os.path.realpath(filename)
         self.aud.play(filename)
 
     def _prepare(self, filename):
-        filename = os.path.realpath(filename)
         self.aud.prepare(filename)
 
     def _resume(self):
@@ -85,7 +82,7 @@ class QAudio(QObject):
 
     @saveFolder.setter
     def saveFolder(self, folder_name):
-        self._save_folder = os.path.realpath(folder_name)
+        self._save_folder = folder_name
         self.aud.save_folder = self._save_folder
 
     @pyqtSlot(int)
