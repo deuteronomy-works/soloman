@@ -36,7 +36,7 @@ class Audio:
         self._seek_int = 0
         parent_folder = os.path.dirname(__file__)
         if saveFolder:
-            self.save_folder = os.path.realpath(saveFolder)
+            self.save_folder = saveFolder
         else:
             self.save_folder = os.path.realpath(
                 os.path.join(parent_folder,'data', 'music', 'saves'))

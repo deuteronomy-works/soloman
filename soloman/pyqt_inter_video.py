@@ -30,6 +30,7 @@ class QVideo(QQuickItem):
         # Video
         self._source = ''
         self.folder = ""
+        self._current_frame = ''
         if frames_per:
             self.fps = frames_per
         else:
@@ -52,16 +53,8 @@ class QVideo(QQuickItem):
         self._cv2_frames_len = 0
         self._cv2_tmp_frames_len = 0
         self._cv2_session = False
-        # Qml property
-        self._current_frame = ''
-        self._aspect_ratio = True
-        self._tile = 0
-        self._tile_enumeration = False
 
     frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
-    aspectRatioChanged = pyqtSignal(bool, arguments=['aspectRatio'])
-    tileChanged = pyqtSignal(int, arguments=['tileChange'])
-    tileEnumChanged = pyqtSignal(bool, arguments=['tileEnum'])
     destroyed = pyqtSignal()
 
     @pyqtSlot()
@@ -102,39 +95,13 @@ class QVideo(QQuickItem):
         self._current_frame = ''
         self.updateFrame('')
 
-    @pyqtProperty(bool, notify=aspectRatioChanged)
-    def aspectRatio(self):
-        return self._aspect_ratio
-
-    @aspectRatio.setter
-    def aspectRatio(self, value):
-        self._aspect_ratio = value
-
-    @pyqtProperty('QString', notify=frameUpdate)
+    @pyqtProperty('QString')
     def currentFrame(self):
         return self._current_frame
 
     @currentFrame.setter
     def currentFrame(self, frame):
         self._current_frame = frame
-
-    @pyqtProperty(int, notify=tileChanged)
-    def tile(self):
-        return self._tile
-
-    @tile.setter
-    def tile(self, value):
-        self._tile = value
-        if self._tile > 2 and self._tile < 6:
-            self._tile_enumeration = value
-
-    @pyqtProperty(int, notify=tileEnumChanged)
-    def tileEnumeration(self):
-        return self._tile_enumeration
-
-    @tileEnumeration.setter
-    def tileEnumeration(self, value):
-        pass
 
     def convert_to_stills(self, fileName):
         """
@@ -193,7 +160,7 @@ class QVideo(QQuickItem):
         u_thread = threading.Thread(target = self._resume)
         u_thread.daemon = True
         u_thread.start()
-
+    
     def _resume(self):
         self._paused = False
 
@@ -201,7 +168,7 @@ class QVideo(QQuickItem):
         u_thread = threading.Thread(target = self._monitor)
         u_thread.daemon = True
         u_thread.start()
-
+    
     def _monitor(self):
         total = 0
         prev = 0
@@ -398,6 +365,7 @@ class QVideo(QQuickItem):
         
         self._stopped = True  # stop all other processs; will cause no trouble
         self._cv2_session = False
+
 
     def updateFrame(self, frame):
         self.frameUpdate.emit(frame)
