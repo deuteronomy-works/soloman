@@ -18,4 +18,4 @@ def test_fps_availability(func):
     (soloman.fps_60, 1/120)])
 def test_fps_sleep_durations(func, duration):
     dura = timeit(func, number=1)
-    assert round(dura,4) <= duration
+    assert round(dura,4) <= round((duration + (duration/10)), 4)
