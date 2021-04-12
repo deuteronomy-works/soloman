@@ -2,3 +2,4 @@ numpy
 pyaudio
 PyQt5
 pyffmpeg
+opencv-python
