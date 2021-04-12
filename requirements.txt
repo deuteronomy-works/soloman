@@ -1,4 +1,4 @@
-#numpy
+numpy
 pyaudio
-#PyQt5
-#pyffmpeg
+PyQt5
+pyffmpeg
