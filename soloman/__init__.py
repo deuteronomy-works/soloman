@@ -5,6 +5,7 @@ Created on Tue Mar 31 2020 12:50:44
 """
 import os
 from time import sleep
+
 from PyQt5.QtQml import qmlRegisterType
 
 # import Audio and Video here so people can import it without
@@ -23,8 +24,8 @@ def register():
     if os.path.exists(path):
         os.system('RD "' + path + '" /S /Q')
 
-    qmlRegisterType(QAudio, 'soloman', 2, 4, 'SAudio')
-    qmlRegisterType(QVideo, 'soloman', 2, 4, 'QVideo')
+    qmlRegisterType(QAudio, 'soloman', 2, 5, 'SAudio')
+    qmlRegisterType(QVideo, 'soloman', 2, 5, 'QVideo')
 
 
 register()
