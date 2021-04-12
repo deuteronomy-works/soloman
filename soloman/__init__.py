@@ -23,8 +23,8 @@ def register():
     if os.path.exists(path):
         os.system('RD "' + path + '" /S /Q')
 
-    qmlRegisterType(QAudio, 'soloman', 2, 4, 'SAudio')
-    qmlRegisterType(QVideo, 'soloman', 2, 4, 'QVideo')
+    qmlRegisterType(QAudio, 'soloman', 2, 5, 'SAudio')
+    qmlRegisterType(QVideo, 'soloman', 2, 5, 'QVideo')
 
 
 register()
