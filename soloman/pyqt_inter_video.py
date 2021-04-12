@@ -8,10 +8,12 @@ import os
 import threading
 from random import randrange
 from time import sleep, time
+
 import cv2
 from PyQt5.QtCore import pyqtProperty, pyqtSlot, pyqtSignal
 from PyQt5.QtQuick import QQuickItem
 from pyffmpeg import FFmpeg
+
 from .pyqt_inter_audio import QAudio
 
 

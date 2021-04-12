@@ -6,7 +6,9 @@ Created on Fri Apr  3 21:33:24 2020
 """
 import os
 import threading
+
 from PyQt5.QtCore import pyqtProperty, QObject, pyqtSlot
+
 from .audio import Audio
 
 

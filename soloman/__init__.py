@@ -5,6 +5,7 @@ Created on Tue Mar 31 2020 12:50:44
 """
 import os
 from time import sleep
+
 from PyQt5.QtQml import qmlRegisterType
 
 # import Audio and Video here so people can import it without
