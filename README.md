@@ -2,7 +2,7 @@
 For the love of python and qml
 
 
-[refer to milestone](https://github.com/deuteronomy-works/soloman/milestone/10)
+[refer to milestone](https://github.com/deuteronomy-works/soloman/milestone/12)
 
 
 
@@ -39,9 +39,9 @@ engine.load('example.qml')
 *example.qml*
 
 ```qml
-import QtQuick 2.14
+import QtQuick 2.15
 ...
-import soloman 2.4
+import soloman 2.5
 
 SAudio {
     id: aud
@@ -60,9 +60,9 @@ Button {
 #### Play a video file
 
 ```qml
-import QtQuick 2.14
+import QtQuick 2.15
 ...
-import soloman 2.4
+import soloman 2.5
 
 SVideo {
     id: vid
@@ -153,9 +153,9 @@ sys.exit(0)
 example.qml
 
 ```qml
-import QtQuick 2.14
-import QtQuick.Controls 2.14
-import solomon 2.4
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import solomon 2.5
 
 ApplicationWindow {
 	visible: true
