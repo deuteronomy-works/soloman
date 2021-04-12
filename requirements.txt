@@ -1,0 +1,4 @@
+numpy
+pyaudio
+PyQt5
+pyffmpeg
