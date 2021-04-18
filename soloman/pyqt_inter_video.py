@@ -12,7 +12,7 @@ from time import sleep, time
 import cv2
 from PyQt5.QtCore import pyqtProperty, pyqtSlot, pyqtSignal
 from PyQt5.QtQuick import QQuickItem
-from pyffmpeg import FFmpeg
+from pyffmpeg import FFmpeg, FFprobe
 
 from .pyqt_inter_audio import QAudio
 
@@ -239,6 +239,11 @@ class QVideo(QQuickItem):
                 pass
             else:
                 # not stills
+                # set fps based on file
+                fps = FFprobe(filename).fps
+                if abs(fps - self.fps) > 1:
+                    self.fps = fps
+
                 self.convert_to_stills(filename)
 
             self._stills_content = os.listdir(self.folder)
