@@ -31,8 +31,21 @@ def auto_gui():
 
 def _auto_gui():
     print('dsdf')
+    sleep(3)
     s_width, s_height = pyautogui.size()
-    print(s_width, s_height, pyautogui)
+    x = (s_width - WIDTH) / 2
+    # This y calculation successfully
+    # takes us to the bottom of the title bar
+    y = (s_height - HEIGHT) / 2
+    x_mov = 78 + x # center of the button
+    y_mov = 20 + y # center of the button
+    pyautogui.moveTo(x_mov, y_mov)
+
+    # click the button
+    pyautogui.click()
+
+    print(pyautogui.position())
+    sleep(3)
 
 
 show_local()
