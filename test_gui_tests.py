@@ -45,10 +45,18 @@ def _auto_gui():
     pyautogui.click()
 
     print(pyautogui.position())
-    sleep(3)
+
+    # close out
+    x_end = x + WIDTH - 25
+    y_end = y - 20
+    pyautogui.moveTo(x_end, y_end)
+    sleep(6)
+    # close
+    pyautogui.click()
+    print('close')
 
 
 show_local()
 auto_gui()
 
-sleep(10)
+sleep(15)
