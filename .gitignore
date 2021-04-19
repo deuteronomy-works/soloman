@@ -64,5 +64,4 @@ compile_commands.json
 *.wav
 *.egg-info
 ex/
-example.qml
 test.py
