@@ -7,9 +7,9 @@ class Paths:
         self.temp = ''
 
         # call the functions
-        self.set_temp_folder()
+        self._set_temp_folder()
 
-    def set_temp_folder(self):
+    def _set_temp_folder(self):
         # OS Temp folder
         if sys.platform.startswith('linux'):
             self.temp = os.environ['XDG_RUNTIME_DIR']
