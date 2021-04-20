@@ -12,27 +12,40 @@ import pyautogui
 WIDTH = 800
 HEIGHT = 600
 
-
-def show_local():
-    s_thread = threading.Thread(target=_show_local)
-    s_thread.daemon = True
-    s_thread.start()
+class show:
 
 
-def _show_local():
-    # call local test
-    print(os.system('python local_t_est.py'))
+    def __init__(self):
+        self.subP = ()
+        self.info = ''
+        self.subP = subprocess.Popen(
+            'python local_t_est.py',
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=False)
+
+    def get_status(self):
+        s_thread = threading.Thread(target=self._get_status)
+        s_thread.daemon = True
+        s_thread.start()
+
+    def _get_status(self):
+
+        a = self.subP.stderr.readline()
+        self.info = str(a.strip(), 'utf-8')
 
 
 def auto_gui():
-    auto_thread = threading.Thread(target=_auto_gui)
-    auto_thread.daemon = True
-    auto_thread.start()
+    ss = show()
+    ss.get_status()
+    sleep(2)
+    # wait till UI is showing
+    while ss.info != 'qml: window loaded':
+        print('UI not ready. Sleeping for 1 second')
+        sleep(1)
 
-
-def _auto_gui():
-    print('dsdf')
-    sleep(3)
+    print('UI is ready')
+    # UI is ready lets contine
     s_width, s_height = pyautogui.size()
     x = (s_width - WIDTH) / 2
     # This y calculation successfully
@@ -42,18 +55,19 @@ def _auto_gui():
     y_mov = 20 + y # center of the button
     pyautogui.moveTo(x_mov, y_mov)
 
-    # click the button
+    # click the play button
     pyautogui.click()
 
-    print(pyautogui.position())
-
-
-    sleep(7)
     # Pixel Match
-    ux = int(250+x)
-    uy = int(250+y)
-    pixel_match = pyautogui.pixelMatchesColor(ux, uy, (0, 0, 0))
+    pixel_match = False
+    while not pixel_match:
+        print('Pixel not ready sleep 7 seconds and repeat')
+        sleep(7)
+        ux = int(250+x)
+        uy = int(250+y)
+        pixel_match = pyautogui.pixelMatchesColor(ux, uy, (0, 0, 0))
 
+    print('Pixel Matched successfully')
     # close out
     x_end = x + WIDTH - 25
     y_end = y - 20
@@ -61,12 +75,10 @@ def _auto_gui():
     sleep(5)
     # close
     pyautogui.click()
-    print('close')
+    print('closed')
 
     return pixel_match
 
 
-show_local()
 auto_gui()
-
-sleep(18)
+#sleep(18)
