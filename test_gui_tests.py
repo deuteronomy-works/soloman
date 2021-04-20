@@ -49,8 +49,10 @@ def _auto_gui():
 
 
     sleep(7)
-    # screenshot
-    pyautogui.screenshot('ss.png', region=(200 + x, 100 + y, 400, 400))
+    # Pixel Match
+    ux = int(250+x)
+    uy = int(250+y)
+    pixel_match = pyautogui.pixelMatchesColor(ux, uy, (0, 0, 0))
 
     # close out
     x_end = x + WIDTH - 25
@@ -60,6 +62,8 @@ def _auto_gui():
     # close
     pyautogui.click()
     print('close')
+
+    return pixel_match
 
 
 show_local()
