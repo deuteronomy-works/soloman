@@ -1,11 +1,11 @@
 """
 Created on 18th April, 2021
 """
-import os
 import subprocess
 import threading
 from time import sleep
 
+import pytest
 import pyautogui
 
 
@@ -35,7 +35,7 @@ class show:
         self.info = str(a.strip(), 'utf-8')
 
 
-def auto_gui():
+def test_auto_gui():
     ss = show()
     ss.get_status()
     sleep(2)
@@ -77,8 +77,5 @@ def auto_gui():
     pyautogui.click()
     print('closed')
 
-    return pixel_match
+    assert pixel_match == True
 
-
-auto_gui()
-#sleep(18)
