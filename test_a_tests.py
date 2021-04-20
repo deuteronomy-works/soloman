@@ -5,13 +5,16 @@ import pytest
 
 PREF_PATH = './tests'
 
+
 def test_tests_folder():
     exist = os.path.exists(PREF_PATH)
-    assert exist == True
+    assert exist
+
 
 def test_tests_videos_folder():
     exist = os.path.exists(PREF_PATH + '/videos')
-    assert exist == True
+    assert exist
+
 
 def test_tests_contents():
     conts = os.listdir(PREF_PATH + '/videos')
