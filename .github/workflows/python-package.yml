@@ -28,9 +28,7 @@ jobs:
         sudo apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0
         sudo apt-get install ffmpeg
         sudo -s
-        python -m pip install flake8 pytest pyautogui pillow
-        pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY
-        export DISPLAY=:0.0
+        python -m pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
