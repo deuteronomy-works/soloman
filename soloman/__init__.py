@@ -15,12 +15,14 @@ from .video import Video
 from soloman.pyqt_inter_audio import QAudio
 from soloman.pyqt_inter_video import QVideo
 from soloman.fps_clocks import *
+from soloman.misc import Paths
 
 
 def register():
 
     # Delete the contents of our Temp folder
-    path = os.path.join(os.environ['TEMP'], 'soloman', 'converts')
+    temp = Paths().temp
+    path = os.path.join(temp, 'soloman', 'converts')
     if os.path.exists(path):
         os.system('RD "' + path + '" /S /Q')
 
