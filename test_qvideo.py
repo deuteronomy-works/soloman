@@ -4,7 +4,7 @@ Test file for QVideo class
 import os
 
 from soloman import QVideo
-
+from soloman.misc import Paths
 
 def test_default_fps():
     """
@@ -21,7 +21,8 @@ def test_temp_folder():
     This test is to check if we have a new temp folder
     """
     QVideo()
-    expected_tmp = os.path.join(os.environ['TEMP'], 'soloman', 'converts')
+    temp_f = Paths().temp
+    expected_tmp = os.path.join(temp_f, 'soloman', 'converts')
     if os.path.exists(expected_tmp):
         if 'temp' in os.listdir(expected_tmp)[0]:
             assert True
