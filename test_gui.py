@@ -12,8 +12,8 @@ import pyautogui
 WIDTH = 800
 HEIGHT = 600
 
-class show:
 
+class show:
 
     def __init__(self):
         self.subP = ()
@@ -51,8 +51,8 @@ def test_auto_gui():
     # This y calculation successfully
     # takes us to the bottom of the title bar
     y = (s_height - HEIGHT) / 2
-    x_mov = 78 + x # center of the button
-    y_mov = 20 + y # center of the button
+    x_mov = 78 + x  # center of the button
+    y_mov = 20 + y  # center of the button
     pyautogui.moveTo(x_mov, y_mov)
 
     # click the play button
@@ -77,5 +77,4 @@ def test_auto_gui():
     pyautogui.click()
     print('closed')
 
-    assert pixel_match == True
-
+    assert pixel_match
