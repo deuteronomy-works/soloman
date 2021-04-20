@@ -48,7 +48,7 @@ def _auto_gui():
     print(pyautogui.position())
 
 
-    sleep(3)
+    sleep(7)
     # screenshot
     pyautogui.screenshot('ss.png', region=(200 + x, 100 + y, 400, 400))
 
@@ -56,7 +56,7 @@ def _auto_gui():
     x_end = x + WIDTH - 25
     y_end = y - 20
     pyautogui.moveTo(x_end, y_end)
-    sleep(6)
+    sleep(5)
     # close
     pyautogui.click()
     print('close')
