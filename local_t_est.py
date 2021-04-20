@@ -7,11 +7,8 @@ from PyQt5.QtQml import qmlRegisterType, QQmlComponent, QQmlApplicationEngine, Q
 
 import soloman
 
+
 app = QGuiApplication(sys.argv)
-
-
-# Create a QML engine.
-#register()
 
 engine = QQmlApplicationEngine()
 engine.quit.connect(app.quit)
