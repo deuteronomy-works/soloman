@@ -173,6 +173,7 @@ ApplicationWindow {
 
 
 
+
 ## Wiki
 
 The wiki can be located [here](https://github.com/deuteronomy-works/soloman/wiki)
