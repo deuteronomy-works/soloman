@@ -37,7 +37,7 @@ ApplicationWindow {
         Button {
             text: "play"
 
-            onClicked: vv.play("H:/GitHub/soloman/ex/countdown640.mp4")
+            onClicked: vv.play("H:/GitHub/soloman/ex/countdown4d.mp4")
         }
 
         Button {
