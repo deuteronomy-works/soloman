@@ -12,6 +12,7 @@ import pyautogui
 WIDTH = 800
 HEIGHT = 600
 
+
 def show_local():
     s_thread = threading.Thread(target=_show_local)
     s_thread.daemon = True
@@ -46,6 +47,11 @@ def _auto_gui():
 
     print(pyautogui.position())
 
+
+    sleep(3)
+    # screenshot
+    pyautogui.screenshot('ss.png', region=(200 + x, 100 + y, 400, 400))
+
     # close out
     x_end = x + WIDTH - 25
     y_end = y - 20
@@ -59,4 +65,4 @@ def _auto_gui():
 show_local()
 auto_gui()
 
-sleep(15)
+sleep(18)
