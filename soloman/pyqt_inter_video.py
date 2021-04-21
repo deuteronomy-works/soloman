@@ -254,6 +254,9 @@ class QVideo(QQuickItem):
         self.updater()
         # self.monitor() # not in debug mode
 
+    def get_current_frame(self):
+        return self._current_frame
+
     @pyqtSlot(int)
     def seek(self, seconds):
         u_thread = threading.Thread(target = self._seek, args=[seconds])
