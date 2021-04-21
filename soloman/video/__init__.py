@@ -4,6 +4,7 @@ from time import sleep
 from PyQt5.QtQml import QQmlApplicationEngine
 from PyQt5.QtQuick import QQuickItem
 
+
 class Video():
 
 
@@ -21,13 +22,14 @@ class Video():
 
     def get_SVideo(self, obj_name):
         g_thread = threading.Thread(target=self._get_SVideo, args=[obj_name])
-        g_thread.daemon=True
+        g_thread.daemon = True
         g_thread.start()
 
     def show_frame(self, frame):
-        g_thread = threading.Thread(target=self._show_frame, args=[frame])
-        g_thread.daemon=True
-        g_thread.start()
+        if frame is not None:
+            g_thread = threading.Thread(target=self._show_frame, args=[frame])
+            g_thread.daemon = True
+            g_thread.start()
 
     def _show_frame(self, frame):
         self.QVideo.show_cv2_frame(frame)
