@@ -4,7 +4,7 @@ Created on Tue Mar 31 2020 12:50:44
 
 """
 import os
-from time import sleep
+import shutil
 
 from PyQt5.QtQml import qmlRegisterType
 
@@ -24,7 +24,8 @@ def register():
     temp = Paths().temp
     path = os.path.join(temp, 'soloman', 'converts')
     if os.path.exists(path):
-        os.system('RD "' + path + '" /S /Q')
+        # os.system('RD "' + path + '" /S /Q') // windows code
+        shutil.rmtree(path)
 
     qmlRegisterType(QAudio, 'soloman', 2, 5, 'SAudio')
     qmlRegisterType(QVideo, 'soloman', 2, 5, 'QVideo')
