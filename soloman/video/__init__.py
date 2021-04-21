@@ -25,9 +25,10 @@ class Video():
         g_thread.start()
 
     def show_frame(self, frame):
-        g_thread = threading.Thread(target=self._show_frame, args=[frame])
-        g_thread.daemon=True
-        g_thread.start()
+        if frame is not None:
+            g_thread = threading.Thread(target=self._show_frame, args=[frame])
+            g_thread.daemon=True
+            g_thread.start()
 
     def _show_frame(self, frame):
         self.QVideo.show_cv2_frame(frame)
