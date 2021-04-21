@@ -57,7 +57,7 @@ def _ok():
 
         frameCount += 1
 
-        if not ret:
+        if not re:
             break
 
         #resized = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
