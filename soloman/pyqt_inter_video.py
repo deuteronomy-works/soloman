@@ -15,6 +15,7 @@ from PyQt5.QtQuick import QQuickItem
 from pyffmpeg import FFmpeg, FFprobe
 
 from .pyqt_inter_audio import QAudio
+from .misc import Paths
 
 
 class QVideo(QQuickItem):
@@ -25,7 +26,8 @@ class QVideo(QQuickItem):
 
     def __init__(self, parent=None, frames_per=None):
         super().__init__(parent)
-        self.convert_folder = self.fix_splashes(os.environ['TEMP']) + '/soloman/converts'
+        temp_f = Paths().temp
+        self.convert_folder = self.fix_splashes(temp_f) + '/soloman/converts'
         self.temp_folder = self.convert_folder + '/temp' + str(randrange(1, 1000000))
         os.makedirs(self.temp_folder)
         self._same_session = False

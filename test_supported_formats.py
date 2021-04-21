@@ -2,6 +2,7 @@
 Test for supported formats
 """
 import os
+import shutil
 import pytest
 from soloman import QVideo
 
@@ -22,6 +23,7 @@ def test_supported_formats(file_name):
     count = len(os.listdir(q_vid.folder))
 
     # Delete the contents before assert
-    os.system('RD "' + q_vid.folder + '" /S /Q')
+    # os.system('RD "' + q_vid.folder + '" /S /Q') // windows code
+    shutil.rmtree(q_vid.folder)
 
     assert count != 0
