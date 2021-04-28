@@ -107,7 +107,7 @@ class QVideo(QQuickItem):
 
             #t1 = time()
             if not self._paused:
-                self._current_frame = 'file:///' + self.folder + '/' + 'vid_'+ str(self._frame_no) +'.jpg'#self._stills_content[self._frame_no]
+                self._current_frame = f"file:///{self.folder}/vid_{str(self._frame_no)}.jpg"
                 self.updateFrame('')
                 print(self._frame_no)
                 print(self._stills_content[self._frame_no])
