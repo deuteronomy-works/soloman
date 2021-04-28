@@ -196,7 +196,7 @@ class QVideo(QQuickItem):
         self._stills_type = 'jpg'
 
         ff = FFmpeg()
-        out = self.folder + "vid_%03d.jpg"
+        out = self.folder + "vid_%01d.jpg"
         ff.options("-i " + fileName + " -r " + str(self.fps) + " " + out)
         # Signal and end to conversion
         sleep(0.1)
