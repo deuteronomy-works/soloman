@@ -45,9 +45,10 @@ class QVideo(QQuickItem):
             "gif", "mov", "3gp", "3gpp",
             "mkv", "webm"]
         self._stills_content = []
-        self._curr_stills_index = -1
+        self._curr_stills_index = 0
         self._stills_type = ""
         self._stills_converted = False
+        self.sync = True
         # controls
         self._stopped = False
         self._paused = False
@@ -84,6 +85,7 @@ class QVideo(QQuickItem):
 
     def _updater(self):
 
+        print('updater called')
         #conts = os.listdir(self.folder)
 
         # if user has called the stop or pause function
@@ -93,8 +95,10 @@ class QVideo(QQuickItem):
 
         # Make sure convertion has started
         if len(self._stills_content) < 1:
+            print('still not ready')
             sleep(1.5)
 
+        print('stills ready')
         self._start_time = time()  # set the universal start time
         self.setTime()
         self.setFrameNo()
@@ -105,10 +109,14 @@ class QVideo(QQuickItem):
             if not self._paused:
                 self._current_frame = 'file:///' + self.folder + '/' + self._stills_content[self._frame_no]
                 self.updateFrame('')
+                print(self._frame_no)
+                print(self._stills_content[self._frame_no])
                 sleep(1/self.fps) # sleep equivalent of FPS
             else:
                 sleep(1/10)
         # stop showing the last frame
+        print('stopped')
+        print(len(self._stills_content))
         self._stopped = True  # stop all other processs; will cause no trouble
         self._current_frame = ''
         self.updateFrame('')
@@ -148,27 +156,38 @@ class QVideo(QQuickItem):
         pass
 
     def append_stills_content(self):
-        a_thread = threading.Thread(target=self._append_stills_content)
-        a_thread.daemon = True
-        a_thread.start()
+        if self.sync:
+            a_thread = threading.Thread(target=self._append_stills_content)
+            a_thread.daemon = True
+            a_thread.start()
+        else:
+            self._append_stills_content()
 
     def _append_stills_content(self):
 
         # wait for the FFmpeg to start at least
+        print('append to stills')
         sleep(1)
-        while not self._stills_converted:
+        while self.sync and not self._stills_converted:
             listed = os.listdir(self.folder)
             self._stills_content.extend(listed[self._curr_stills_index:])
             self._curr_stills_index = len(listed) - 1
+            print('len: ', len(listed))
             sleep(0.1)
+        else:
+            self._stills_content = os.listdir(self.folder)
 
     def convert_to_stills(self, fileName):
-        c_thread = threading.Thread(target=self._convert_to_stills,
-         args=[fileName])
-        c_thread.daemon = True
-        c_thread.start()
+        if self.sync:
+            c_thread = threading.Thread(target=self._convert_to_stills,
+            args=[fileName])
+            c_thread.daemon = True
+            c_thread.start()
+        else:
+            self._convert_to_stills(fileName)
 
     def _convert_to_stills(self, fileName):
+        print('convert to stills')
         """
         convert the video files to stills
         """
@@ -273,6 +292,11 @@ class QVideo(QQuickItem):
                 # not stills
                 # set fps based on file
                 fps = FFprobe(filename).fps
+
+                # remove later
+                if not fps:
+                    fps = 24
+
                 if abs(fps - self.fps) > 1:
                     self.fps = fps
 
@@ -281,6 +305,7 @@ class QVideo(QQuickItem):
 
             self._same_session = True
 
+        print('calling updater')
         self.updater()
         # self.monitor() # allow this only in debug mode
 
