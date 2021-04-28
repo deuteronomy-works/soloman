@@ -45,7 +45,9 @@ class QVideo(QQuickItem):
             "gif", "mov", "3gp", "3gpp",
             "mkv", "webm"]
         self._stills_content = []
+        self._curr_stills_index = -1
         self._stills_type = ""
+        self._stills_converted = False
         # controls
         self._stopped = False
         self._paused = False
@@ -88,6 +90,10 @@ class QVideo(QQuickItem):
         # we will need to reset it in order to restart play
         self._stopped = False
         self._paused = False
+
+        # Make sure convertion has started
+        if len(self._stills_content) < 1:
+            sleep(1.5)
 
         self._start_time = time()  # set the universal start time
         self.setTime()
@@ -141,7 +147,28 @@ class QVideo(QQuickItem):
     def tileEnumeration(self, value):
         pass
 
+    def append_stills_content(self):
+        a_thread = threading.Thread(target=self._append_stills_content)
+        a_thread.daemon = True
+        a_thread.start()
+
+    def _append_stills_content(self):
+
+        # wait for the FFmpeg to start at least
+        sleep(1)
+        while not self._stills_converted:
+            listed = os.listdir(self.folder)
+            self._stills_content.extend(listed[self._curr_stills_index:])
+            self._curr_stills_index = len(listed) - 1
+            sleep(0.1)
+
     def convert_to_stills(self, fileName):
+        c_thread = threading.Thread(target=self._convert_to_stills,
+         args=[fileName])
+        c_thread.daemon = True
+        c_thread.start()
+
+    def _convert_to_stills(self, fileName):
         """
         convert the video files to stills
         """
@@ -152,6 +179,9 @@ class QVideo(QQuickItem):
         ff = FFmpeg()
         out = self.folder + "vid_%03d.jpg"
         ff.options("-i " + fileName + " -r " + str(self.fps) + " " + out)
+        # Signal and end to conversion
+        sleep(0.1)
+        self._stills_converted = True
 
     def fix_splashes(self, fileName):
         """
@@ -247,8 +277,8 @@ class QVideo(QQuickItem):
                     self.fps = fps
 
                 self.convert_to_stills(filename)
+                self.append_stills_content()
 
-            self._stills_content = os.listdir(self.folder)
             self._same_session = True
 
         self.updater()
