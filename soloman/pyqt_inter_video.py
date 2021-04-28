@@ -252,7 +252,7 @@ class QVideo(QQuickItem):
             self._same_session = True
 
         self.updater()
-        # self.monitor() # not in debug mode
+        # self.monitor() # allow this only in debug mode
 
     def get_current_frame(self):
         return self._current_frame
