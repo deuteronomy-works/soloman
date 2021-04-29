@@ -67,9 +67,9 @@ class QVideo(QQuickItem):
         self._tile = 0
         self._tile_enumeration = False
 
-    frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
     aspectRatioChanged = pyqtSignal(bool, arguments=['aspectRatio'])
     delayChanged = pyqtSignal(int, arguments=['delay'])
+    frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
     tileChanged = pyqtSignal(int, arguments=['tileChange'])
     tileEnumChanged = pyqtSignal(bool, arguments=['tileEnum'])
     destroyed = pyqtSignal()
