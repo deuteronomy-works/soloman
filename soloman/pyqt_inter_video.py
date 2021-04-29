@@ -63,11 +63,13 @@ class QVideo(QQuickItem):
         # Qml property
         self._aspect_ratio = True
         self._current_frame = ''
+        self._delay = 0.0
         self._tile = 0
         self._tile_enumeration = False
 
     frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
     aspectRatioChanged = pyqtSignal(bool, arguments=['aspectRatio'])
+    delayChanged = pyqtSignal(int, arguments=['delay'])
     tileChanged = pyqtSignal(int, arguments=['tileChange'])
     tileEnumChanged = pyqtSignal(bool, arguments=['tileEnum'])
     destroyed = pyqtSignal()
@@ -99,6 +101,11 @@ class QVideo(QQuickItem):
             sleep(1.5)
 
         print('stills ready')
+
+        # Delay
+        if self._delay:
+            sleep(self._delay)
+
         self._start_time = time()  # set the universal start time
         self.setTime()
         self.setFrameNo()
@@ -110,7 +117,6 @@ class QVideo(QQuickItem):
                 self._current_frame = f"file:///{self.folder}/vid_{str(self._frame_no)}.jpg"
                 self.updateFrame('')
                 print(self._frame_no)
-                print(self._stills_content[self._frame_no])
                 sleep(1/self.fps) # sleep equivalent of FPS
             else:
                 sleep(1/10)
@@ -136,6 +142,14 @@ class QVideo(QQuickItem):
     @currentFrame.setter
     def currentFrame(self, frame):
         self._current_frame = frame
+
+    @pyqtProperty(bool, notify=delayChanged)
+    def delay(self):
+        return self._delay
+
+    @delay.setter
+    def delay(self, value):
+        self._delay = value
 
     @pyqtProperty(int, notify=tileChanged)
     def tile(self):
