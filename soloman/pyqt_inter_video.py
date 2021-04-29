@@ -88,7 +88,6 @@ class QVideo(QQuickItem):
 
     def _updater(self):
 
-        print('updater called')
         #conts = os.listdir(self.folder)
 
         # if user has called the stop or pause function
@@ -101,14 +100,12 @@ class QVideo(QQuickItem):
 
         # Make sure convertion has started
         if len(self._stills_content) < 1:
-            print('still not ready')
             rem_delay = self._delay - 1.5
             sleep(1.5)
 
         if rem_delay < 0:
             rem_delay = self._delay
 
-        print('stills ready')
         # about to play
         self.aboutToPlay.emit(rem_delay)
 
@@ -131,9 +128,8 @@ class QVideo(QQuickItem):
                 sleep(1/self.fps) # sleep equivalent of FPS
             else:
                 sleep(1/10)
+
         # stop showing the last frame
-        print('stopped')
-        print(len(self._stills_content))
         self._stopped = True  # stop all other processs; will cause no trouble
         self._current_frame = ''
         self.updateFrame('')
@@ -191,13 +187,11 @@ class QVideo(QQuickItem):
     def _append_stills_content(self):
 
         # wait for the FFmpeg to start at least
-        print('append to stills')
         sleep(1)
         while self.sync and not self._stills_converted:
             listed = os.listdir(self.folder)
             self._stills_content.extend(listed[self._curr_stills_index:])
-            self._curr_stills_index = len(listed) - 1
-            print('len: ', len(listed))
+            self._curr_stills_index = len(listed) - 1)
             sleep(0.1)
         else:
             self._stills_content = os.listdir(self.folder)
@@ -212,7 +206,6 @@ class QVideo(QQuickItem):
             self._convert_to_stills(fileName)
 
     def _convert_to_stills(self, fileName):
-        print('convert to stills')
         """
         convert the video files to stills
         """
@@ -330,7 +323,6 @@ class QVideo(QQuickItem):
 
             self._same_session = True
 
-        print('calling updater')
         self.updater()
         # self.monitor() # allow this only in debug mode
 
