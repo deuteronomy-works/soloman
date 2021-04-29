@@ -67,6 +67,7 @@ class QVideo(QQuickItem):
         self._tile = 0
         self._tile_enumeration = False
 
+    aboutToPlay = pyqtSignal(float, arguments=['delayValue'])
     aspectRatioChanged = pyqtSignal(bool, arguments=['aspectRatio'])
     delayChanged = pyqtSignal(int, arguments=['delay'])
     frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
@@ -95,16 +96,26 @@ class QVideo(QQuickItem):
         self._stopped = False
         self._paused = False
 
+        # initialize remaining delay
+        rem_delay = 0
+
         # Make sure convertion has started
         if len(self._stills_content) < 1:
             print('still not ready')
+            rem_delay = self._delay - 1.5
             sleep(1.5)
 
+        if rem_delay < 0:
+            rem_delay = self._delay
+
         print('stills ready')
+        # about to play
+        self.aboutToPlay.emit(rem_delay)
 
         # Delay
         if self._delay:
-            sleep(self._delay)
+            # sleep remaining delay
+            sleep(rem_delay)
 
         self._start_time = time()  # set the universal start time
         self.setTime()
