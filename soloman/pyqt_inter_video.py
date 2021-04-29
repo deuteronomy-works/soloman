@@ -97,7 +97,7 @@ class QVideo(QQuickItem):
         self._paused = False
 
         # initialize remaining delay
-        rem_delay = 0
+        rem_delay = 0.0
 
         # Make sure convertion has started
         if len(self._stills_content) < 1:
