@@ -61,8 +61,8 @@ class QVideo(QQuickItem):
         self._cv2_tmp_frames_len = 0
         self._cv2_session = False
         # Qml property
-        self._current_frame = ''
         self._aspect_ratio = True
+        self._current_frame = ''
         self._tile = 0
         self._tile_enumeration = False
 
