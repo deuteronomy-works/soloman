@@ -121,8 +121,9 @@ class QVideo(QQuickItem):
         while not self._stopped and self._frame_no != len(self._stills_content):
 
             #t1 = time()
+            filename = f'vid_{str(self._frame_no+1)}.jpg'  # use still type here
             if not self._paused:
-                self._current_frame = f"file:///{self.folder}/vid_{str(self._frame_no)}.jpg"
+                self._current_frame = f"file:///{self.folder}/{filename}"
                 self.updateFrame('')
                 print(self._frame_no)
                 sleep(1/self.fps) # sleep equivalent of FPS
