@@ -46,6 +46,7 @@ class QVideo(QQuickItem):
             "mkv", "webm"]
         self._stills_content = []
         self._curr_stills_index = 0
+        self._stills_len = 10000000
         self._stills_type = ""
         self._stills_converted = False
         self.sync = True
@@ -118,7 +119,7 @@ class QVideo(QQuickItem):
         self.setTime()
         self.setFrameNo()
 
-        while not self._stopped and self._frame_no != len(self._stills_content):
+        while not self._stopped and self._frame_no != self._stills_len:
 
             #t1 = time()
             filename = f'vid_{str(self._frame_no+1)}.jpg'  # use still type here
@@ -220,6 +221,9 @@ class QVideo(QQuickItem):
         # Signal and end to conversion
         sleep(0.1)
         self._stills_converted = True
+        # send length of the stills
+        self._stills_len = len(os.listdir(self.folder))
+
 
     def fix_splashes(self, fileName):
         """
