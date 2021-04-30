@@ -191,7 +191,7 @@ class QVideo(QQuickItem):
         while self.sync and not self._stills_converted:
             listed = os.listdir(self.folder)
             self._stills_content.extend(listed[self._curr_stills_index:])
-            self._curr_stills_index = len(listed) - 1)
+            self._curr_stills_index = len(listed) - 1
             sleep(0.1)
         else:
             self._stills_content = os.listdir(self.folder)
