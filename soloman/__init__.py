@@ -27,8 +27,8 @@ def register():
         # os.system('RD "' + path + '" /S /Q') // windows code
         shutil.rmtree(path)
 
-    qmlRegisterType(QAudio, 'soloman', 2, 5, 'SAudio')
-    qmlRegisterType(QVideo, 'soloman', 2, 5, 'QVideo')
+    qmlRegisterType(QAudio, 'soloman', 3, 0, 'SAudio')
+    qmlRegisterType(QVideo, 'soloman', 3, 0, 'QVideo')
 
 
 register()
