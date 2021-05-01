@@ -129,6 +129,7 @@ class QVideo(QQuickItem):
                 print(self._frame_no)
                 sleep(1/self.fps) # sleep equivalent of FPS
             else:
+                print('paused')
                 sleep(1/10)
 
         # stop showing the last frame
@@ -377,7 +378,13 @@ class QVideo(QQuickItem):
         # 10fps 100 micro
         refresh_time = 1000 / self.fps
         sleep_time = 1 / (self.fps)
+
         while not self._stopped:
+
+            if self._paused:
+                sleep(0.1)
+                continue
+
             self._frame_no = round(self._total_elapsed_time / refresh_time)
             sleep(sleep_time)
 
@@ -391,9 +398,17 @@ class QVideo(QQuickItem):
         # set the time every 10 milliseconds
         # this will be used to know which frame is up
         t1 = self._start_time
+        tm = 0
         while not self._stopped:
             # *** very very important code; The speed at which
             # the time will be refreshed.
+            if self._paused:
+                # reset the time to pause the frame
+                ts = time() - t1 - tm
+                t1 += ts
+                sleep(0.1)
+                continue
+
             sleep(0.01)
             # ***
             t2 = time()
