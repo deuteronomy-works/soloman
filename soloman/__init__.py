@@ -22,10 +22,14 @@ def register():
 
     # Delete the contents of our Temp folder
     temp = Paths().temp
-    path = os.path.join(temp, 'soloman', 'converts')
+    path = os.path.join(temp, 'soloman', 'convert')
+    path2 = os.path.join(temp, 'soloman', 'converts')
     if os.path.exists(path):
         # os.system('RD "' + path + '" /S /Q') // windows code
         shutil.rmtree(path)
+    # I broke my path system. Keep backward compactibility
+    elif os.path.exists(path2):
+        shutil.rmtree(path2)
 
     qmlRegisterType(QAudio, 'soloman', 3, 0, 'SAudio')
     qmlRegisterType(QVideo, 'soloman', 3, 0, 'QVideo')

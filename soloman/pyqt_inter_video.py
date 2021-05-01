@@ -27,7 +27,7 @@ class QVideo(QQuickItem):
     def __init__(self, parent=None, frames_per=None):
         super().__init__(parent)
         temp_f = Paths().temp
-        self.convert_folder = self.fix_splashes(temp_f) + '/soloman/converts'
+        self.convert_folder = self.fix_splashes(temp_f) + '/soloman/convert'
         self.temp_folder = self.convert_folder + '/temp' + str(randrange(1, 1000000))
         os.makedirs(self.temp_folder)
         self._same_session = False
