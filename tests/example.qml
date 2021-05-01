@@ -1,7 +1,7 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
-import soloman 2.5
+import soloman 3.0
 //import soloman.Controls 1.0
 
 ApplicationWindow {

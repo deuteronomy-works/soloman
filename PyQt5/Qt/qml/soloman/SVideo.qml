@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import soloman 2.5
+import soloman 3.0
 
 QVideo {
     id: vid
