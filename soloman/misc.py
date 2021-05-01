@@ -16,3 +16,4 @@ class Paths:
             self.temp = os.environ['USERPROFILE']
         else:
             self.temp = os.environ['HOME']
+            os.system(f'chmod +rw {self.temp}')
