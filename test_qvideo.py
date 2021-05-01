@@ -22,7 +22,7 @@ def test_temp_folder():
     """
     QVideo()
     temp_f = Paths().temp
-    expected_tmp = os.path.join(temp_f, 'soloman', 'converts')
+    expected_tmp = os.path.join(temp_f, 'soloman', 'convert')
     if os.path.exists(expected_tmp):
         if 'temp' in os.listdir(expected_tmp)[0]:
             assert True
