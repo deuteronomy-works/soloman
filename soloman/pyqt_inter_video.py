@@ -126,10 +126,8 @@ class QVideo(QQuickItem):
             if not self._paused:
                 self._current_frame = f"file:///{self.folder}/{filename}"
                 self.updateFrame('')
-                print(self._frame_no)
                 sleep(1/self.fps) # sleep equivalent of FPS
             else:
-                print('paused')
                 sleep(1/10)
 
         # stop showing the last frame
