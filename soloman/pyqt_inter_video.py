@@ -122,7 +122,7 @@ class QVideo(QQuickItem):
         while not self._stopped and self._frame_no != self._stills_len:
 
             #t1 = time()
-            filename = f'vid_{str(self._frame_no+1)}.jpg'  # use still type here
+            filename = f'vid_{str(self._frame_no+1)}.jpg'  # use still type
             if not self._paused:
                 self._current_frame = f"file:///{self.folder}/{filename}"
                 self.updateFrame('')
@@ -199,8 +199,8 @@ class QVideo(QQuickItem):
 
     def convert_to_stills(self, fileName):
         if self.sync:
-            c_thread = threading.Thread(target=self._convert_to_stills,
-            args=[fileName])
+            c_thread = threading.Thread(
+                target=self._convert_to_stills, args=[fileName])
             c_thread.daemon = True
             c_thread.start()
         else:
