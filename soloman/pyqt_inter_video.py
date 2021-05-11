@@ -298,7 +298,29 @@ class QVideo(QQuickItem):
         self._paused = False
 
     def _seek(self, seconds):
-        self._frame_no = self.fps * seconds
+        frame_no = self.fps * seconds
+
+        # Calculate the time string
+        h_dec = seconds / 3600
+        hrs, m_dec = str(h_dec).split('.')
+        mins, s_dec = str(float(m_dec) * 60).split('.')
+        secs = int(s_dec) * 60
+
+        if int(hrs) < 10:
+            hrs_str = '0' + hrs
+
+        if int(mins) < 10:
+            mins_str = '0' + mins
+
+        if secs < 10:
+            secs_str = '0' + str(secs)
+
+        s_time = f"{hrs_str}:{mins_str}:{secs_str}"
+
+        self._convert_seeked(s_time, frame_no)
+
+        self._frame_no = frame_no
+
 
     def setFrameNo(self):
         # start the setTime thread
