@@ -117,9 +117,8 @@ class QVideo(QQuickItem):
         os.makedirs(self.folder)
         self._stills_type = 'jpg'
 
-        ff = FFmpeg()
         out = self.folder + "vid_%01d.jpg"
-        ff.options("-i " + fileName + " -r " + str(self.fps) + " " + out)
+        self._ffmpeg_inst.options("-i " + fileName + " -r " + str(self.fps) + " " + out)
         # Signal and end to conversion
         sleep(0.1)
         self._stills_converted = True
@@ -144,12 +143,11 @@ class QVideo(QQuickItem):
         if the video has a framerate of 24 fps
         """
 
-        ff = FFmpeg()
         out = self.folder + "vid_%01d.jpg"
         start_frame = str(start_frame)
         cmd = f"-i {self._curr_file} -ss {time}"
         cmd += " -vf fps={str(self.fps)} -start_number {start_frame} {out}"
-        ff.options(cmd)
+        self._ffmpeg_inst.options(cmd)
         # Signal and end to conversion
         sleep(0.1)
         self._stills_converted = True
