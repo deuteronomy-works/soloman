@@ -109,7 +109,8 @@ class QVideo(QQuickItem):
         """
         convert the video files to stills
         """
-        self.folder = self.convert_folder + "/" + str(randrange(1000, 4000)) + "/"
+        rand_str = str(randrange(1000, 4000))
+        self.folder = self.convert_folder + "/" + rand_str + "/"
         os.makedirs(self.folder)
         self._stills_type = 'jpg'
 
