@@ -124,10 +124,20 @@ class QVideo(QQuickItem):
         # send length of the stills
         self._stills_len = len(os.listdir(self.folder))
 
-    def _convert_seeked(self, time, start_frame):
+    def _convert_seeked(self, time: str, start_frame: int):
+
+        """
+        This function seeks to a point in time of the video
+        and then start converting from that time.
+        time -> means that time that it should seek to: hh:mm::ss.ms
+        start_frame -> means that frame number that corresponds with
+        the time for instance start_frame = 96 corresponds with 00:00:04
+        if the video has a framerate of 24 fps
+        """
 
         ff = FFmpeg()
         out = self.folder + "vid_%01d.jpg"
+        start_frame = str(start_frame)
         cmd = f"-i {self._curr_file} -ss {time}"
         cmd += " -vf fps={str(self.fps)} -start_number {start_frame} {out}"
         ff.options(cmd)
