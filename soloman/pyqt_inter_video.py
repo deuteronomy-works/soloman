@@ -33,6 +33,7 @@ class QVideo(QQuickItem):
         self._same_session = False
         # Video
         self._source = ''
+        self._curr_file = ""
         self.folder = ""
         self._current_frame = ''
         if frames_per:
@@ -117,6 +118,17 @@ class QVideo(QQuickItem):
         ff = FFmpeg()
         out = self.folder + "vid_%01d.jpg"
         ff.options("-i " + fileName + " -r " + str(self.fps) + " " + out)
+        # Signal and end to conversion
+        sleep(0.1)
+        self._stills_converted = True
+        # send length of the stills
+        self._stills_len = len(os.listdir(self.folder))
+
+    def _convert_seeked(self, time):
+
+        ff = FFmpeg()
+        out = self.folder + "vid_%01d.jpg"
+        ff.options("-i " + self._curr_file + " -r " + str(self.fps) + " " + out)
         # Signal and end to conversion
         sleep(0.1)
         self._stills_converted = True
@@ -244,6 +256,7 @@ class QVideo(QQuickItem):
 
     def _play(self, fileName):
         # play video
+        self._curr_file = fileName
         if not self._same_session:
             filename = self.fix_splashes(fileName)
             if self.is_stills(filename):
