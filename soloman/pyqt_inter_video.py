@@ -32,7 +32,7 @@ class QVideo(QQuickItem):
         os.makedirs(self.temp_folder)
         self._same_session = False
         # FFmpeg
-        self.ffmpeg_inst = FFmpeg()
+        self._ffmpeg_inst = FFmpeg()
         # Video
         self._source = ''
         self._curr_file = ""
