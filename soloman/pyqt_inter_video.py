@@ -124,11 +124,13 @@ class QVideo(QQuickItem):
         # send length of the stills
         self._stills_len = len(os.listdir(self.folder))
 
-    def _convert_seeked(self, time):
+    def _convert_seeked(self, time, start_frame):
 
         ff = FFmpeg()
         out = self.folder + "vid_%01d.jpg"
-        ff.options("-i " + self._curr_file + " -r " + str(self.fps) + " " + out)
+        cmd = f"-i {self._curr_file} -ss {time}"
+        cmd += " -vf fps={str(self.fps)} -start_number {start_frame} {out}"
+        ff.options(cmd)
         # Signal and end to conversion
         sleep(0.1)
         self._stills_converted = True
