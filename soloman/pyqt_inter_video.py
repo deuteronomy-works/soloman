@@ -31,6 +31,8 @@ class QVideo(QQuickItem):
         self.temp_folder = self.convert_folder + '/temp' + str(randrange(1, 1000000))
         os.makedirs(self.temp_folder)
         self._same_session = False
+        # FFmpeg
+        self.ffmpeg_inst = FFmpeg()
         # Video
         self._source = ''
         self._curr_file = ""
