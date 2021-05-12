@@ -319,12 +319,18 @@ class QVideo(QQuickItem):
 
         if int(hrs) < 10:
             hrs_str = '0' + hrs
+        else:
+            hrs_str = str(hrs)
 
         if int(mins) < 10:
             mins_str = '0' + mins
+        else:
+            mins_str = str(mins)
 
         if secs < 10:
             secs_str = '0' + str(int(secs))
+        else:
+            secs_str = str(secs)
 
         s_time = f"{hrs_str}:{mins_str}:{secs_str}"
 
