@@ -310,6 +310,7 @@ class QVideo(QQuickItem):
 
     def _seek(self, seconds):
         self._seeked = True
+        print(self._total_elapsed_time)
         print('\n\n')
         frame_no = self.fps * seconds
 
@@ -340,7 +341,8 @@ class QVideo(QQuickItem):
 
         self.convert_seeked(s_time, frame_no)
 
-        sleep(1)
+        sleep(3)
+        self._total_elapsed_time = seconds * 1000
         self._frame_no = frame_no
         print(frame_no)
 
