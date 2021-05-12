@@ -56,6 +56,7 @@ class QVideo(QQuickItem):
         # controls
         self._stopped = False
         self._paused = False
+        self._seeked = False
         #  Timer
         self._start_time = 0
         self._total_time = 0
@@ -307,6 +308,7 @@ class QVideo(QQuickItem):
         self._paused = False
 
     def _seek(self, seconds):
+        self._seeked = True
         frame_no = self.fps * seconds
 
         # Calculate the time string
