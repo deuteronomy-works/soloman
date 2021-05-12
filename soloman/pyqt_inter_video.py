@@ -336,7 +336,7 @@ class QVideo(QQuickItem):
 
         s_time = f"{hrs_str}:{mins_str}:{secs_str}"
 
-        self._convert_seeked(s_time, frame_no)
+        self.convert_seeked(s_time, frame_no)
 
         sleep(1)
         self._frame_no = frame_no
