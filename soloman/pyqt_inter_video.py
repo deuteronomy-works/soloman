@@ -393,6 +393,9 @@ class QVideo(QQuickItem):
                 t1 += ts
                 sleep(0.1)
                 continue
+            if self._seeked:
+                while self._total_elapsed_time != self._total_elapsed_time:
+                    t1 += self._total_elapsed_time
 
             sleep(0.01)
             # ***
