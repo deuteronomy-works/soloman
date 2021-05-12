@@ -312,8 +312,10 @@ class QVideo(QQuickItem):
         # Calculate the time string
         h_dec = seconds / 3600
         hrs, m_dec = str(h_dec).split('.')
+        m_dec = '.' + m_dec
         mins, s_dec = str(float(m_dec) * 60).split('.')
-        secs = int(s_dec) * 60
+        s_dec = '.' + s_dec
+        secs = float(s_dec) * 60
 
         if int(hrs) < 10:
             hrs_str = '0' + hrs
@@ -322,12 +324,13 @@ class QVideo(QQuickItem):
             mins_str = '0' + mins
 
         if secs < 10:
-            secs_str = '0' + str(secs)
+            secs_str = '0' + str(int(secs))
 
         s_time = f"{hrs_str}:{mins_str}:{secs_str}"
 
         self._convert_seeked(s_time, frame_no)
 
+        sleep(1)
         self._frame_no = frame_no
 
 
