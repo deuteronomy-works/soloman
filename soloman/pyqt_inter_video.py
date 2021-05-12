@@ -148,6 +148,7 @@ class QVideo(QQuickItem):
         start_frame = str(start_frame)
         cmd = f"-i {self._curr_file} -ss {time}"
         cmd += " -vf fps={str(self.fps)} -start_number {start_frame} {out}"
+        self._ffmpeg_inst.quit('option')
         self._ffmpeg_inst.options(cmd)
         # Signal and end to conversion
         sleep(0.1)
