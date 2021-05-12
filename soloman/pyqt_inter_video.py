@@ -151,6 +151,7 @@ class QVideo(QQuickItem):
         cmd += f" -vf fps={str(self.fps)} -start_number {start_frame} {out}"
         self._ffmpeg_inst.quit('options')
         self._ffmpeg_inst.options(cmd)
+        print('err: ', self._ffmpeg_inst.error)
         # Signal and end to conversion
         sleep(0.1)
         self._stills_converted = True
@@ -309,6 +310,7 @@ class QVideo(QQuickItem):
 
     def _seek(self, seconds):
         self._seeked = True
+        print('\n\n')
         frame_no = self.fps * seconds
 
         # Calculate the time string
@@ -340,7 +342,7 @@ class QVideo(QQuickItem):
 
         sleep(1)
         self._frame_no = frame_no
-
+        print(frame_no)
 
     def setFrameNo(self):
         # start the setTime thread
@@ -459,6 +461,7 @@ class QVideo(QQuickItem):
         while not self._stopped and self._frame_no != self._stills_len:
 
             #t1 = time()
+            print(self._total_elapsed_time, self._frame_no)
             filename = f'vid_{str(self._frame_no+1)}.jpg'  # use still type
             if not self._paused:
                 self._current_frame = f"file:///{self.folder}/{filename}"
