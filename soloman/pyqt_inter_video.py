@@ -371,7 +371,8 @@ class QVideo(QQuickItem):
                 sleep(0.1)
                 continue
 
-            self._frame_no = round(self._total_elapsed_time / refresh_time) + self._seek_secs
+            elap = self._total_elapsed_time / refresh_time
+            self._frame_no = round(elap)
             sleep(sleep_time)
 
     def setTime(self):
