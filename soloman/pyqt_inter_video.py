@@ -311,6 +311,7 @@ class QVideo(QQuickItem):
 
     def _seek(self, seconds):
         self._seeked = True
+
         frame_no = self.fps * seconds
 
         # Calculate the time string
@@ -386,24 +387,16 @@ class QVideo(QQuickItem):
         while not self._stopped:
             # *** very very important code; The speed at which
             # the time will be refreshed.
+
+            if self._seeked:
+                break
+
             if self._paused:
                 # reset the time to pause the frame
                 ts = time() - t1 - tm
                 t1 += ts
                 sleep(0.1)
                 continue
-            if self._seeked:
-                old = self._total_elapsed_time
-                while self._total_elapsed_time == old:
-                    sleep(0.1)
-                    print('hasnt changed')
-                
-                print('changed')
-                print('t1: ', t1)
-                t1 = self._start_time + self._total_elapsed_time
-                print(self._total_elapsed_time)
-                print(t1)
-                sleep(0.1)
 
             sleep(0.01)
             # ***
@@ -413,6 +406,7 @@ class QVideo(QQuickItem):
             micro = round(tm, 2) * 1000 # this convert to microseconds
             self._total_elapsed_time = micro
             print('elapsed: ', self._total_elapsed_time)
+        print('broken out')
 
     def show_cv2_frame(self, frame):
         c_thread = threading.Thread(target=self._show_cv2_frame, args=[frame])
