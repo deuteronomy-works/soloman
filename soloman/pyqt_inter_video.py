@@ -343,9 +343,11 @@ class QVideo(QQuickItem):
         self.convert_seeked(s_time, frame_no)
 
         sleep(3)
-        self._total_elapsed_time = seconds * 1000
-        self._frame_no = frame_no
+        #self._total_elapsed_time = seconds * 1000
         self._seeked = False
+        self._seek_frame = frame_no
+        self._start_time = time()
+        self.setTime()
 
     def setFrameNo(self):
         # start the setTime thread
