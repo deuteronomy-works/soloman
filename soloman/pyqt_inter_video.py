@@ -54,7 +54,7 @@ class QVideo(QQuickItem):
         self._stills_converted = False
         self.sync = True
         self._seeked = False
-        self._seek_secs = 0
+        self._seek_frame = 0
         # controls
         self._stopped = False
         self._paused = False
@@ -372,7 +372,7 @@ class QVideo(QQuickItem):
                 continue
 
             elap = self._total_elapsed_time / refresh_time
-            self._frame_no = round(elap)
+            self._frame_no = round(elap) + self._seek_frame
             sleep(sleep_time)
 
     def setTime(self):
