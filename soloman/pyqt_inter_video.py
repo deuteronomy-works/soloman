@@ -342,7 +342,13 @@ class QVideo(QQuickItem):
 
         self.convert_seeked(s_time, frame_no)
 
-        sleep(3)
+        fpsth = f'vid_{str(int(frame_no + self.fps))}.{self._stills_type}'
+        f_path = os.path.join(self.folder, fpsth)
+
+        while not os.path.exists(f_path):
+            sleep(1)
+            print('1')
+
         #self._total_elapsed_time = seconds * 1000
         self._seeked = False
         self._seek_frame = frame_no
