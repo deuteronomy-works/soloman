@@ -153,12 +153,14 @@ class QVideo(QQuickItem):
         cmd += f" -r {str(self.fps)} -start_number {start_frame} {out}"
         self._ffmpeg_inst.quit('options')
         self._ffmpeg_inst.options(cmd)
-        print('err: ', self._ffmpeg_inst.error)
         # Signal and end to conversion
         sleep(0.1)
         self._stills_converted = True
         # send length of the stills
-        self._stills_len = len(os.listdir(self.folder))
+        lists = os.listdir(self.folder)
+        lists.sort(key=lambda item: int(item.split('_')[1].split('.')[0]))
+        l_ind = lists[-1].split('vid_')[1].split('.')[0]
+        self._stills_len = l_ind
 
     def cv2_updater(self):
         # Avoid multiple playing instances Not multiple objects though
@@ -347,7 +349,6 @@ class QVideo(QQuickItem):
 
         while not os.path.exists(f_path):
             sleep(1)
-            print('1')
 
         #self._total_elapsed_time = seconds * 1000
         self._seeked = False
@@ -415,8 +416,6 @@ class QVideo(QQuickItem):
             #t1 = t2 # this is much accurate
             micro = round(tm, 2) * 1000 # this convert to microseconds
             self._total_elapsed_time = micro
-            print('elapsed: ', self._total_elapsed_time)
-        print('broken out')
 
     def show_cv2_frame(self, frame):
         c_thread = threading.Thread(target=self._show_cv2_frame, args=[frame])
@@ -479,7 +478,7 @@ class QVideo(QQuickItem):
         while not self._stopped and self._frame_no != self._stills_len:
 
             #t1 = time()
-            print(self._total_elapsed_time, self._frame_no)
+            print(self._stills_len, self._frame_no)
             filename = f'vid_{str(self._frame_no+1)}.jpg'  # use still type
             if not self._paused:
                 self._current_frame = f"file:///{self.folder}/{filename}"
