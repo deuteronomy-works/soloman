@@ -126,8 +126,6 @@ class QVideo(QQuickItem):
         if self._seeked:
             sleep(0.1)
             self._stills_converted = True
-            # send length of the stills
-            self._stills_len = len(os.listdir(self.folder))
 
     def convert_seeked(self, time: str, start_frame: int):
         c_thread = threading.Thread(
