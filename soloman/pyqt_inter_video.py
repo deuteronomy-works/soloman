@@ -158,7 +158,7 @@ class QVideo(QQuickItem):
         lists = os.listdir(self.folder)
         lists.sort(key=lambda item: int(item.split('_')[1].split('.')[0]))
         l_ind = lists[-1].split('vid_')[1].split('.')[0]
-        self._stills_len = l_ind
+        self._stills_len = int(l_ind)
 
     def cv2_updater(self):
         # Avoid multiple playing instances Not multiple objects though
@@ -476,7 +476,6 @@ class QVideo(QQuickItem):
         while not self._stopped and self._frame_no != self._stills_len:
 
             #t1 = time()
-            print(self._stills_len, self._frame_no)
             filename = f'vid_{str(self._frame_no+1)}.jpg'  # use still type
             if not self._paused:
                 self._current_frame = f"file:///{self.folder}/{filename}"
