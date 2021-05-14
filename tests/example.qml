@@ -37,7 +37,7 @@ ApplicationWindow {
         Button {
             text: "play"
 
-            onClicked: vv.play("./tests/videos/quantum.mp4")
+            onClicked: vv.play("./tests/videos/derby.mp4")
         }
 
         Button {
@@ -49,7 +49,7 @@ ApplicationWindow {
         Button {
             text: "seek"
 
-            onClicked: {vv.seek(12)}
+            onClicked: {vv.seek(4)}
         }
 
         Button {

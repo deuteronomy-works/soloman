@@ -313,7 +313,7 @@ class QVideo(QQuickItem):
     def _seek(self, seconds):
         self._seeked = True
 
-        frame_no = self.fps * seconds
+        frame_no = int(self.fps * seconds)
 
         # Calculate the time string
         h_dec = seconds / 3600
