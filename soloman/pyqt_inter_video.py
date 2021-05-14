@@ -150,7 +150,7 @@ class QVideo(QQuickItem):
 
         out = self.folder + "vid_%01d.jpg"
         start_frame = str(start_frame)
-        cmd = f"-i {self._curr_file} -ss {time}"
+        cmd = f"-ss {time} -i {self._curr_file}"
         cmd += f" -r {str(self.fps)} -start_number {start_frame} {out}"
         self._ffmpeg_inst.quit('options')
         self._ffmpeg_inst.options(cmd)
