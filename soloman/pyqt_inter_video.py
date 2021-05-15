@@ -154,6 +154,7 @@ class QVideo(QQuickItem):
         """
 
         out = self.folder + "vid_%01d.jpg"
+        print('time: ', time)
         start_frame = str(start_frame)
         cmd = f"-ss {time} -i {self._curr_file}"
         cmd += f" -r {str(self.fps)} -start_number {start_frame} {out}"
@@ -339,6 +340,8 @@ class QVideo(QQuickItem):
 
     def _seek_handler(self, seconds):
         # sleep to ensure we can reset
+        if self._seek_calls > 1:
+            return
         sleep(0.1)
         self._ffmpeg_inst.quit()
         sleep(0.2)
@@ -346,6 +349,7 @@ class QVideo(QQuickItem):
         self._seek_calls = 1
 
         frame_no = int(self.fps * seconds)
+        print('seconds: ', seconds)
 
         # Calculate the time string
         h_dec = seconds / 3600
@@ -380,6 +384,7 @@ class QVideo(QQuickItem):
         fpsth = f'vid_{str(int(frame_no + self.fps))}.{self._stills_type}'
         f_path = os.path.join(self.folder, fpsth)
 
+        sleep(0.5)  # just in case it was a reverse seek
         while not os.path.exists(f_path) and self._seek_calls < 2:
             sleep(1)
 
