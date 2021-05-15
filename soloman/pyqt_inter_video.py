@@ -55,6 +55,7 @@ class QVideo(QQuickItem):
         self.sync = True
         self._seeked = False
         self._seek_frame = 0
+        self._seek_calls = 0
         # controls
         self._stopped = False
         self._paused = False
@@ -135,6 +136,10 @@ class QVideo(QQuickItem):
             target=self._convert_seeked,
             args=[time, start_frame])
         c_thread.daemon = True
+
+        if self._seek_calls > 1:
+            return
+
         c_thread.start()
 
     def _convert_seeked(self, time: str, start_frame: int):
@@ -152,8 +157,14 @@ class QVideo(QQuickItem):
         start_frame = str(start_frame)
         cmd = f"-ss {time} -i {self._curr_file}"
         cmd += f" -r {str(self.fps)} -start_number {start_frame} {out}"
-        self._ffmpeg_inst.quit('options')
+        print(self._ffmpeg_inst._ffmpeg_instances)
+        sleep(0.1)
+        # self._ffmpeg_inst.quit()
         self._ffmpeg_inst.options(cmd)
+
+        if self._seek_calls > 1:
+            return
+
         # Signal and end to conversion
         sleep(0.1)
         self._stills_converted = True
@@ -314,7 +325,12 @@ class QVideo(QQuickItem):
         self._paused = False
 
     def _seek(self, seconds):
+        # sleep to ensure we can reset
+        sleep(0.1)
+        self._ffmpeg_inst.quit()
+        sleep(0.2)
         self._seeked = True
+        self._seek_calls = 1
 
         frame_no = int(self.fps * seconds)
 
@@ -343,15 +359,21 @@ class QVideo(QQuickItem):
 
         s_time = f"{hrs_str}:{mins_str}:{secs_str}"
 
+        if self._seek_calls > 1:
+            return
+
         self.convert_seeked(s_time, frame_no)
 
         fpsth = f'vid_{str(int(frame_no + self.fps))}.{self._stills_type}'
         f_path = os.path.join(self.folder, fpsth)
 
-        while not os.path.exists(f_path):
+        while not os.path.exists(f_path) and self._seek_calls < 2:
             sleep(1)
 
-        #self._total_elapsed_time = seconds * 1000
+        if self._seek_calls > 1:
+            return
+
+        # self._total_elapsed_time = seconds * 1000
         self._seeked = False
         self._seek_frame = frame_no
         self._start_time = time()
@@ -547,6 +569,7 @@ class QVideo(QQuickItem):
     def seek(self, seconds):
         u_thread = threading.Thread(target = self._seek, args=[seconds])
         u_thread.daemon = True
+        self._seek_calls += 1
         u_thread.start()
 
     @pyqtProperty('QString')
