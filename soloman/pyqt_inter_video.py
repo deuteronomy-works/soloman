@@ -324,6 +324,14 @@ class QVideo(QQuickItem):
         self.updater()
         # self.monitor() # allow this only in debug mode
 
+    def play_audio(self, filename: str):
+        a_thread = threading.Thread(target=self._play_audio, args=[filename])
+        a_thread.daemon = True
+        a_thread.start()
+
+    def _play_audio(self, filename: str):
+        pass
+
     def _resume(self):
         self._paused = False
 
