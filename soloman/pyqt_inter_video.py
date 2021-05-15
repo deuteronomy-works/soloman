@@ -307,7 +307,9 @@ class QVideo(QQuickItem):
             else:
                 # not stills
                 # set fps based on file
-                fps = FFprobe(filename).fps
+                probe = FFprobe(filename)
+                fps = probe.fps
+                self._duration = probe.duration
 
                 # remove later
                 if not fps:
