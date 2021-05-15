@@ -325,6 +325,11 @@ class QVideo(QQuickItem):
         self._paused = False
 
     def _seek(self, seconds):
+        pass
+
+        self._seek_handler(seconds)
+
+    def _seek_handler(self, seconds):
         # sleep to ensure we can reset
         sleep(0.1)
         self._ffmpeg_inst.quit()
