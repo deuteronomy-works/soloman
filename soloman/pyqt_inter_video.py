@@ -440,6 +440,7 @@ class QVideo(QQuickItem):
 
     def _stop(self):
         self._stopped = True
+        self._ffmpeg_inst.quit()
 
     def updateFrame(self, frame):
         self.frameUpdate.emit(frame)
