@@ -156,11 +156,9 @@ class QVideo(QQuickItem):
         """
 
         out = self.folder + "vid_%01d.jpg"
-        print('time: ', time)
         start_frame = str(start_frame)
         cmd = f"-ss {time} -i {self._curr_file}"
         cmd += f" -r {str(self.fps)} -start_number {start_frame} {out}"
-        print(self._ffmpeg_inst._ffmpeg_instances)
         sleep(0.1)
         # self._ffmpeg_inst.quit()
         self._ffmpeg_inst.options(cmd)
@@ -332,7 +330,6 @@ class QVideo(QQuickItem):
     def _seek(self, seconds):
         status = 'continue'
         t1 = time()
-        print('sc: ', self._seek_calls)
         while round(time() - t1, 2) * 1000 < 100:
             if self._seek_calls > 1:
                 status = ''
@@ -353,7 +350,6 @@ class QVideo(QQuickItem):
         self._seek_calls = 1
 
         frame_no = int(self.fps * seconds)
-        print('seconds: ', seconds)
 
         # Calculate the time string
         h_dec = seconds / 3600
