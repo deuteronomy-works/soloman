@@ -56,6 +56,8 @@ class QVideo(QQuickItem):
         self._seeked = False
         self._seek_frame = 0
         self._seek_calls = 0
+        # Audio
+        self._has_audio = False
         # controls
         self._stopped = False
         self._paused = False
