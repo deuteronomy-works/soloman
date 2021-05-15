@@ -67,7 +67,7 @@ ApplicationWindow {
             id: slid
             width: 800
             from: 1
-            to: 200
+            to: 100
 
             onMoved: {
                 vv.seek(slid.value)
