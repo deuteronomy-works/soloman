@@ -1,5 +1,5 @@
 # soloman    [![Downloads](https://pepy.tech/badge/soloman)](https://pepy.tech/project/soloman)
-For the love of python and qml
+For the love of Artificial Intelligence, Python and QML
 
 
 [refer to milestone](https://github.com/deuteronomy-works/soloman/milestone/12)
