@@ -71,12 +71,14 @@ class QVideo(QQuickItem):
         self._aspect_ratio = True
         self._current_frame = ''
         self._delay = 0.0
+        self._duration: str = ''
         self._tile = 0
         self._tile_enumeration = False
 
     aboutToPlay = pyqtSignal(float, arguments=['delayValue'])
     aspectRatioChanged = pyqtSignal(bool, arguments=['aspectRatio'])
     delayChanged = pyqtSignal(int, arguments=['delay'])
+    durationChanged = pyqtSignal(str, arguments=['duration'])
     frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
     tileChanged = pyqtSignal(int, arguments=['tileChange'])
     tileEnumChanged = pyqtSignal(bool, arguments=['tileEnum'])
@@ -557,6 +559,14 @@ class QVideo(QQuickItem):
     @delay.setter
     def delay(self, value):
         self._delay = value
+
+    @pyqtProperty(str, notify=durationChanged)
+    def duration(self):
+        return self._duration
+
+    @duration.setter
+    def duration(self, value):
+        self._duration = value
 
     @pyqtProperty('int')
     def framesPerSecond(self):
