@@ -47,12 +47,6 @@ ApplicationWindow {
         }
 
         Button {
-            text: "seek"
-
-            onClicked: {vv.seek(124)}
-        }
-
-        Button {
             text: "resume"
 
             onClicked: vv.resume()
@@ -67,6 +61,24 @@ ApplicationWindow {
     }
 
     Row {
+        anchors.bottom: btm.top
+
+        Slider {
+            id: slid
+            width: 800
+            from: 1
+            to: 200
+
+            onMoved: {
+                vv.seek(slid.value)
+                console.log(slid.value)
+            }
+        }
+
+    }
+
+    Row {
+        id: btm
         anchors.bottom: parent.bottom
         Text {
             text: "Audio"
