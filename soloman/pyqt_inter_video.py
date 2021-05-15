@@ -325,9 +325,17 @@ class QVideo(QQuickItem):
         self._paused = False
 
     def _seek(self, seconds):
-        pass
+        status = 'continue'
+        t1 = time()
+        print('sc: ', self._seek_calls)
+        while round(time() - t1, 2) * 1000 < 100:
+            if self._seek_calls > 1:
+                status = ''
+                self._seek_calls -= 1
+                break
 
-        self._seek_handler(seconds)
+        if status:
+            self._seek_handler(seconds)
 
     def _seek_handler(self, seconds):
         # sleep to ensure we can reset
@@ -380,6 +388,7 @@ class QVideo(QQuickItem):
 
         # self._total_elapsed_time = seconds * 1000
         self._seeked = False
+        self._seek_calls -= 1  # maybe should be zero
         self._seek_frame = frame_no
         self._start_time = time()
         self.setTime()
