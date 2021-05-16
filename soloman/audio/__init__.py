@@ -30,7 +30,7 @@ class Audio:
         self.overwrite = False
         self.app_running = True
         self._not_paused = True
-        self.playing = self._not_paused
+        self.playing = False
         self._not_stopped = False
         self.t_size = 0
         self.tt_played = 0
@@ -129,11 +129,12 @@ class Audio:
         self._not_stopped = True
         self._not_paused = True
 
+        
+        self.playing = True
         a = wf.readframes(1)
         while self.app_running and len(a) != 0:
 
             if self._not_stopped and self._not_paused:
-
                 stream.write(a)
                 #a = wf.readframes(self._play_bits)
 
@@ -148,6 +149,7 @@ class Audio:
 
             elif not self._not_stopped:
                 # stop
+                self.playing = False
                 break
                 
             else:

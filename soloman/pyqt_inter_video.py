@@ -350,6 +350,7 @@ class QVideo(QQuickItem):
         a_thread.start()
 
     def _play_audio_file(self, delay: float):
+        print('delay: ', delay)
         self._audio_inst.delay_play(delay)
 
     def _resume(self):
@@ -546,6 +547,12 @@ class QVideo(QQuickItem):
             # sleep remaining delay
             sleep(rem_delay)
 
+
+        if self._play_audio:
+            while not self._audio_inst.playing:
+                sleep(1/self.fps)
+
+        # print(self._audio_inst.playing, 'yep')
         self._start_time = time()  # set the universal start time
         self.setTime()
         self.setFrameNo()
