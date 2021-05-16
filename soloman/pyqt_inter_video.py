@@ -61,6 +61,7 @@ class QVideo(QQuickItem):
         self._audio_inst = Audio(saveFolder=self.temp_folder)
         self._has_audio = True
         self._play_audio = True
+        self._sync_audio = True
         # controls
         self._stopped = False
         self._paused = False
@@ -546,7 +547,6 @@ class QVideo(QQuickItem):
         if self._delay:
             # sleep remaining delay
             sleep(rem_delay)
-
 
         if self._play_audio:
             while not self._audio_inst.playing:
