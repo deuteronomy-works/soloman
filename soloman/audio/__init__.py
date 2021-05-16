@@ -129,8 +129,6 @@ class Audio:
         self._not_stopped = True
         self._not_paused = True
 
-        
-        self.playing = True
         a = wf.readframes(1)
         while self.app_running and len(a) != 0:
 
@@ -146,6 +144,7 @@ class Audio:
                 self.t_played()
                 a = [int(float(x) / self.volume_val) for x in a ]
                 a = struct.pack('h'*len(a), *a)
+                self.playing = True
 
             elif not self._not_stopped:
                 # stop

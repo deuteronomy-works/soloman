@@ -558,7 +558,7 @@ class QVideo(QQuickItem):
 
         if self._play_audio:
             while not self._audio_inst.playing:
-                sleep(1/self.fps)
+                sleep(0.1)
 
         # print(self._audio_inst.playing, 'yep')
         self._start_time = time()  # set the universal start time
