@@ -57,8 +57,9 @@ class QVideo(QQuickItem):
         self._seek_frame = 0
         self._seek_calls = 0
         # Audio
-        self._audio_inst = QAudio(saveFolder=self.temp_folder)
-        self._has_audio = False
+        self._audio_inst = QAudio()
+        self._audio_inst._save_folder = self.temp_folder
+        self._has_audio = True
         self._play_audio = True
         # controls
         self._stopped = False
@@ -338,7 +339,8 @@ class QVideo(QQuickItem):
 
     def _prepare_audio_file(self):
         fileName = self.fix_splashes(self._curr_file)
-        self._audio_inst.prepare(fileName)
+        self._audio_inst._prepare(fileName)
+        print(self._audio_inst.aud.file)
 
     def play_audio_file(self, delay: float):
         a_thread = threading.Thread(
@@ -348,7 +350,7 @@ class QVideo(QQuickItem):
         a_thread.start()
 
     def _play_audio_file(self, delay: float):
-        self._audio_inst.delay_play(delay)
+        self._audio_inst._delay_play(delay)
 
     def _resume(self):
         self._paused = False
