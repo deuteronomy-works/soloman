@@ -59,6 +59,7 @@ class QVideo(QQuickItem):
         # Audio
         self._audio_inst = QAudio(saveFolder=self.temp_folder)
         self._has_audio = False
+        self._play_audio = True
         # controls
         self._stopped = False
         self._paused = False
@@ -319,6 +320,8 @@ class QVideo(QQuickItem):
                 if abs(fps - self.fps) > 1:
                     self.fps = fps
 
+                if self._has_audio:
+                    self.prepare_audio_file()
                 self.convert_to_stills(filename)
                 self.append_stills_content()
 
@@ -327,12 +330,21 @@ class QVideo(QQuickItem):
         self.updater()
         # self.monitor() # allow this only in debug mode
 
-    def play_audio_file(self, filename: str):
-        a_thread = threading.Thread(target=self._play_audio, args=[filename])
+    def prepare_audio_file(self):
+        a_thread = threading.Thread(target=self._prepare_audio_file)
         a_thread.daemon = True
         a_thread.start()
 
-    def _play_audio_file(self, filename: str):
+    def _prepare_audio_file(self):
+        fileName = self.fix_splashes(self._curr_file)
+        self._audio_inst.prepare(fileName)
+
+    def play_audio_file(self):
+        a_thread = threading.Thread(target=self._play_audio_file)
+        a_thread.daemon = True
+        a_thread.start()
+
+    def _play_audio_file(self):
         fileName = self.fix_splashes(self._curr_file)
         self._audio_inst.prepare(filename)
 
@@ -520,6 +532,10 @@ class QVideo(QQuickItem):
 
         # about to play
         self.aboutToPlay.emit(rem_delay)
+
+        # Play audio
+        if self._play_audio:
+            self._audio_inst.delay_play(rem_delay)
 
         # Delay
         if self._delay:
