@@ -6,8 +6,8 @@ with open('README.md', 'r') as rm:
 
 setup(
     name='soloman',
-    version='3.0',
-    description='For the love of python and qml',
+    version='3.0.1',
+    description='For the love of Artificial Intelligence, Python and QML',
     long_description=long_desc,
     long_description_content_type='text/markdown',
     install_requires=['numpy', 'pyaudio', 'pyffmpeg'],
