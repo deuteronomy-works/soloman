@@ -532,6 +532,7 @@ class QVideo(QQuickItem):
         # we will need to reset it in order to restart play
         self._stopped = False
         self._paused = False
+        self._seek_frame = 0
 
         # initialize remaining delay
         rem_delay = 0.0
