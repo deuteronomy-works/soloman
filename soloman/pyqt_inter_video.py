@@ -322,6 +322,7 @@ class QVideo(QQuickItem):
 
                 if self._has_audio:
                     self.prepare_audio_file()
+
                 self.convert_to_stills(filename)
                 self.append_stills_content()
 
@@ -339,14 +340,15 @@ class QVideo(QQuickItem):
         fileName = self.fix_splashes(self._curr_file)
         self._audio_inst.prepare(fileName)
 
-    def play_audio_file(self):
-        a_thread = threading.Thread(target=self._play_audio_file)
+    def play_audio_file(self, delay: float):
+        a_thread = threading.Thread(
+            target=self._play_audio_file,
+            args=[delay])
         a_thread.daemon = True
         a_thread.start()
 
-    def _play_audio_file(self):
-        fileName = self.fix_splashes(self._curr_file)
-        self._audio_inst.prepare(filename)
+    def _play_audio_file(self, delay: float):
+        self._audio_inst.delay_play(delay)
 
     def _resume(self):
         self._paused = False
