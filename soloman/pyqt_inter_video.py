@@ -372,8 +372,6 @@ class QVideo(QQuickItem):
 
         if status:
             self._seek_handler(seconds)
-            if self._sync_audio:
-                self._audio_inst.seek(seconds)
 
     def _seek_handler(self, seconds):
         # sleep to ensure we can reset
@@ -433,6 +431,8 @@ class QVideo(QQuickItem):
         self._seek_frame = frame_no
         self._start_time = time()
         self.setTime()
+        if self._sync_audio:
+            self._audio_inst.seek(seconds)
 
     def setFrameNo(self):
         # start the setTime thread
