@@ -333,7 +333,11 @@ class Audio:
         #self.propertyEnd.emit(result)
 
     def seek(self, seconds):
+        s_thread = threading.Thread(target=self._seek, args=[seconds])
+        s_thread.daemon = True
+        s_thread.start()
 
+    def _seek(self, seconds):
         seek_int = self.frame_rate * seconds
         final_seek = int(seek_int)
         # to avoid overpass
