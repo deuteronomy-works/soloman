@@ -121,7 +121,9 @@ class QVideo(QQuickItem):
             if self._paused:
                 sleep(1)
             else:
-                pass
+                seconds = int(self._total_elapsed_time / 1000)
+                print(seconds)
+                self._audio_inst.seek(seconds)
             sleep(self.auto_sync_time)
 
     def convert_to_stills(self, fileName):
@@ -369,6 +371,7 @@ class QVideo(QQuickItem):
     def _play_audio_file(self, delay: float):
         print('delay: ', delay)
         self._audio_inst.delay_play(delay)
+        self.auto_sync_audio()
 
     def _resume(self):
         self._paused = False
