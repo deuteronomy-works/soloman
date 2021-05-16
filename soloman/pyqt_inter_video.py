@@ -299,6 +299,8 @@ class QVideo(QQuickItem):
 
     def _pause(self):
         self._paused = True
+        if self._sync_audio:
+            self._audio_inst._not_paused = False
 
     def _play(self, fileName):
         # play video
@@ -356,6 +358,8 @@ class QVideo(QQuickItem):
 
     def _resume(self):
         self._paused = False
+        if self._sync_audio:
+            self._audio_inst._not_paused = True
 
     def _seek(self, seconds):
         status = 'continue'
@@ -368,6 +372,8 @@ class QVideo(QQuickItem):
 
         if status:
             self._seek_handler(seconds)
+            if self._sync_audio:
+                self._audio_inst.seek(seconds)
 
     def _seek_handler(self, seconds):
         # sleep to ensure we can reset
@@ -511,6 +517,8 @@ class QVideo(QQuickItem):
 
     def _stop(self):
         self._stopped = True
+        if self._sync_audio:
+            self._audio_inst._not_stopped = False
         self._ffmpeg_inst.quit()
 
     def updateFrame(self, frame):
