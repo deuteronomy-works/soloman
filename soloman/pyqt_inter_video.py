@@ -537,7 +537,7 @@ class QVideo(QQuickItem):
 
         # Play audio
         if self._play_audio:
-            self._audio_inst.delay_play(rem_delay)
+            self.play_audio_file(rem_delay)
 
         # Delay
         if self._delay:
