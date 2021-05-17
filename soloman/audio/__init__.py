@@ -15,6 +15,9 @@ import pyaudio
 
 from pyffmpeg import FFmpeg
 
+from soloman.misc import Paths
+
+
 class Audio:
 
 
@@ -37,11 +40,12 @@ class Audio:
         self.volume_val = 1.4
         self._seek_int = 0
         parent_folder = os.path.dirname(__file__)
+        temp_folder = os.path.join(Paths().temp, 'soloman', 'audio')
         if saveFolder:
             self.save_folder = os.path.realpath(saveFolder)
         else:
             self.save_folder = os.path.realpath(
-                os.path.join(parent_folder,'data', 'music', 'saves'))
+                os.path.join(temp_folder,'data', 'music', 'saves'))
         if not os.path.exists(self.save_folder):
             os.makedirs(self.save_folder)
         self.ff = FFmpeg(self.save_folder)
