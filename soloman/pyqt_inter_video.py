@@ -106,6 +106,23 @@ class QVideo(QQuickItem):
         else:
             self._stills_content = os.listdir(self.folder)
 
+    def auto_sync_audio(self):
+        a_thread = threading.Thread(target=self._auto_sync_audio)
+        a_thread.daemon = True
+        a_thread.start()
+
+    def _auto_sync_audio(self):
+        while not self._stopped:
+            if self._paused:
+                sleep(1)
+            else:
+                seconds = int(self._total_elapsed_time / 1000)
+                print(seconds)
+                print(self._audio_inst.tt_played / 44100)
+                self._audio_inst.seek(seconds)
+                print(self._audio_inst.tt_played / 44100)
+            sleep(self.auto_sync_time)
+
     def convert_to_stills(self, fileName):
         if self.sync:
             c_thread = threading.Thread(
