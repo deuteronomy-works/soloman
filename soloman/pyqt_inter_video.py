@@ -15,6 +15,7 @@ from PyQt5.QtQuick import QQuickItem
 from pyffmpeg import FFmpeg, FFprobe
 
 from .pyqt_inter_audio import QAudio
+from .audio import Audio
 from .misc import Paths
 
 
@@ -57,7 +58,11 @@ class QVideo(QQuickItem):
         self._seek_frame = 0
         self._seek_calls = 0
         # Audio
-        self._has_audio = False
+        self._audio_inst = Audio(saveFolder=self.temp_folder)
+        self._has_audio = True
+        self._play_audio = True
+        self._sync_audio = True
+        self.auto_sync_time: int = 3
         # controls
         self._stopped = False
         self._paused = False
@@ -105,6 +110,21 @@ class QVideo(QQuickItem):
             sleep(0.1)
         else:
             self._stills_content = os.listdir(self.folder)
+
+    def auto_sync_audio(self):
+        a_thread = threading.Thread(target=self._auto_sync_audio)
+        a_thread.daemon = True
+        a_thread.start()
+
+    def _auto_sync_audio(self):
+        while not self._stopped:
+            if self._paused:
+                sleep(1)
+            else:
+                seconds = int(self._total_elapsed_time / 1000)
+                print(seconds)
+                self._audio_inst.seek(seconds)
+            sleep(self.auto_sync_time)
 
     def convert_to_stills(self, fileName):
         if self.sync:
@@ -295,6 +315,8 @@ class QVideo(QQuickItem):
 
     def _pause(self):
         self._paused = True
+        if self._sync_audio:
+            self._audio_inst._not_paused = False
 
     def _play(self, fileName):
         # play video
@@ -318,6 +340,9 @@ class QVideo(QQuickItem):
                 if abs(fps - self.fps) > 1:
                     self.fps = fps
 
+                if self._has_audio:
+                    self._prepare_audio_file()
+
                 self.convert_to_stills(filename)
                 self.append_stills_content()
 
@@ -326,16 +351,32 @@ class QVideo(QQuickItem):
         self.updater()
         # self.monitor() # allow this only in debug mode
 
-    def play_audio(self, filename: str):
-        a_thread = threading.Thread(target=self._play_audio, args=[filename])
+    def prepare_audio_file(self):
+        a_thread = threading.Thread(target=self._prepare_audio_file)
         a_thread.daemon = True
         a_thread.start()
 
-    def _play_audio(self, filename: str):
-        pass
+    def _prepare_audio_file(self):
+        fileName = self.fix_splashes(self._curr_file)
+        self._audio_inst.prepare(fileName)
+        print(self._audio_inst.file)
+
+    def play_audio_file(self, delay: float):
+        a_thread = threading.Thread(
+            target=self._play_audio_file,
+            args=[delay])
+        a_thread.daemon = True
+        a_thread.start()
+
+    def _play_audio_file(self, delay: float):
+        print('delay: ', delay)
+        self._audio_inst.delay_play(delay)
+        self.auto_sync_audio()
 
     def _resume(self):
         self._paused = False
+        if self._sync_audio:
+            self._audio_inst._not_paused = True
 
     def _seek(self, seconds):
         status = 'continue'
@@ -407,6 +448,8 @@ class QVideo(QQuickItem):
         self._seek_frame = frame_no
         self._start_time = time()
         self.setTime()
+        if self._sync_audio:
+            self._audio_inst.seek(seconds)
 
     def setFrameNo(self):
         # start the setTime thread
@@ -491,6 +534,8 @@ class QVideo(QQuickItem):
 
     def _stop(self):
         self._stopped = True
+        if self._sync_audio:
+            self._audio_inst._not_stopped = False
         self._ffmpeg_inst.quit()
 
     def updateFrame(self, frame):
@@ -504,6 +549,7 @@ class QVideo(QQuickItem):
         # we will need to reset it in order to restart play
         self._stopped = False
         self._paused = False
+        self._seek_frame = 0
 
         # initialize remaining delay
         rem_delay = 0.0
@@ -519,11 +565,20 @@ class QVideo(QQuickItem):
         # about to play
         self.aboutToPlay.emit(rem_delay)
 
+        # Play audio
+        if self._play_audio:
+            self.play_audio_file(rem_delay)
+
         # Delay
         if self._delay:
             # sleep remaining delay
             sleep(rem_delay)
 
+        if self._play_audio:
+            while not self._audio_inst.playing:
+                sleep(0.1)
+
+        # print(self._audio_inst.playing, 'yep')
         self._start_time = time()  # set the universal start time
         self.setTime()
         self.setFrameNo()

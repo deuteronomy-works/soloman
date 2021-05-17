@@ -86,7 +86,7 @@ ApplicationWindow {
         Button {
             text: "play"
 
-            onClicked: aud.play('H:/GitHub/soloman/ex/vid.wav')
+            onClicked: aud.play('H:/GitHub/pyffmpeg/_test/asem.mp3')
         }
 
         Button {
