@@ -33,7 +33,7 @@ class Audio:
         self.overwrite = False
         self.app_running = True
         self._not_paused = True
-        self.playing = self._not_paused
+        self.playing = False
         self._not_stopped = False
         self.t_size = 0
         self.tt_played = 0
@@ -137,7 +137,6 @@ class Audio:
         while self.app_running and len(a) != 0:
 
             if self._not_stopped and self._not_paused:
-
                 stream.write(a)
                 #a = wf.readframes(self._play_bits)
 
@@ -149,9 +148,11 @@ class Audio:
                 self.t_played()
                 a = [int(float(x) / self.volume_val) for x in a ]
                 a = struct.pack('h'*len(a), *a)
+                self.playing = True
 
             elif not self._not_stopped:
                 # stop
+                self.playing = False
                 break
                 
             else:
@@ -335,7 +336,11 @@ class Audio:
         #self.propertyEnd.emit(result)
 
     def seek(self, seconds):
+        s_thread = threading.Thread(target=self._seek, args=[seconds])
+        s_thread.daemon = True
+        s_thread.start()
 
+    def _seek(self, seconds):
         seek_int = self.frame_rate * seconds
         final_seek = int(seek_int)
         # to avoid overpass
