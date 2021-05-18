@@ -53,6 +53,7 @@ class QVideo(QQuickItem):
             'mp4', "asf", "avi", "flv",
             "gif", "mov", "3gp", "3gpp",
             "mkv", "webm"]
+        self._user_stills = False
         self._stills_content = []
         self._curr_stills_index = 0
         self._stills_len = 10000000
@@ -263,6 +264,7 @@ class QVideo(QQuickItem):
         ext = os.path.splitext(fileName)[1][1:]
         if ext not in self._supported_vid_files:
             # stills
+            self._user_stills = True
             try:
                 os.listdir(fileName)
                 self.folder = fileName
@@ -326,10 +328,14 @@ class QVideo(QQuickItem):
         # play video
         self._curr_file = fileName
         if not self._same_session:
+            self._user_stills = False
             filename = self.fix_splashes(fileName)
+
             if self.is_stills(filename):
-                # stills
-                pass
+
+                self.stills_updater()
+                return
+
             else:
                 # not stills
                 # set fps based on file
@@ -536,6 +542,61 @@ class QVideo(QQuickItem):
         self.folder = self.convert_folder + "/" + str(fold_len)
         os.makedirs(self.folder)
         self.cv2_updater()
+
+    def stills_updater(self):
+        # Avoid multiple playing instances
+        self._stopped = True
+        self._frame_no = 0
+        sleep(0.3)
+
+        u_thread = threading.Thread(target = self._stills_updater)
+        u_thread.daemon = True
+        u_thread.start()
+
+    def _stills_updater(self):
+
+        self._stopped = False
+        self._paused = False
+        self._seek_frame = 0
+
+        # initialize remaining delay
+        rem_delay = 0.0
+
+        # Make sure convertion has started
+        if len(self._stills_content) < 1:
+            return
+
+        if rem_delay < 0:
+            rem_delay = self._delay
+
+        # about to play
+        self.aboutToPlay.emit(rem_delay)
+
+        # Delay
+        if self._delay:
+            # sleep remaining delay
+            sleep(rem_delay)
+
+        # print(self._audio_inst.playing, 'yep')
+        self._start_time = time()  # set the universal start time
+        self.setTime()
+        self.setFrameNo()
+
+        while not self._stopped and self._frame_no != self._stills_len:
+
+            #t1 = time()
+            filename = self._stills_content[self._frame_no]  # use still type
+            if not self._paused:
+                self._current_frame = f"file:///{self.folder}/{filename}"
+                self.updateFrame('')
+                sleep(1/self.fps) # sleep equivalent of FPS
+            else:
+                sleep(1/10)
+
+        # stop showing the last frame
+        self._stopped = True  # stop all other processs; will cause no trouble
+        self._current_frame = ''
+        self.updateFrame('')
 
     def _stop(self):
         self._stopped = True
