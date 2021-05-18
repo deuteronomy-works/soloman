@@ -9,7 +9,12 @@ import threading
 from random import randrange
 from time import sleep, time
 
-import cv2
+# Just in case user won't need it
+try:
+    import cv2
+except:
+    pass
+
 from PyQt5.QtCore import pyqtProperty, pyqtSlot, pyqtSignal
 from PyQt5.QtQuick import QQuickItem
 from pyffmpeg import FFmpeg, FFprobe
