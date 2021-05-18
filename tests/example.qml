@@ -37,7 +37,7 @@ ApplicationWindow {
         Button {
             text: "play"
 
-            onClicked: vv.play("./tests/videos/quantum.mp4")
+            onClicked: vv.play("./ex/jpgs")
         }
 
         Button {
