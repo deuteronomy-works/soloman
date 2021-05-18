@@ -144,6 +144,7 @@ class Audio:
                 # Set seek position if set
                 if self._seek_int:
                     wf.setpos(self._seek_int)
+                    self._seek_int = 0
 
                 a = (np.fromstring(wf.readframes(self._play_bits), np.int16) )
                 self.t_played()
@@ -349,5 +350,5 @@ class Audio:
             final_seek = 1
         self._seek_int = final_seek
         # Reset seek so that we don't keep seeking.
-        sleep(0.1)
-        self._seek_int = 0
+        # sleep(0.1)
+        # self._seek_int = 0
