@@ -122,8 +122,7 @@ class QVideo(QQuickItem):
                 sleep(1)
             else:
                 seconds = int(self._total_elapsed_time / 1000)
-                print(seconds)
-                self._audio_inst.seek(seconds)
+                self._audio_inst.seek(seconds+0.7)
             sleep(self.auto_sync_time)
 
     def convert_to_stills(self, fileName):
@@ -449,6 +448,7 @@ class QVideo(QQuickItem):
         self._start_time = time()
         self.setTime()
         if self._sync_audio:
+            print('heres, ', seconds)
             self._audio_inst.seek(seconds)
 
     def setFrameNo(self):
