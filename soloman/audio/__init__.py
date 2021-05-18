@@ -137,6 +137,7 @@ class Audio:
         while self.app_running and len(a) != 0:
 
             if self._not_stopped and self._not_paused:
+
                 stream.write(a)
                 #a = wf.readframes(self._play_bits)
 
