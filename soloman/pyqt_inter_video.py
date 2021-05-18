@@ -116,6 +116,7 @@ class QVideo(QQuickItem):
             sleep(0.1)
         else:
             self._stills_content = os.listdir(self.folder)
+            self._stills_len = len(self._stills_content)
 
     def auto_sync_audio(self):
         a_thread = threading.Thread(target=self._auto_sync_audio)
@@ -332,7 +333,9 @@ class QVideo(QQuickItem):
             filename = self.fix_splashes(fileName)
 
             if self.is_stills(filename):
-
+                print('yep')
+                self._stills_converted = True
+                self._append_stills_content()  # call without a thread
                 self.stills_updater()
                 return
 
@@ -563,6 +566,7 @@ class QVideo(QQuickItem):
         rem_delay = 0.0
 
         # Make sure convertion has started
+        print(len(self._stills_content))
         if len(self._stills_content) < 1:
             return
 
