@@ -333,7 +333,6 @@ class QVideo(QQuickItem):
             filename = self.fix_splashes(fileName)
 
             if self.is_stills(filename):
-                print('yep')
                 self._stills_converted = True
                 self._append_stills_content()  # call without a thread
                 self.stills_updater()
@@ -565,8 +564,7 @@ class QVideo(QQuickItem):
         # initialize remaining delay
         rem_delay = 0.0
 
-        # Make sure convertion has started
-        print(len(self._stills_content))
+        # Make sure convertion is done
         if len(self._stills_content) < 1:
             return
 
