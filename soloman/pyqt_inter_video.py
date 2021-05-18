@@ -566,7 +566,7 @@ class QVideo(QQuickItem):
         self.aboutToPlay.emit(rem_delay)
 
         # Play audio
-        if self._play_audio:
+        if self._play_audio and self._has_audio:
             self.play_audio_file(rem_delay)
 
         # Delay
@@ -574,9 +574,10 @@ class QVideo(QQuickItem):
             # sleep remaining delay
             sleep(rem_delay)
 
-        if self._play_audio:
+        if self._play_audio and self._has_audio:
             while not self._audio_inst.playing:
                 sleep(0.1)
+            sleep(0.5)
 
         # print(self._audio_inst.playing, 'yep')
         self._start_time = time()  # set the universal start time
