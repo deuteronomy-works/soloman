@@ -10,7 +10,7 @@ setup(
     description='For the love of Artificial Intelligence, Python and QML',
     long_description=long_desc,
     long_description_content_type='text/markdown',
-    install_requires=['numpy', 'pyaudio', 'pyffmpeg'],
+    install_requires=['numpy', 'pyffmpeg'],
     keywords="audio, pyaudio, ffmpeg, qml, pyffmpeg",
     url='https://github.com/deuteronomy-works/soloman',
     author='Amoh - Gyebi Godwin Ampofo Michael',

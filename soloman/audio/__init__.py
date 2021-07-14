@@ -11,7 +11,10 @@ import wave
 import struct
 
 import numpy as np
-import pyaudio
+try:
+    import pyaudio
+except:
+    pass
 
 from pyffmpeg import FFmpeg
 
