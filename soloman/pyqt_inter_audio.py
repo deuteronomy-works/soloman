@@ -7,7 +7,7 @@ Created on Fri Apr  3 21:33:24 2020
 import os
 import threading
 
-from PyQt5.QtCore import pyqtProperty, QObject, pyqtSlot
+from qtpy.QtCore import Property, QObject, Slot
 
 from .audio import Audio
 
@@ -51,37 +51,37 @@ class QAudio(QObject):
     def _t_played(self):
         self.aud.t_played()
 
-    @pyqtSlot(int)
+    @Slot(int)
     def delay_play(self, u_delay):
         delay_thread = threading.Thread(target=self._delay_play, args=[u_delay])
         delay_thread.daemon = True
         delay_thread.start()
 
-    @pyqtSlot()
+    @Slot()
     def pause(self):
         pause_thread = threading.Thread(target=self._pause)
         pause_thread.daemon = True
         pause_thread.start()
 
-    @pyqtSlot(str)
+    @Slot(str)
     def play(self, filename):
         play_thread = threading.Thread(target=self._play, args=[filename])
         play_thread.daemon = True
         play_thread.start()
 
-    @pyqtSlot(str)
+    @Slot(str)
     def prepare(self, filename):
         prepare_thread = threading.Thread(target=self._prepare, args=[filename])
         prepare_thread.daemon = True
         prepare_thread.start()
 
-    @pyqtSlot()
+    @Slot()
     def resume(self):
         resume_thread = threading.Thread(target=self._resume)
         resume_thread.daemon = True
         resume_thread.start()
 
-    @pyqtProperty('QString')
+    @Property('QString')
     def saveFolder(self):
         return self._save_folder
 
@@ -90,25 +90,25 @@ class QAudio(QObject):
         self._save_folder = os.path.realpath(folder_name)
         self.aud.save_folder = self._save_folder
 
-    @pyqtSlot(int)
+    @Slot(int)
     def seek(self, seconds):
         seek_thread = threading.Thread(target=self._seek, args=[seconds])
         seek_thread.daemon = True
         seek_thread.start()
 
-    @pyqtSlot()
+    @Slot()
     def stop(self):
         stop_thread = threading.Thread(target=self._stop)
         stop_thread.daemon = True
         stop_thread.start()
 
-    @pyqtSlot()
+    @Slot()
     def t_played(self):
         t_thread = threading.Thread(target=self._t_played)
         t_thread.daemon = True
         t_thread.start()
 
-    @pyqtProperty(int)
+    @Property(int)
     def volume(self):
         return self._volume_level
 

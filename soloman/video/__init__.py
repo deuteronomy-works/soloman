@@ -1,8 +1,7 @@
 import threading
 from time import sleep
 
-from PyQt5.QtQml import QQmlApplicationEngine
-from PyQt5.QtQuick import QQuickItem
+from qtpy.QtQuick import QQuickItem
 
 
 class Video():

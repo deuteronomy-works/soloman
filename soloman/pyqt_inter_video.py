@@ -15,8 +15,8 @@ try:
 except:
     pass
 
-from PyQt5.QtCore import pyqtProperty, pyqtSlot, pyqtSignal
-from PyQt5.QtQuick import QQuickItem
+from qtpy.QtCore import Property, Slot, Signal
+from qtpy.QtQuick import QQuickItem
 from pyffmpeg import FFmpeg, FFprobe
 
 from .pyqt_inter_audio import QAudio
@@ -88,14 +88,14 @@ class QVideo(QQuickItem):
         self._tile = 0
         self._tile_enumeration = False
 
-    aboutToPlay = pyqtSignal(float, arguments=['delayValue'])
-    aspectRatioChanged = pyqtSignal(bool, arguments=['aspectRatio'])
-    delayChanged = pyqtSignal(int, arguments=['delay'])
-    durationChanged = pyqtSignal(str, arguments=['duration'])
-    frameUpdate = pyqtSignal(str, arguments=['updateFrame'])
-    tileChanged = pyqtSignal(int, arguments=['tileChange'])
-    tileEnumChanged = pyqtSignal(bool, arguments=['tileEnum'])
-    destroyed = pyqtSignal()
+    aboutToPlay = Signal(float, arguments=['delayValue'])
+    aspectRatioChanged = Signal(bool, arguments=['aspectRatio'])
+    delayChanged = Signal(int, arguments=['delay'])
+    durationChanged = Signal(str, arguments=['duration'])
+    frameUpdate = Signal(str, arguments=['updateFrame'])
+    tileChanged = Signal(int, arguments=['tileChange'])
+    tileEnumChanged = Signal(bool, arguments=['tileEnum'])
+    destroyed = Signal()
 
     def append_stills_content(self):
         if self.sync:
@@ -668,7 +668,7 @@ class QVideo(QQuickItem):
         self._current_frame = ''
         self.updateFrame('')
 
-    @pyqtProperty(bool, notify=aspectRatioChanged)
+    @Property(bool, notify=aspectRatioChanged)
     def aspectRatio(self):
         return self._aspect_ratio
 
@@ -676,7 +676,7 @@ class QVideo(QQuickItem):
     def aspectRatio(self, value):
         self._aspect_ratio = value
 
-    @pyqtProperty('QString', notify=frameUpdate)
+    @Property('QString', notify=frameUpdate)
     def currentFrame(self):
         return self._current_frame
 
@@ -684,7 +684,7 @@ class QVideo(QQuickItem):
     def currentFrame(self, frame):
         self._current_frame = frame
 
-    @pyqtProperty(bool, notify=delayChanged)
+    @Property(bool, notify=delayChanged)
     def delay(self):
         return self._delay
 
@@ -692,7 +692,7 @@ class QVideo(QQuickItem):
     def delay(self, value):
         self._delay = value
 
-    @pyqtProperty(str, notify=durationChanged)
+    @Property(str, notify=durationChanged)
     def duration(self):
         return self._duration
 
@@ -700,7 +700,7 @@ class QVideo(QQuickItem):
     def duration(self, value):
         self._duration = value
 
-    @pyqtProperty('int')
+    @Property('int')
     def framesPerSecond(self):
         return self.fps
 
@@ -708,32 +708,32 @@ class QVideo(QQuickItem):
     def framesPerSecond(self, fps):
         self.fps = fps
 
-    @pyqtSlot()
+    @Slot()
     def pause(self):
         u_thread = threading.Thread(target = self._pause)
         u_thread.daemon = True
         u_thread.start()
 
-    @pyqtSlot(str)
+    @Slot(str)
     def play(self, fileName):
         u_thread = threading.Thread(target = self._play, args=[fileName])
         u_thread.daemon = True
         u_thread.start()
 
-    @pyqtSlot()
+    @Slot()
     def resume(self):
         u_thread = threading.Thread(target = self._resume)
         u_thread.daemon = True
         u_thread.start()
 
-    @pyqtSlot(int)
+    @Slot(int)
     def seek(self, seconds):
         u_thread = threading.Thread(target = self._seek, args=[seconds])
         u_thread.daemon = True
         self._seek_calls += 1
         u_thread.start()
 
-    @pyqtProperty('QString')
+    @Property('QString')
     def source(self):
         return self._source
 
@@ -741,13 +741,13 @@ class QVideo(QQuickItem):
     def source(self, source):
         self._source = source
 
-    @pyqtSlot()
+    @Slot()
     def stop(self):
         u_thread = threading.Thread(target = self._stop)
         u_thread.daemon = True
         u_thread.start()
 
-    @pyqtProperty(int, notify=tileChanged)
+    @Property(int, notify=tileChanged)
     def tile(self):
         return self._tile
 
@@ -757,7 +757,7 @@ class QVideo(QQuickItem):
         if self._tile > 2 and self._tile < 6:
             self._tile_enumeration = value
 
-    @pyqtProperty(int, notify=tileEnumChanged)
+    @Property(int, notify=tileEnumChanged)
     def tileEnumeration(self):
         return self._tile_enumeration
 
@@ -765,7 +765,7 @@ class QVideo(QQuickItem):
     def tileEnumeration(self, value):
         pass
 
-    @pyqtSlot()
+    @Slot()
     def updater(self):
         # Avoid multiple playing instances
         self._stopped = True

@@ -6,7 +6,7 @@ Created on Tue Mar 31 2020 12:50:44
 import os
 import shutil
 
-from PyQt5.QtQml import qmlRegisterType
+from qtpy.QtQml import qmlRegisterType
 
 # import Audio and Video here so people can import it without
 # going into the audio and video packages to access them
