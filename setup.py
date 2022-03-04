@@ -35,7 +35,7 @@ setup(
         'PyQt5', 'PyQt6', 'PySide2', 'PySide6'
         ],
     package_data={
-        'PyQt5': ['Qt/qml/soloman/qmldir', 'Qt/qml/soloman/*.qml'],
+        'PyQt5': ['Qt5/qml/soloman/qmldir', 'Qt5/qml/soloman/*.qml'],
         'PyQt6': ['Qt6/qml/soloman/qmldir', 'Qt6/qml/soloman/*.qml'],
         'PySide2': ['qml/soloman/qmldir', 'qml/soloman/*.qml'],
         'PySide6': ['qml/soloman/qmldir', 'qml/soloman/*.qml']
