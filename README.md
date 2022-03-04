@@ -38,10 +38,30 @@ engine.load('example.qml')
 ### Play audio
 *example.qml*
 
+
+**Qt6**
+```qml
+import QtQuick
+...
+import soloman
+
+SAudio {
+    id: aud
+}
+
+Button {
+    text: "Play"
+    onClicked: aud.play('path/to/music.mp3')
+}
+
+```
+
+
+**Qt5**
 ```qml
 import QtQuick 2.15
 ...
-import soloman 2.5
+import soloman 3.0
 
 SAudio {
     id: aud
@@ -59,10 +79,29 @@ Button {
 
 #### Play a video file
 
+**Qt6**
+
+```qml
+import QtQuick
+...
+import soloman
+
+SVideo {
+    id: vid
+}
+
+Button {
+    text: "Play video"
+    onClicked: vid.play('path/to/video.mp4')
+}
+```
+
+**Qt5**
+
 ```qml
 import QtQuick 2.15
 ...
-import soloman 2.5
+import soloman 3.0
 
 SVideo {
     id: vid
@@ -152,10 +191,31 @@ sys.exit(0)
 
 example.qml
 
+**Qt6**
+
+```qml
+import QtQuick
+import QtQuick.Controls.Basic
+import solomon
+
+ApplicationWindow {
+	visible: true
+	width: 800
+	height: 500
+
+    SVideo {
+        objectName: "screen_01"  // declare objectName to be used in python
+    }
+    
+}
+```
+
+**Qt5**
+
 ```qml
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import solomon 2.5
+import solomon 3.0
 
 ApplicationWindow {
 	visible: true

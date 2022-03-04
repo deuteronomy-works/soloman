@@ -6,11 +6,11 @@ with open('README.md', 'r') as rm:
 
 setup(
     name='soloman',
-    version='3.0.2',
+    version='3.1',
     description='For the love of Artificial Intelligence, Python and QML',
     long_description=long_desc,
     long_description_content_type='text/markdown',
-    install_requires=['numpy', 'pyaudio', 'pyffmpeg'],
+    install_requires=['numpy', 'QtPy', 'pyffmpeg'],
     keywords="audio, pyaudio, ffmpeg, qml, pyffmpeg",
     url='https://github.com/deuteronomy-works/soloman',
     author='Amoh - Gyebi Godwin Ampofo Michael',
